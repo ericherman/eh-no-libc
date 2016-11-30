@@ -1,6 +1,14 @@
 #include <unistd.h>
 
-size_t eh_strlen(char const* str)
+#ifdef __WORDSIZE
+#if ( __WORDSIZE == 64 )
+#define uptr unsigned long
+#elif ( __WORDSIZE == 32 )
+#define uptr unsigned int
+#endif
+#endif
+
+uptr eh_strlen(char const* str)
 {
 	char const* p;
 	for (p = str; *p; ++p);
