@@ -35,7 +35,8 @@ uptr eh_strlen(char const* str)
 	return p - str;
 }
 
-int main(int argc, char **argv)
+/* int main(int argc, char **argv) */
+int main(void)
 {
 	const char *str;
 
