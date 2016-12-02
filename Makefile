@@ -1,5 +1,5 @@
 WORDSIZE=64
-ARCH_LIB_SRC=syscall_amd64.S syscalls.h
+ARCH_LIB_SRC=syscalls.h ehlibc.h ehlibc.c syscall_amd64.S
 
 CSTD_CFLAGS=-std=C89 -pedantic
 
