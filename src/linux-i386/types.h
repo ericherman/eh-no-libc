@@ -1,10 +1,7 @@
 #ifndef TYPES_H
 #define TYPES_H
 
-/* size_t */
-#define size_t unsigned int
-
-/* ssize_t */
-#define ssize_t int
+typedef unsigned int size_t;
+typedef int ssize_t;
 
 #endif /* TYPES_H */

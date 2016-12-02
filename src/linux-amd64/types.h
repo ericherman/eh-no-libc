@@ -1,10 +1,7 @@
 #ifndef TYPES_H
 #define TYPES_H
 
-/* size_t */
-#define size_t unsigned long
-
-/* ssize_t */
-#define ssize_t long
+typedef unsigned long size_t;
+typedef long ssize_t;
 
 #endif /* TYPES_H */
