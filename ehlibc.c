@@ -19,3 +19,9 @@ uptr strlen(char const *str)
 	for (p = str; *p; ++p);
 	return p - str;
 }
+
+
+int puts(char const *str)
+{
+	return write(stdout, str, strlen(str));
+}

@@ -6,7 +6,7 @@ int main(void)
 	const char *str;
 
 	str = "hello, world\n";
-	write(1, str, strlen(str));
+	puts(str);
 
 	return 0;
 }
