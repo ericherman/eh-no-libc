@@ -1,15 +1,20 @@
 #include "ehlibc.h"
 #include "syscalls.h"
 
-iptr write(int fd, void const *data, uptr nbytes)
+void *syscall0(uptr number);
+void *syscall1(uptr number, void *arg1);
+void *syscall2(uptr number, void *arg1, void *arg2);
+void *syscall3(uptr number, void *arg1, void *arg2, void *arg3);
+void *syscall4(uptr number, void *arg1, void *arg2, void *arg3, void *arg4);
+void *syscall5(uptr number, void *arg1, void *arg2, void *arg3, void *arg4, void *arg5);
+
+static iptr write(int fd, void const *data, uptr nbytes)
 {
-	return (iptr) syscall5(
+	return (iptr) syscall3(
 		sys_write,
 		(void*)(iptr)fd, /* avoid warning if sizeof(iptr) != sizeof(int) */
 		(void*)data,
-		(void*)nbytes,
-		0, /* ignored */
-		0 /* ignored */
+		(void*)nbytes
 		);
 }
 

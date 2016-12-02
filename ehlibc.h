@@ -23,10 +23,6 @@
 #define EOF (-1)
 #endif
 
-void *syscall5(uptr number, void *arg1, void *arg2, void *arg3, void *arg4, void *arg5);
-
-iptr write(int fd, void const *data, uptr nbytes);
-
 uptr strlen(char const *str);
 
 int puts(char const* str);
