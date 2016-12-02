@@ -11,7 +11,7 @@
 #define EOF (-1)
 #endif
 
-uptr strlen(char const *str);
+size_t strlen(char const *str);
 
 int puts(char const* str);
 

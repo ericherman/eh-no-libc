@@ -11,19 +11,19 @@
 #include "linux-i386/syscalls.h"
 #endif
 
-void *syscall0(uptr number);
-void *syscall1(uptr number, void *arg1);
-void *syscall2(uptr number, void *arg1, void *arg2);
-void *syscall3(uptr number, void *arg1, void *arg2, void *arg3);
-void *syscall4(uptr number, void *arg1, void *arg2, void *arg3, void *arg4);
-void *syscall5(uptr number, void *arg1, void *arg2, void *arg3, void *arg4, void *arg5);
+void *syscall0(size_t number);
+void *syscall1(size_t number, void *arg1);
+void *syscall2(size_t number, void *arg1, void *arg2);
+void *syscall3(size_t number, void *arg1, void *arg2, void *arg3);
+void *syscall4(size_t number, void *arg1, void *arg2, void *arg3, void *arg4);
+void *syscall5(size_t number, void *arg1, void *arg2, void *arg3, void *arg4, void *arg5);
 
 /* yes, I know it is poor form to define function impls in header files */
-static iptr write(int fd, void const *data, uptr nbytes)
+static ssize_t write(int fd, void const *data, size_t nbytes)
 {
-	return (iptr) syscall3(
+	return (ssize_t) syscall3(
 		sys_write,
-		(void*)(iptr)fd, /* avoid WARN if sizeof(iptr) != sizeof(int) */
+		(void*)(ssize_t)fd, /* avoid WARN if sizeof(ssize_t) != sizeof(int) */
 		(void*)data,
 		(void*)nbytes
 		);

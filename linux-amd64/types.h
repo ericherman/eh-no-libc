@@ -2,9 +2,9 @@
 #define TYPES_H
 
 /* size_t */
-#define uptr unsigned long
+#define size_t unsigned long
 
 /* ssize_t */
-#define iptr long
+#define ssize_t long
 
 #endif /* TYPES_H */
