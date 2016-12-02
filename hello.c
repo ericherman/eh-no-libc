@@ -3,10 +3,7 @@
 /* int main(int argc, char **argv) */
 int main(void)
 {
-	const char *str;
-
-	str = "hello, world\n";
-	puts(str);
+	puts("hello, world\n");
 
 	return 0;
 }
