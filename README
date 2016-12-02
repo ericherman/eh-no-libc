@@ -1,0 +1,30 @@
+This is my exploration of programming without the C Standard library.
+
+Essentially starting with the instructions posted here:
+http://weeb.ddns.net/0/programming/c_without_standard_library_linux.txt
+
+Much of the code began transcribed from the above link, which contains
+no license information, but is clearly designed as a tutorial to build
+upon. My work, which builds upon that is aiming to go in another
+direction, specifically, I'd like to be able to implement more of libc
+the standard library, especially for embedded systems. My additions will
+be LGPLv2+. We'll see where it goes.
+
+
+License
+-------
+This work is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later
+version.
+
+This work is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License (COPYING) along with this library; if not, see:
+
+	https://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt
