@@ -1,3 +1,5 @@
+#include "syscalls.h"
+
 /* enable intel asm syntax without the % prefix for registers */
 .intel_syntax noprefix
 
@@ -22,7 +24,7 @@ program code */
 		call main
 
 		mov rdi,rax /* syscall param 1 = rax (ret value of main) */
-		mov rax,60 /* SYS_exit */
+		mov rax,sys_exit
 		syscall
 
 		ret /* should never be reached, but if the OS somehow fails
