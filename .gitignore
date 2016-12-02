@@ -1,0 +1,28 @@
+hello
+
+###################
+# backup files
+###################
+*.bak
+*.bck
+*cache.lib
+$*
+*.swp
+*.000
+*~
+
+################
+# Output files
+################
+*.o
+*.so
+*.so.*
+*.a
+*.bin
+*.d
+*.tar.gz
+*.lo
+*.la
+*.log
+*.trs
+*.log
