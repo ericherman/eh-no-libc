@@ -1,4 +1,4 @@
-/* gcc -D__WORDSIZE=64 -s -O2 -nostdlib syscall_amd64.S hello.c */
+#include "syscalls.h"
 
 #ifdef __WORDSIZE
 #if ( __WORDSIZE == 64 )
@@ -14,12 +14,12 @@
 #endif
 #endif
 
-void *syscall5(void *number, void *arg1, void *arg2, void *arg3, void *arg4, void *arg5);
+void *syscall5(uptr number, void *arg1, void *arg2, void *arg3, void *arg4, void *arg5);
 
 static iptr write(int fd, void const* data, uptr nbytes)
 {
 	return (iptr) syscall5(
-		(void*)1, /* SYS_write */
+		sys_write,
 		(void*)(iptr)fd, /* avoid warning if sizeof(iptr) != sizeof(int) */
 		(void*)data,
 		(void*)nbytes,
