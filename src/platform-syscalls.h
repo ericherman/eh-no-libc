@@ -19,7 +19,7 @@ void *syscall4(size_t number, void *arg1, void *arg2, void *arg3, void *arg4);
 void *syscall5(size_t number, void *arg1, void *arg2, void *arg3, void *arg4, void *arg5);
 
 /* yes, I know it is poor form to define function impls in header files */
-static ssize_t write(int fd, void const *data, size_t nbytes)
+ssize_t write(int fd, void const *data, size_t nbytes)
 {
 	return (ssize_t) syscall3(
 		sys_write,
@@ -27,6 +27,12 @@ static ssize_t write(int fd, void const *data, size_t nbytes)
 		(void*)data,
 		(void*)nbytes
 		);
+}
+
+
+int stat(const char *pathname, stat_info *buf)
+{
+	return (int)(ssize_t) syscall2(sys_stat, (void*)pathname, (void*)buf);
 }
 #endif
 

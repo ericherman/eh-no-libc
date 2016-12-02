@@ -39,12 +39,19 @@ OUR_CFLAGS=$(CSTD_FLAGS) $(NOISY_CFLAGS) $(DEBUG_CFLAGS) \
 SRC=demo/hello.c
 EXE=hello
 
+STAT_SRC=demo/stat.c
+STAT_EXE=stat
+
 $(EXE): $(SRC) $(EHLIBC_SRC)
 	gcc $(OUR_CFLAGS) -Isrc $(SRC) -o $(EXE)
 	strip -R .comment ./$(EXE)
+
+$(STAT_EXE): $(STAT_SRC) $(EHLIBC_SRC)
+	gcc $(OUR_CFLAGS) -Isrc $(STAT_SRC) -o $(STAT_EXE)
+	strip -R .comment ./$(STAT_EXE)
 
 check: $(EXE)
 	./$(EXE)
 
 clean:
-	rm -f hello
+	rm -f $(EXE) $(STAT_EXE)
