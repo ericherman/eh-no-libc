@@ -1,10 +1,10 @@
-ARCH_DEFINES=-DLINUX_AMD64
-ARCH_SRC=linux-amd64/types.h linux-amd64/syscalls.h \
- linux-amd64/start.S
+#ARCH_DEFINES=-DLINUX_AMD64
+#ARCH_SRC=linux-amd64/types.h linux-amd64/syscalls.h \
+# linux-amd64/start.S
 
-#ARCH_DEFINES=-DLINUX_I386
-#ARCH_SRC=linux-i386/types.h linux-i386/syscalls.h \
-# linux-i386/start.S
+ARCH_DEFINES=-m32 -DLINUX_I386
+ARCH_SRC=linux-i386/types.h linux-i386/syscalls.h \
+ linux-i386/start.S
 
 EHLIBC_SRC=$(ARCH_SRC) \
  platform-types.h platform-syscalls.h \
