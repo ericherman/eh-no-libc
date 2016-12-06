@@ -45,6 +45,9 @@ OUR_CFLAGS=$(CSTD_FLAGS) $(NOISY_CFLAGS) $(DEBUG_CFLAGS) \
  $(NOCLIB_CFLAGS)
 
 
+# extracted from https://github.com/torvalds/linux/blob/master/scripts/Lindent
+LINDENT=indent -npro -kr -i8 -ts8 -sob -l80 -ss -ncs -cp1 -il0
+
 SRC=demo/hello.c
 EXE=hello
 
@@ -61,6 +64,14 @@ $(STAT_EXE): $(STAT_SRC) $(EHLIBC_SRC)
 
 check: $(EXE)
 	./$(EXE)
+
+tidy:
+	$(LINDENT) \
+	        -T FILE \
+	        -T size_t \
+	        -T stat_info_s \
+		`find src demo -name '*.h' -o -name '*.c'`
+
 
 clean:
 	rm -f $(EXE) $(STAT_EXE)

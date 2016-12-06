@@ -13,11 +13,11 @@
 
 size_t strlen(char const *str);
 
-int puts(char const* str);
+int puts(char const *str);
 
 #if ((defined LINUX_AMD64) || (defined LINUX_I386))
 ssize_t write(int fd, void const *data, size_t nbytes);
-int stat(const char *pathname, stat_info *buf);
+int stat(const char *pathname, stat_info_s *buf);
 #endif
 
 #endif /* EHLIBC_H */

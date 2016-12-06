@@ -16,7 +16,6 @@ typedef struct {
 	syscall_slong_t nsec;
 } timespec;
 
-
 typedef struct {
 	dev_t dev;
 #ifdef LINUX_I386
@@ -46,6 +45,6 @@ typedef struct {
 	uint32_t __glibc_reserved4;
 	uint32_t __glibc_reserved5;
 #endif
-} stat_info;
+} stat_info_s;
 
 #endif /* LINIX_TYPES_H */
