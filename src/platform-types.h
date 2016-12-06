@@ -1,5 +1,5 @@
-#ifndef LINUX_TYPES_H
-#define LINUX_TYPES_H
+#ifndef PLATFORM_TYPES_H
+#define PLATFORM_TYPES_H
 
 #if defined LINUX_AMD64
 #include "linux-amd64/types.h"
@@ -11,11 +11,20 @@ typedef uint64_t dev_t;
 typedef ssize_t syscall_slong_t;
 typedef ssize_t time_t;
 
+/*
+  http://pubs.opengroup.org/onlinepubs/007908775/xsh/time.h.html
+
+  The <time.h> header declares the structure timespec
+*/
 typedef struct {
 	time_t sec;
 	syscall_slong_t nsec;
 } timespec;
 
+/*
+   "man 2 stat" describes "struct stat *" but I am not yet clear the best way
+   to define this in a non-conflicting way, until then I shall use stat_info_s
+*/
 typedef struct {
 	dev_t dev;
 #ifdef LINUX_I386

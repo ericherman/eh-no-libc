@@ -25,15 +25,14 @@ ssize_t write(int fd, void const *data, size_t nbytes)
 	void *vpfd;
 
 	/* avoid WARN if sizeof(ssize_t) != sizeof(int) */
-	vpfd = (void *)(ssize_t) fd;
+	vpfd = (void *)(ssize_t)fd;
 
-	return (ssize_t) syscall3(sys_write, vpfd, (void *)data,
-				  (void *)nbytes);
+	return (ssize_t)syscall3(sys_write, vpfd, (void *)data, (void *)nbytes);
 }
 
 int stat(const char *pathname, stat_info_s *buf)
 {
-	return (int)(ssize_t) syscall2(sys_stat, (void *)pathname, (void *)buf);
+	return (int)(ssize_t)syscall2(sys_stat, (void *)pathname, (void *)buf);
 }
 #endif
 

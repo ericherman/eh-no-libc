@@ -62,14 +62,27 @@ $(STAT_EXE): $(STAT_SRC) $(EHLIBC_SRC)
 	gcc $(OUR_CFLAGS) -Isrc $(STAT_SRC) -o $(STAT_EXE)
 	strip -R .comment ./$(STAT_EXE)
 
-check: $(EXE)
+check: $(EXE) $(STAT_EXE)
 	./$(EXE)
+	./$(STAT_EXE) | hexdump
 
 tidy:
 	$(LINDENT) \
-	        -T FILE \
-	        -T size_t \
-	        -T stat_info_s \
+		-T FILE \
+		-T size_t \
+		-T ssize_t \
+		-T uint64_t \
+		-T int64_t \
+		-T uint32_t \
+		-T int32_t \
+		-T uint16_t \
+		-T int16_t \
+		-T uint8_t \
+		-T int8_t \
+		-T dev_t \
+		-T time_t \
+		-T syscall_slong_t \
+		-T stat_info_s \
 		`find src demo -name '*.h' -o -name '*.c'`
 
 
