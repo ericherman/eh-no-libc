@@ -5,10 +5,14 @@
 
 #if ((defined LINUX_I386) || (defined LINUX_AMD64))
 
+#if USE_HOST_SYS_SYSCALL_H
+#include <sys/syscall.h>
+#else
 #if defined LINUX_AMD64
 #include "linux-amd64/syscalls.h"
 #elif defined LINUX_I386
 #include "linux-i386/syscalls.h"
+#endif
 #endif
 
 void *syscall0(size_t number);

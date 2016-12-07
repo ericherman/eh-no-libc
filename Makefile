@@ -6,6 +6,8 @@ TARGET=LINUX_AMD64
  endif
 endif
 
+#USE_HOST_SYS_SYSCALL_H=-DUSE_HOST_SYS_SYSCALL_H=1
+
 ifeq ($(TARGET), LINUX_AMD64)
 ARCH_DEFINES=-DLINUX_AMD64
 ARCH_SRC=src/linux-amd64/types.h \
@@ -28,7 +30,7 @@ CSTD_CFLAGS=-std=C89 -pedantic
 
 NOISY_CFLAGS=-Wall -Werror -Wextra -Wa,--noexecstack
 
-NOCLIB_CFLAGS=-nostdlib $(ARCH_DEFINES) $(EHLIBC_SRC)
+NOCLIB_CFLAGS=-nostdlib $(USE_HOST_SYS_SYSCALL_H) $(ARCH_DEFINES) $(EHLIBC_SRC)
 
 #DEBUG_CFLAGS=-g -O0 -fdata-sections
 DEBUG_CFLAGS=\
