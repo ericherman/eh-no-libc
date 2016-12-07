@@ -25,7 +25,7 @@ program code */
 		call main
 
 		mov rdi,rax /* syscall param 1 = rax (ret value of main) */
-		mov rax,sys_exit
+		mov rax,SYS_exit
 		syscall
 
 		ret /* should never be reached, but if the OS somehow fails

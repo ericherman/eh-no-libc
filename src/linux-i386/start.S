@@ -25,7 +25,7 @@
 		add esp,16
 
 		mov ebx,eax
-		mov eax,sys_exit
+		mov eax,SYS_exit
 		int 0x80
 		ret
 
