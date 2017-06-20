@@ -23,21 +23,10 @@ void *syscall4(size_t number, void *arg1, void *arg2, void *arg3, void *arg4);
 void *syscall5(size_t number, void *arg1, void *arg2, void *arg3, void *arg4,
 	       void *arg5);
 
-/* yes, I know it is poor form to define function impls in header files */
-ssize_t write(int fd, void const *data, size_t nbytes)
-{
-	void *vpfd;
+ssize_t write(int fd, void const *data, size_t nbytes);
 
-	/* avoid WARN if sizeof(ssize_t) != sizeof(int) */
-	vpfd = (void *)(ssize_t)fd;
+int stat(const char *pathname, stat_info_s *buf);
 
-	return (ssize_t)syscall3(SYS_write, vpfd, (void *)data, (void *)nbytes);
-}
-
-int stat(const char *pathname, stat_info_s *buf)
-{
-	return (int)(ssize_t)syscall2(SYS_stat, (void *)pathname, (void *)buf);
-}
-#endif
+#endif /* if ((defined LINUX_I386) || (defined LINUX_AMD64)) */
 
 #endif /* PLATFORM_SYSCALLS_H */

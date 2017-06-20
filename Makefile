@@ -23,6 +23,7 @@ endif
 EHLIBC_SRC=$(ARCH_SRC) \
  src/platform-types.h \
  src/platform-syscalls.h \
+ src/platform-syscalls.c \
  src/ehlibc.h \
  src/ehlibc.c
 
