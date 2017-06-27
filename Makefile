@@ -36,6 +36,7 @@ NOCLIB_CFLAGS=-nostdlib $(USE_HOST_SYS_SYSCALL_H) $(ARCH_DEFINES) $(EHLIBC_SRC)
 #DEBUG_CFLAGS=-g -O0 -fdata-sections
 DEBUG_CFLAGS=\
  -O2 -s \
+ -fomit-frame-pointer \
  -Wl,--gc-sections \
  -fdata-sections \
  -fno-stack-protector \
@@ -45,7 +46,8 @@ DEBUG_CFLAGS=\
 
 OUR_CFLAGS=$(CSTD_FLAGS) $(NOISY_CFLAGS) $(DEBUG_CFLAGS) \
  $(CFLAGS) \
- $(NOCLIB_CFLAGS)
+ $(NOCLIB_CFLAGS) \
+ -pipe
 
 
 # extracted from https://github.com/torvalds/linux/blob/master/scripts/Lindent
