@@ -92,4 +92,5 @@ tidy:
 
 
 clean:
-	rm -f $(EXE) $(STAT_EXE)
+	rm -fv $(EXE) $(STAT_EXE)
+	find . -name '*~' -exec rm -v \{} \;
