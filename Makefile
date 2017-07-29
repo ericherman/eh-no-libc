@@ -11,6 +11,7 @@ endif
 ifeq ($(TARGET), LINUX_AMD64)
 ARCH_DEFINES=-DLINUX_AMD64
 ARCH_SRC=\
+ src/config.h \
  src/linux-amd64/types.h \
  src/linux-amd64/limits.h \
  src/linux-amd64/syscalls.h \
@@ -18,6 +19,7 @@ ARCH_SRC=\
 else
 ARCH_DEFINES=-m32 -DLINUX_I386
 ARCH_SRC=\
+ src/config.h \
  src/linux-i386/types.h \
  src/linux-i386/limits.h \
  src/linux-i386/syscalls.h \
@@ -26,34 +28,25 @@ endif
 
 EHLIBC_SRC=$(ARCH_SRC) \
  src/ehlibc.h \
- src/config.h \
- src/syscall.h \
  src/stdarg.h \
- src/eh-printf.h \
- src/eh-printf-private.h \
- src/eh-printf.c \
- src/eh-sys-context.h \
- src/eh-sys-context-linux.c \
- src/errno.h \
- src/errno.c \
+ src/eh-printf.h src/eh-printf-private.h src/eh-printf.c \
+ src/eh-sys-context.h src/eh-sys-context-linux.c \
+ src/errno.h src/errno.c \
  src/limits.h \
  src/stdarg.h \
  src/stdint.h \
- src/stdio.h \
- src/stdio.c \
- src/string.h \
- src/string.c \
+ src/stdio.h src/stdio.c \
+ src/string.h src/string.c \
  src/sys/stat.h \
  src/sys/time.h \
  src/syscall.h \
- src/unistd.h \
- src/unistd.c
+ src/unistd.h src/unistd.c
 
 CSTD_CFLAGS=-std=c89 -Wno-long-long
 
 NOISY_CFLAGS=-Wall -Werror -Wextra -Wa,--noexecstack
 
-NOCLIB_CFLAGS=-nostdlib $(USE_HOST_SYS_SYSCALL_H) $(ARCH_DEFINES) $(EHLIBC_SRC)
+NOCLIB_CFLAGS=-nostdlib $(ARCH_DEFINES) -I./src $(EHLIBC_SRC)
 
 
 ifeq ($(DEBUG), 1)
@@ -85,8 +78,8 @@ OUR_CFLAGS=\
 # extracted from https://github.com/torvalds/linux/blob/master/scripts/Lindent
 LINDENT=indent -npro -kr -i8 -ts8 -sob -l80 -ss -ncs -cp1 -il0
 
-SRC=demo/hello.c
-EXE=hello
+HELLO_SRC=demo/hello.c
+HELLO=hello
 
 STAT_SRC=demo/stat.c
 STAT_EXE=stat
@@ -94,22 +87,25 @@ STAT_EXE=stat
 PUTS_SRC=demo/puts.c
 PUTS_EXE=puts
 
-$(EXE): $(SRC) $(EHLIBC_SRC)
-	gcc $(OUR_CFLAGS) -Isrc $(SRC) -o $(EXE)
-	$(STRIP) ./$(EXE)
+default: hello
+
+$(HELLO): $(HELLO_SRC) $(EHLIBC_SRC)
+	gcc -o $(HELLO) $(OUR_CFLAGS) $(HELLO_SRC)
+	$(STRIP) ./$(HELLO)
+	./$(HELLO) $(USER)
 
 $(STAT_EXE): $(STAT_SRC) $(EHLIBC_SRC)
-	gcc $(OUR_CFLAGS) -Isrc $(STAT_SRC) -o $(STAT_EXE)
+	gcc -o $(STAT_EXE) $(OUR_CFLAGS) $(STAT_SRC)
 	$(STRIP) ./$(STAT_EXE)
 
 $(PUTS_EXE): $(PUTS_SRC) $(EHLIBC_SRC)
-	gcc $(OUR_CFLAGS) -Isrc $(PUTS_SRC) -o $(PUTS_EXE)
+	gcc -o $(PUTS_EXE) $(OUR_CFLAGS) $(PUTS_SRC)
 	$(STRIP) ./$(PUTS_EXE)
 
-check: $(PUTS_EXE) $(STAT_EXE) $(EXE)
+check: $(PUTS_EXE) $(STAT_EXE) $(HELLO)
 	./$(PUTS_EXE)
 	./$(STAT_EXE) | hexdump
-	./$(EXE)
+	./$(HELLO)
 
 tidy:
 	patch -Np1 -i misc/pre-tidy.patch
@@ -133,5 +129,5 @@ tidy:
 
 
 clean:
-	rm -fv $(EXE) $(STAT_EXE) $(PUTS_EXE)
+	rm -fv $(HELLO) $(STAT_EXE) $(PUTS_EXE)
 	find . -name '*~' -exec rm -v \{} \;
