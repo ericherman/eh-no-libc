@@ -27,6 +27,7 @@ ARCH_SRC=\
 endif
 
 EHLIBC_SRC=$(ARCH_SRC) \
+ src/alloca.h \
  src/stdarg.h \
  src/eh-printf.h src/eh-printf-private.h src/eh-printf.c \
  src/eh-sys-context.h src/eh-sys-context-linux.c \
