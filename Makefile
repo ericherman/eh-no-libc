@@ -49,27 +49,37 @@ EHLIBC_SRC=$(ARCH_SRC) \
  src/unistd.h \
  src/unistd.c
 
-CSTD_CFLAGS=-std=C89 -pedantic -Wno-long-long
+CSTD_CFLAGS=-std=c89 -Wno-long-long
 
 NOISY_CFLAGS=-Wall -Werror -Wextra -Wa,--noexecstack
 
 NOCLIB_CFLAGS=-nostdlib $(USE_HOST_SYS_SYSCALL_H) $(ARCH_DEFINES) $(EHLIBC_SRC)
 
-#DEBUG_CFLAGS=-g -O0 -fdata-sections
+
+ifeq ($(DEBUG), 1)
+DEBUG_CFLAGS=-g -O0 -fdata-sections -DDEBUG
+STRIP=ls -l
+else
 DEBUG_CFLAGS=\
  -O2 -s \
  -fomit-frame-pointer \
- -Wl,--gc-sections \
  -fdata-sections \
  -fno-stack-protector \
- -fno-builtin \
  -fno-unwind-tables \
- -fno-asynchronous-unwind-tables
+ -fno-asynchronous-unwind-tables \
+ -fno-builtin \
+ -Wl,--gc-sections \
+ -DNDEBUG
+STRIP=strip -R .comment
+endif
 
-OUR_CFLAGS=$(CSTD_FLAGS) $(NOISY_CFLAGS) $(DEBUG_CFLAGS) \
+OUR_CFLAGS=\
+ -pipe \
+ $(CSTD_CFLAGS) \
+ $(NOISY_CFLAGS) \
+ $(DEBUG_CFLAGS) \
  $(CFLAGS) \
- $(NOCLIB_CFLAGS) \
- -pipe
+ $(NOCLIB_CFLAGS)
 
 
 # extracted from https://github.com/torvalds/linux/blob/master/scripts/Lindent
@@ -86,15 +96,15 @@ PUTS_EXE=puts
 
 $(EXE): $(SRC) $(EHLIBC_SRC)
 	gcc $(OUR_CFLAGS) -Isrc $(SRC) -o $(EXE)
-	strip -R .comment ./$(EXE)
+	$(STRIP) ./$(EXE)
 
 $(STAT_EXE): $(STAT_SRC) $(EHLIBC_SRC)
 	gcc $(OUR_CFLAGS) -Isrc $(STAT_SRC) -o $(STAT_EXE)
-	strip -R .comment ./$(STAT_EXE)
+	$(STRIP) ./$(STAT_EXE)
 
 $(PUTS_EXE): $(PUTS_SRC) $(EHLIBC_SRC)
 	gcc $(OUR_CFLAGS) -Isrc $(PUTS_SRC) -o $(PUTS_EXE)
-	strip -R .comment ./$(PUTS_EXE)
+	$(STRIP) ./$(PUTS_EXE)
 
 check: $(PUTS_EXE) $(STAT_EXE) $(EXE)
 	./$(PUTS_EXE)
