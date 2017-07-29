@@ -27,18 +27,19 @@ ARCH_SRC=\
 endif
 
 EHLIBC_SRC=$(ARCH_SRC) \
- src/ehlibc.h \
  src/stdarg.h \
  src/eh-printf.h src/eh-printf-private.h src/eh-printf.c \
  src/eh-sys-context.h src/eh-sys-context-linux.c \
  src/errno.h src/errno.c \
  src/limits.h \
  src/stdarg.h \
+ src/stddef.h \
  src/stdint.h \
  src/stdio.h src/stdio.c \
  src/string.h src/string.c \
  src/sys/stat.h \
  src/sys/time.h \
+ src/time.h \
  src/syscall.h \
  src/unistd.h src/unistd.c
 

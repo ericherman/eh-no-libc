@@ -21,7 +21,7 @@ License (COPYING) along with this library; if not, see:
 #ifndef _SYSCALL_H
 #define _SYSCALL_H	1
 
-#include "stdint.h"
+#include <stdint.h>
 
 #if ((defined LINUX_I386) || (defined LINUX_AMD64))
 

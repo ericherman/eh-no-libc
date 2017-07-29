@@ -18,9 +18,9 @@ License (COPYING) along with this library; if not, see:
 
         https://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt
 */
-#include "stdio.h"
-#include "unistd.h"
-#include "string.h"
+#include <stdio.h>
+#include <unistd.h>
+#include <string.h>
 #include "eh-printf.h"
 
 int puts(char const *str)

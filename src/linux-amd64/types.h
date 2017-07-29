@@ -21,6 +21,8 @@ License (COPYING) along with this library; if not, see:
 #ifndef TYPES_H
 #define TYPES_H
 
+#define NULL ((void *)0)
+
 typedef unsigned long uint64_t;
 typedef signed long int64_t;
 
@@ -35,5 +37,14 @@ typedef signed char int8_t;
 
 typedef uint64_t size_t;
 typedef int64_t ssize_t;
+
+typedef ssize_t ptrdiff_t;
+typedef ssize_t wchar_t;
+
+typedef struct {
+  long long __max_align_ll __attribute__((__aligned__(__alignof__(long long))));
+  long double __max_align_ld __attribute__((__aligned__(__alignof__(long double))));
+} max_align_t;
+
 
 #endif /* TYPES_H */

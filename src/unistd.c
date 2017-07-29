@@ -18,9 +18,9 @@ License (COPYING) along with this library; if not, see:
 
         https://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt
 */
-#include "unistd.h"
-#include "sys/stat.h"
-#include "syscall.h"
+#include <unistd.h>
+#include <sys/stat.h>
+#include <syscall.h>
 
 #if ((defined LINUX_I386) || (defined LINUX_AMD64))
 ssize_t write(int fd, void const *data, size_t nbytes)

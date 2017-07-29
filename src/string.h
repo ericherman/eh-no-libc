@@ -21,7 +21,7 @@ License (COPYING) along with this library; if not, see:
 #ifndef _STRING_H
 #define _STRING_H	1
 
-#include "stdint.h"
+#include <stdint.h>
 
 size_t strlen(char const *str);
 

@@ -18,13 +18,9 @@ License (COPYING) along with this library; if not, see:
 
         https://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt
 */
-#ifndef EHLIBC_H
-#define EHLIBC_H
+#ifndef _STDDEF_H
+#define _STDDEF_H	1
 
-#include "errno.h"
-#include "stdarg.h"
-#include "stdio.h"
-#include "string.h"
-#include "unistd.h"
+#include <stdint.h>
 
-#endif /* EHLIBC_H */
+#endif /* _STDARG_H */

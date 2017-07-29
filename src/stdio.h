@@ -21,8 +21,8 @@ License (COPYING) along with this library; if not, see:
 #ifndef _STDIO_H
 #define _STDIO_H	1
 
-#include "stdarg.h"
-#include "unistd.h"
+#include <stdarg.h>
+#include <unistd.h>
 
 #define stdin STDIN_FILENO
 #define stdout STDOUT_FILENO

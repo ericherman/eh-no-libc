@@ -18,7 +18,7 @@ License (COPYING) along with this library; if not, see:
 
         https://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt
 */
-#include "ehlibc.h"
+#include <stdio.h>
 
 /* int main(int argc, char **argv) */
 int main(void)

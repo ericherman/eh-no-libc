@@ -1,7 +1,7 @@
-#ifndef _TIME_H
-#define _TIME_H	1
+#ifndef _SYS_TIME_H
+#define _SYS_TIME_H	1
 
-#include "stdint.h"
+#include <stdint.h>
 
 typedef ssize_t syscall_slong_t;
 typedef ssize_t time_t;
@@ -14,4 +14,4 @@ typedef struct {
 	syscall_slong_t nsec;
 } timespec;
 
-#endif /* _TIME_H */
+#endif /* _SYS_TIME_H */

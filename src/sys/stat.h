@@ -1,8 +1,8 @@
 #ifndef _SYS_STAT_H
 #define _SYS_STAT_H	1
 
-#include "stdint.h"
-#include "time.h"
+#include <stdint.h>
+#include <sys/time.h>
 
 typedef uint64_t dev_t;
 

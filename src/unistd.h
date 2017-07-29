@@ -21,7 +21,7 @@ License (COPYING) along with this library; if not, see:
 #ifndef _UNISTD_H
 #define _UNISTD_H	1
 
-#include "sys/stat.h"
+#include <sys/stat.h>
 
 #define STDIN_FILENO 0
 #define STDOUT_FILENO 1
