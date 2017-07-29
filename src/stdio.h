@@ -21,9 +21,12 @@ License (COPYING) along with this library; if not, see:
 #ifndef _STDIO_H
 #define _STDIO_H	1
 
-#define stdin 0
-#define stdout 1
-#define stderr 2
+#include "stdarg.h"
+#include "unistd.h"
+
+#define stdin STDIN_FILENO
+#define stdout STDOUT_FILENO
+#define stderr STDERR_FILENO
 
 #ifndef EOF
 #define EOF (-1)
@@ -40,5 +43,11 @@ int fputc(int c, FILE *stream);
 int fputs(const char *s, FILE *stream);
 int putc(int c, FILE *stream);
 */
+
+int vprintf(const char *format, va_list ap);
+int printf(const char *format, ...);
+
+int vsnprintf(char *buf, size_t len, const char *format, va_list ap);
+int snprintf(char *buf, size_t len, const char *format, ...);
 
 #endif /* _STDIO_H */

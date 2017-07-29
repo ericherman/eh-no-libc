@@ -20,16 +20,10 @@ License (COPYING) along with this library; if not, see:
 */
 #include "ehlibc.h"
 
-int main(int argc, char **argv)
+/* int main(int argc, char **argv) */
+int main(void)
 {
-	char buf[80];
-	const char *name;
-
-	name = (argc > 1) ? argv[1] : "world";
-
-	snprintf(buf, 80, "hello, %s\n", name);
-
-	write(stdout, buf, strlen(buf));
+	puts("puts(\"hello, world\")");
 
 	return 0;
 }

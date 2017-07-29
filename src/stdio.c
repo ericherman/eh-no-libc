@@ -21,6 +21,7 @@ License (COPYING) along with this library; if not, see:
 #include "stdio.h"
 #include "unistd.h"
 #include "string.h"
+#include "eh-printf.h"
 
 int puts(char const *str)
 {
@@ -41,4 +42,36 @@ int puts(char const *str)
 int putchar(int c)
 {
 	return write(stdout, (unsigned char *)&c, 1);
+}
+
+int vprintf(const char *format, va_list ap)
+{
+	return eh_vprintf(format, ap);
+}
+
+int printf(const char *format, ...)
+{
+	va_list ap;
+	int rv;
+	va_start(ap, format);
+	rv = eh_vprintf(format, ap);
+	va_end(ap);
+	return rv;
+
+}
+
+int vsnprintf(char *buf, size_t len, const char *format, va_list ap)
+{
+	return eh_vsnprintf(buf, len, format, ap);
+}
+
+int snprintf(char *buf, size_t len, const char *format, ...)
+{
+	va_list ap;
+	int rv;
+	va_start(ap, format);
+	rv = vsnprintf(buf, len, format, ap);
+	va_end(ap);
+	return rv;
+
 }

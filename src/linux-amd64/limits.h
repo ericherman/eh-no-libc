@@ -18,18 +18,29 @@ License (COPYING) along with this library; if not, see:
 
         https://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt
 */
-#include "ehlibc.h"
+#ifndef _LINUX_AMD64_LIMITS_H
+#define _LINUX_AMD64_LIMITS_H	1
 
-int main(int argc, char **argv)
-{
-	char buf[80];
-	const char *name;
+#define CHAR_BIT	8
 
-	name = (argc > 1) ? argv[1] : "world";
+#define CHAR_MIN	(-128)
+#define CHAR_MAX	127
+#define UCHAR_MAX	255
 
-	snprintf(buf, 80, "hello, %s\n", name);
+#define SHRT_MIN	(-32768)
+#define SHRT_MAX	32767
+#define USHRT_MAX	65535
 
-	write(stdout, buf, strlen(buf));
+#define INT_MIN		(-2147483648)
+#define INT_MAX		2147483647
+#define UINT_MAX	4294967295U
 
-	return 0;
-}
+#define LONG_MIN	(-9223372036854775808LL)
+#define LONG_MAX	9223372036854775807LL
+#define ULONG_MAX	18446744073709551615ULL
+
+#define LLONG_MIN	(-9223372036854775808LL)
+#define LLONG_MAX	9223372036854775807LL
+#define ULLONG_MAX	18446744073709551615ULL
+
+#endif /* _LINUX_AMD_LIMITS_H */

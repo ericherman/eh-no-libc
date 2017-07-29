@@ -12,33 +12,44 @@ ifeq ($(TARGET), LINUX_AMD64)
 ARCH_DEFINES=-DLINUX_AMD64
 ARCH_SRC=\
  src/linux-amd64/types.h \
+ src/linux-amd64/limits.h \
  src/linux-amd64/syscalls.h \
  src/linux-amd64/start.S
 else
 ARCH_DEFINES=-m32 -DLINUX_I386
 ARCH_SRC=\
  src/linux-i386/types.h \
+ src/linux-i386/limits.h \
  src/linux-i386/syscalls.h \
  src/linux-i386/start.S
 endif
 
 EHLIBC_SRC=$(ARCH_SRC) \
  src/ehlibc.h \
+ src/config.h \
  src/syscall.h \
  src/stdarg.h \
+ src/eh-printf.h \
+ src/eh-printf-private.h \
+ src/eh-printf.c \
+ src/eh-sys-context.h \
+ src/eh-sys-context-linux.c \
  src/errno.h \
  src/errno.c \
+ src/limits.h \
+ src/stdarg.h \
+ src/stdint.h \
  src/stdio.h \
  src/stdio.c \
  src/string.h \
  src/string.c \
  src/sys/stat.h \
  src/sys/time.h \
+ src/syscall.h \
  src/unistd.h \
  src/unistd.c
 
-
-CSTD_CFLAGS=-std=C89 -pedantic
+CSTD_CFLAGS=-std=C89 -pedantic -Wno-long-long
 
 NOISY_CFLAGS=-Wall -Werror -Wextra -Wa,--noexecstack
 
@@ -70,6 +81,9 @@ EXE=hello
 STAT_SRC=demo/stat.c
 STAT_EXE=stat
 
+PUTS_SRC=demo/puts.c
+PUTS_EXE=puts
+
 $(EXE): $(SRC) $(EHLIBC_SRC)
 	gcc $(OUR_CFLAGS) -Isrc $(SRC) -o $(EXE)
 	strip -R .comment ./$(EXE)
@@ -78,11 +92,17 @@ $(STAT_EXE): $(STAT_SRC) $(EHLIBC_SRC)
 	gcc $(OUR_CFLAGS) -Isrc $(STAT_SRC) -o $(STAT_EXE)
 	strip -R .comment ./$(STAT_EXE)
 
-check: $(EXE) $(STAT_EXE)
-	./$(EXE)
+$(PUTS_EXE): $(PUTS_SRC) $(EHLIBC_SRC)
+	gcc $(OUR_CFLAGS) -Isrc $(PUTS_SRC) -o $(PUTS_EXE)
+	strip -R .comment ./$(PUTS_EXE)
+
+check: $(PUTS_EXE) $(STAT_EXE) $(EXE)
+	./$(PUTS_EXE)
 	./$(STAT_EXE) | hexdump
+	./$(EXE)
 
 tidy:
+	patch -Np1 -i misc/pre-tidy.patch
 	$(LINDENT) \
 		-T FILE \
 		-T size_t \
@@ -99,8 +119,9 @@ tidy:
 		-T time_t \
 		-T syscall_slong_t \
 		`find src demo -name '*.h' -o -name '*.c'`
+	patch -Rp1 -i misc/pre-tidy.patch
 
 
 clean:
-	rm -fv $(EXE) $(STAT_EXE)
+	rm -fv $(EXE) $(STAT_EXE) $(PUTS_EXE)
 	find . -name '*~' -exec rm -v \{} \;

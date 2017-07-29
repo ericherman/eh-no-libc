@@ -1,0 +1,50 @@
+--- orig/src/eh-printf.h
++++ tidy/src/eh-printf.h
+@@ -22,9 +22,11 @@
+ #ifndef EH_PRINTF
+ #define EH_PRINTF
+ 
++/*
+ #ifdef __cplusplus
+ extern "C" {
+ #endif
++*/
+ 
+ #include <stddef.h>
+ #include <stdarg.h>
+@@ -44,8 +46,10 @@
+ 
+ int eh_vsnprintf(char *str, size_t size, const char *format, va_list ap);
+ 
++/*
+ #ifdef __cplusplus
+ }
+ #endif
++*/
+ 
+ #endif /* EH_PRINTF */
+--- orig/src/eh-sys-context.h
++++ tidy/src/eh-sys-context.h
+@@ -22,9 +22,11 @@
+ #ifndef EH_SYS_CONTEXT
+ #define EH_SYS_CONTEXT
+ 
++/*
+ #ifdef __cplusplus
+ extern "C" {
+ #endif
++*/
+ 
+ #include "config.h"
+ #if HAVE_STDDEF_H
+@@ -39,8 +41,10 @@
+ 
+ size_t eh_sys_output_str(void *ctx, const char *str, size_t len);
+ 
++/*
+ #ifdef __cplusplus
+ }
+ #endif
++*/
+ 
+ #endif /* EH_SYS_CONTEXT */

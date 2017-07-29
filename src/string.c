@@ -26,3 +26,18 @@ size_t strlen(char const *str)
 	for (p = str; *p; ++p) ;
 	return p - str;
 }
+
+char *errstrs[] = { "SUCCESS", "UNKNOWN" };
+
+size_t _eh_unknown_err = 1;
+
+char *strerror(int errnum)
+{
+	size_t offset;
+
+	offset = (unsigned)errnum;
+	if (offset < _eh_unknown_err) {
+		return errstrs[offset];
+	}
+	return errstrs[_eh_unknown_err];
+}

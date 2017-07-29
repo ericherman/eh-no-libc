@@ -18,18 +18,13 @@ License (COPYING) along with this library; if not, see:
 
         https://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt
 */
-#include "ehlibc.h"
+#ifndef _LIMITS_H
+#define _LIMITS_H	1
 
-int main(int argc, char **argv)
-{
-	char buf[80];
-	const char *name;
+#if defined LINUX_AMD64
+#include "linux-amd64/limits.h"
+#elif defined LINUX_I386
+#include "linux-i386/limits.h"
+#endif
 
-	name = (argc > 1) ? argv[1] : "world";
-
-	snprintf(buf, 80, "hello, %s\n", name);
-
-	write(stdout, buf, strlen(buf));
-
-	return 0;
-}
+#endif /* _LIMITS_H */

@@ -25,4 +25,6 @@ License (COPYING) along with this library; if not, see:
 
 size_t strlen(char const *str);
 
+char *strerror(int errnum);
+
 #endif /* _STRING_H */

@@ -23,6 +23,10 @@ License (COPYING) along with this library; if not, see:
 
 #include "sys/stat.h"
 
+#define STDIN_FILENO 0
+#define STDOUT_FILENO 1
+#define STDERR_FILENO 2
+
 #if ((defined LINUX_AMD64) || (defined LINUX_I386))
 ssize_t write(int fd, void const *data, size_t nbytes);
 int stat(const char *pathname, struct stat *buf);
