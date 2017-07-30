@@ -11,45 +11,68 @@ endif
 ifeq ($(TARGET), LINUX_AMD64)
 ARCH_DEFINES=-DLINUX_AMD64
 ARCH_SRC=\
- src/config.h \
+ src/linux-amd64/start.S \
  src/linux-amd64/types.h \
  src/linux-amd64/limits.h \
- src/linux-amd64/syscalls.h \
- src/linux-amd64/start.S
+ src/linux-amd64/float.h \
+ src/linux-amd64/syscalls.h
 else
 ARCH_DEFINES=-m32 -DLINUX_I386
 ARCH_SRC=\
- src/config.h \
+ src/linux-i386/start.S \
  src/linux-i386/types.h \
  src/linux-i386/limits.h \
- src/linux-i386/syscalls.h \
- src/linux-i386/start.S
+ src/linux-i386/float.h \
+ src/linux-i386/syscalls.h
 endif
+
+EH_PRINTF_SRC=\
+ src/eh-printf/eh-printf.h \
+ src/eh-printf/eh-printf.c \
+ src/eh-printf/eh-printf-private.h \
+ src/eh-printf/eh-parse-float.h \
+ src/eh-printf/eh-parse-float.c \
+ src/eh-printf/eh-sys-context.h \
+ src/eh-printf/eh-sys-context-linux.c \
 
 EHLIBC_SRC=$(ARCH_SRC) \
  src/alloca.h \
  src/stdarg.h \
- src/eh-printf.h src/eh-printf-private.h src/eh-printf.c \
- src/eh-sys-context.h src/eh-sys-context-linux.c \
- src/errno.h src/errno.c \
+ src/errno.h \
+ src/errno.c \
+ src/float.h \
  src/limits.h \
  src/stdarg.h \
  src/stddef.h \
  src/stdint.h \
- src/stdio.h src/stdio.c \
- src/string.h src/string.c \
+ src/stdio.h \
+ src/stdio.c \
+ src/string.h \
+ src/string.c \
  src/sys/stat.h \
  src/sys/time.h \
  src/time.h \
  src/syscall.h \
- src/unistd.h src/unistd.c
+ src/unistd.h \
+ src/unistd.c \
+ $(EH_PRINTF_SRC)
 
 CSTD_CFLAGS=-std=c89 -Wno-long-long
 
 NOISY_CFLAGS=-Wall -Werror -Wextra -Wa,--noexecstack
 
-NOCLIB_CFLAGS=-nostdlib $(ARCH_DEFINES) -I./src $(EHLIBC_SRC)
+NOCLIB_CFLAGS=\
+ -nostdlib \
+ $(ARCH_DEFINES) \
+ -DHAVE_FLOAT_H=1 \
+ -DHAVE_LIMITS_H=1 \
+ -DHAVE_STDARG_H=1 \
+ -DHAVE_STDDEF_H=1 \
+ -DHAVE_STDINT_H=1 \
+ -I./src \
+ $(EHLIBC_SRC)
 
+FILE=file
 
 ifeq ($(DEBUG), 1)
 DEBUG_CFLAGS=-g -O0 -fdata-sections -DDEBUG
@@ -94,6 +117,7 @@ default: hello
 $(HELLO): $(HELLO_SRC) $(EHLIBC_SRC)
 	gcc -o $(HELLO) $(OUR_CFLAGS) $(HELLO_SRC)
 	$(STRIP) ./$(HELLO)
+	$(FILE) ./$(HELLO)
 	./$(HELLO) $(USER)
 
 $(STAT_EXE): $(STAT_SRC) $(EHLIBC_SRC)

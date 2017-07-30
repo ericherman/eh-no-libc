@@ -21,7 +21,7 @@ License (COPYING) along with this library; if not, see:
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>
-#include "eh-printf.h"
+#include "eh-printf/eh-printf.h"
 
 int puts(char const *str)
 {

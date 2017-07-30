@@ -1,6 +1,6 @@
 /*
-eh-sys-contxt.h - definine system specific functions needed by printf
-Copyright (C) 2016 Eric Herman
+eh-no-libc - exploring coding without the standard library
+Copyright (C) 2017 Eric Herman
 
 This work is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -17,30 +17,16 @@ You should have received a copy of the GNU Lesser General Public
 License (COPYING) along with this library; if not, see:
 
         https://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt
-
 */
-#ifndef EH_SYS_CONTEXT
-#define EH_SYS_CONTEXT
+#ifndef _LINUX_AMD64_FLOAT_H
+#define _LINUX_AMD64_FLOAT_H	1
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#define FLT_RADIX	2
+#define FLT_MANT_DIG	24
+#define FLT_MAX_EXP	128
+#define DBL_MANT_DIG	53
+#define DBL_MAX_EXP	1024
+#define LDBL_MANT_DIG	64
+#define LDBL_MAX_EXP	16384
 
-#include "config.h"
-#if HAVE_STDDEF_H
-#include <stddef.h>
-#endif
-
-void *start_sys_printf_context(void);
-
-int end_sys_printf_context(void *ctx);
-
-size_t eh_sys_output_char(void *ctx, char c);
-
-size_t eh_sys_output_str(void *ctx, const char *str, size_t len);
-
-#ifdef __cplusplus
-}
-#endif
-
-#endif /* EH_SYS_CONTEXT */
+#endif /* _LINUX_AMD64_FLOAT_H */

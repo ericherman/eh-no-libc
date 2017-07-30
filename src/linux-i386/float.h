@@ -18,34 +18,15 @@ License (COPYING) along with this library; if not, see:
 
         https://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt
 */
-#ifndef TYPES_H
-#define TYPES_H
+#ifndef _LINUX_I386_FLOAT_H
+#define _LINUX_I386_FLOAT_H	1
 
-#define NULL ((void *)0)
+#define FLT_RADIX	2
+#define FLT_MANT_DIG	24
+#define FLT_MAX_EXP	128
+#define DBL_MANT_DIG	53
+#define DBL_MAX_EXP	1024
+#define LDBL_MANT_DIG	64
+#define LDBL_MAX_EXP	16384
 
-typedef unsigned long long uint64_t;
-typedef signed long long int64_t;
-
-typedef unsigned int uint32_t;
-typedef signed int int32_t;
-
-typedef unsigned short uint16_t;
-typedef signed short int16_t;
-
-typedef unsigned char uint8_t;
-typedef signed char int8_t;
-
-typedef uint32_t size_t;
-typedef int32_t ssize_t;
-
-typedef ssize_t ptrdiff_t;
-typedef ssize_t wchar_t;
-
-typedef struct {
-	long long __max_align_ll
-	    __attribute__ ((__aligned__(__alignof__(long long))));
-	long double __max_align_ld
-	    __attribute__ ((__aligned__(__alignof__(long double))));
-} max_align_t;
-
-#endif /* TYPES_H */
+#endif /* _LINUX_I386_FLOAT_H */

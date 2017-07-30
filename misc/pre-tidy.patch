@@ -1,5 +1,5 @@
---- orig/src/eh-printf.h
-+++ tidy/src/eh-printf.h
+--- orig/src/eh-printf/eh-printf.h
++++ tidy/src/eh-printf/eh-printf.h
 @@ -22,9 +22,11 @@
  #ifndef EH_PRINTF
  #define EH_PRINTF
@@ -23,8 +23,8 @@
 +*/
  
  #endif /* EH_PRINTF */
---- orig/src/eh-sys-context.h
-+++ tidy/src/eh-sys-context.h
+--- orig/src/eh-printf/eh-sys-context.h
++++ tidy/src/eh-printf/eh-sys-context.h
 @@ -22,9 +22,11 @@
  #ifndef EH_SYS_CONTEXT
  #define EH_SYS_CONTEXT
@@ -35,9 +35,9 @@
  #endif
 +*/
  
+ #if HAVE_CONFIG_H
  #include "config.h"
- #if HAVE_STDDEF_H
-@@ -39,8 +41,10 @@
+@@ -42,8 +44,10 @@
  
  size_t eh_sys_output_str(void *ctx, const char *str, size_t len);
  
@@ -48,3 +48,28 @@
 +*/
  
  #endif /* EH_SYS_CONTEXT */
+--- orig/src/eh-printf/eh-parse-float.h
++++ tidy/src/eh-printf/eh-parse-float.h
+@@ -22,9 +22,11 @@
+ #ifndef EH_PARSE_FLOAT_H
+ #define EH_PARSE_FLOAT_H
+ 
++/*
+ #ifdef __cplusplus
+ extern "C" {
+ #endif
++*/
+ 
+ #if HAVE_CONFIG_H
+ #include "config.h"
+@@ -116,8 +118,10 @@
+ 				  int16_t *exponent, uint64_t *fraction);
+ #endif
+ 
++/*
+ #ifdef __cplusplus
+ }
+ #endif
++*/
+ 
+ #endif /* EH_PARSE_FLOAT_H */
