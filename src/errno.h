@@ -21,6 +21,22 @@ License (COPYING) along with this library; if not, see:
 #ifndef _ERRNO_H
 #define _ERRNO_H	1
 
+#include <stdint.h>
+
 extern int errno;
+extern char *errstrs[];
+extern const size_t _eh_unknown_err;
+
+/*
+#include <stdio.h>
+#include <errno.h>
+#include <string.h>
+int main(void)
+{
+	printf("ENOMEM: %d, strerror(ENOMEM):%s\n", ENOMEM, strerror(ENOMEM));
+	return 0;
+}
+*/
+#define ENOMEM	12
 
 #endif /* _ERRNO_H */

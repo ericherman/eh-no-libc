@@ -29,11 +29,21 @@ endif
 EH_PRINTF_SRC=\
  src/eh-printf/eh-printf.h \
  src/eh-printf/eh-printf.c \
+ src/eh-printf/eh-printf-parse-float.h \
+ src/eh-printf/eh-printf-parse-float.c \
  src/eh-printf/eh-printf-private.h \
- src/eh-printf/eh-parse-float.h \
- src/eh-printf/eh-parse-float.c \
- src/eh-printf/eh-sys-context.h \
- src/eh-printf/eh-sys-context-linux.c \
+ src/eh-printf/eh-printf-sys-context.h \
+ src/eh-printf/eh-printf-sys-context-linux.c
+
+DUMB_ALLOC_SRC=\
+ src/dumb-alloc/dumb-alloc.h \
+ src/dumb-alloc/dumb-alloc.c \
+ src/dumb-alloc/dumb-alloc-global.h \
+ src/dumb-alloc/dumb-alloc-global.c \
+ src/dumb-alloc/dumb-alloc-private.h \
+ src/dumb-alloc/dumb-printf-defines.h \
+ src/dumb-alloc/dumb-os-alloc.h \
+ src/dumb-alloc/dumb-os-alloc.c
 
 EHLIBC_SRC=$(ARCH_SRC) \
  src/alloca.h \
@@ -41,23 +51,32 @@ EHLIBC_SRC=$(ARCH_SRC) \
  src/errno.h \
  src/errno.c \
  src/float.h \
+ src/libio.h \
  src/limits.h \
+ src/mman.h \
  src/stdarg.h \
  src/stddef.h \
  src/stdint.h \
  src/stdio.h \
  src/stdio.c \
+ src/stdlib.h \
+ src/stdlib.c \
  src/string.h \
  src/string.c \
+ src/sys/mman.h \
+ src/sys/mman.c \
  src/sys/stat.h \
  src/sys/time.h \
  src/time.h \
  src/syscall.h \
  src/unistd.h \
  src/unistd.c \
+ src/wchar.h \
+ $(DUMB_ALLOC_SRC) \
  $(EH_PRINTF_SRC)
 
-CSTD_CFLAGS=-std=c89 -Wno-long-long
+
+CSTD_CFLAGS=-std=gnu89 -Wno-long-long
 
 NOISY_CFLAGS=-Wall -Werror -Wextra -Wa,--noexecstack
 
@@ -70,6 +89,7 @@ NOCLIB_CFLAGS=\
  -DHAVE_STDDEF_H=1 \
  -DHAVE_STDINT_H=1 \
  -I./src \
+ -I./src/dumb-alloc \
  $(EHLIBC_SRC)
 
 FILE=file
@@ -104,7 +124,7 @@ OUR_CFLAGS=\
 LINDENT=indent -npro -kr -i8 -ts8 -sob -l80 -ss -ncs -cp1 -il0
 
 HELLO_SRC=demo/hello.c
-HELLO=hello
+HELLO_EXE=hello
 
 STAT_SRC=demo/stat.c
 STAT_EXE=stat
@@ -112,13 +132,16 @@ STAT_EXE=stat
 PUTS_SRC=demo/puts.c
 PUTS_EXE=puts
 
+MALLOC_FREE_SRC=demo/malloc-free.c
+MALLOC_FREE_EXE=malloc-free
+
 default: hello
 
-$(HELLO): $(HELLO_SRC) $(EHLIBC_SRC)
-	gcc -o $(HELLO) $(OUR_CFLAGS) $(HELLO_SRC)
-	$(STRIP) ./$(HELLO)
-	$(FILE) ./$(HELLO)
-	./$(HELLO) $(USER)
+$(HELLO_EXE): $(HELLO_SRC) $(EHLIBC_SRC)
+	gcc -o $(HELLO_EXE) $(OUR_CFLAGS) $(HELLO_SRC)
+	$(STRIP) ./$(HELLO_EXE)
+	$(FILE) ./$(HELLO_EXE)
+	./$(HELLO_EXE) $(USER)
 
 $(STAT_EXE): $(STAT_SRC) $(EHLIBC_SRC)
 	gcc -o $(STAT_EXE) $(OUR_CFLAGS) $(STAT_SRC)
@@ -128,10 +151,14 @@ $(PUTS_EXE): $(PUTS_SRC) $(EHLIBC_SRC)
 	gcc -o $(PUTS_EXE) $(OUR_CFLAGS) $(PUTS_SRC)
 	$(STRIP) ./$(PUTS_EXE)
 
-check: $(PUTS_EXE) $(STAT_EXE) $(HELLO)
+$(MALLOC_FREE_EXE): $(MALLOC_FREE_SRC) $(EHLIBC_SRC)
+	gcc -o $(MALLOC_FREE_EXE) $(OUR_CFLAGS) $(MALLOC_FREE_SRC)
+	$(STRIP) ./$(MALLOC_FREE_EXE)
+
+check: $(PUTS_EXE) $(STAT_EXE) $(HELLO_EXE)
+	./$(HELLO_EXE)
 	./$(PUTS_EXE)
 	./$(STAT_EXE) | hexdump
-	./$(HELLO)
 
 tidy:
 	patch -Np1 -i misc/pre-tidy.patch
@@ -150,10 +177,11 @@ tidy:
 		-T dev_t \
 		-T time_t \
 		-T syscall_slong_t \
+		-T eh_printf_context_s \
 		`find src demo -name '*.h' -o -name '*.c'`
 	patch -Rp1 -i misc/pre-tidy.patch
 
 
 clean:
-	rm -fv $(HELLO) $(STAT_EXE) $(PUTS_EXE)
+	rm -fv $(HELLO_EXE) $(STAT_EXE) $(PUTS_EXE) $(MALLOC_FREE_EXE)
 	find . -name '*~' -exec rm -v \{} \;

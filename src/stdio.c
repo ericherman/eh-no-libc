@@ -19,9 +19,22 @@ License (COPYING) along with this library; if not, see:
         https://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt
 */
 #include <stdio.h>
+#include <libio.h>
 #include <unistd.h>
 #include <string.h>
 #include "eh-printf/eh-printf.h"
+
+FILE _eh_stdin;
+FILE _eh_stdout;
+FILE _eh_stderr;
+
+int _eh_stdin_init = 0;
+int _eh_stdout_init = 0;
+int _eh_stderr_init = 0;
+
+FILE *stdin = &_eh_stdin;
+FILE *stdout = &_eh_stdout;
+FILE *stderr = &_eh_stderr;
 
 int puts(char const *str)
 {
@@ -29,7 +42,7 @@ int puts(char const *str)
 	size_t len;
 
 	len = strlen(str);
-	written = write(stdout, str, len);
+	written = write(STDOUT_FILENO, str, len);
 	if (written == EOF) {
 		return EOF;
 	}
@@ -41,7 +54,7 @@ int puts(char const *str)
 
 int putchar(int c)
 {
-	return write(stdout, (unsigned char *)&c, 1);
+	return write(STDOUT_FILENO, (unsigned char *)&c, 1);
 }
 
 int vprintf(const char *format, va_list ap)
@@ -57,7 +70,6 @@ int printf(const char *format, ...)
 	rv = eh_vprintf(format, ap);
 	va_end(ap);
 	return rv;
-
 }
 
 int vsnprintf(char *buf, size_t len, const char *format, va_list ap)
@@ -73,5 +85,28 @@ int snprintf(char *buf, size_t len, const char *format, ...)
 	rv = vsnprintf(buf, len, format, ap);
 	va_end(ap);
 	return rv;
+}
 
+int vfprintf(FILE *stream, const char *format, va_list ap)
+{
+	return eh_vfprintf(stream, format, ap);
+}
+
+int fprintf(FILE *stream, const char *format, ...)
+{
+	va_list ap;
+	int rv;
+	va_start(ap, format);
+	rv = eh_vfprintf(stream, format, ap);
+	va_end(ap);
+	return rv;
+}
+
+int fileno(FILE *stream)
+{
+	if (!stream) {
+		return -1;
+	}
+
+	return stream->_fileno;
 }

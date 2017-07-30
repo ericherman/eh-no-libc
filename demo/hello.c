@@ -31,7 +31,7 @@ int main(int argc, char **argv)
 
 	snprintf(buf, 80, "hello, %s\n", name);
 
-	write(stdout, buf, strlen(buf));
+	write(STDOUT_FILENO, buf, strlen(buf));
 
 	return 0;
 }

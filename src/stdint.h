@@ -27,4 +27,4 @@ License (COPYING) along with this library; if not, see:
 #include "linux-i386/types.h"
 #endif
 
-#endif
+#endif /* _STDINT_H */

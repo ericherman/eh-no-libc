@@ -1,5 +1,5 @@
 /*
-eh-sys-contxt.h - definine system specific functions needed by printf
+eh-printf-sys-contxt.h - definine system specific functions needed by printf
 Copyright (C) 2016 Eric Herman
 
 This work is free software; you can redistribute it and/or
@@ -19,8 +19,8 @@ License (COPYING) along with this library; if not, see:
         https://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt
 
 */
-#ifndef EH_SYS_CONTEXT
-#define EH_SYS_CONTEXT
+#ifndef EH_PRINTF_SYS_CONTEXT
+#define EH_PRINTF_SYS_CONTEXT
 
 #ifdef __cplusplus
 extern "C" {
@@ -34,16 +34,27 @@ extern "C" {
 #include <stddef.h>
 #endif
 
-void *start_sys_printf_context(void);
+/* not all systems have separate OUT and ERR */
+extern int EH_PRINTF_SYSOUT_FILENO;
+extern int EH_PRINTF_SYSERR_FILENO;
 
-int end_sys_printf_context(void *ctx);
+struct eh_printf_context_s {
+	int error;
+	int fileno;		/* not all systems support files by number */
+	void *data;		/* not all systems will need an opaque ptr */
+};
 
-size_t eh_sys_output_char(void *ctx, char c);
+struct eh_printf_context_s start_sys_printf_context(int fileno);
 
-size_t eh_sys_output_str(void *ctx, const char *str, size_t len);
+int end_sys_printf_context(struct eh_printf_context_s *ctx);
+
+size_t eh_sys_output_char(struct eh_printf_context_s *ctx, char c);
+
+size_t eh_sys_output_str(struct eh_printf_context_s *ctx, const char *str,
+			 size_t len);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* EH_SYS_CONTEXT */
+#endif /* EH_PRINTF_SYS_CONTEXT */

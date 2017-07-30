@@ -27,7 +27,7 @@ int main(void)
 	struct stat si;
 
 	if (stat("/etc/hosts", &si) == 0) {
-		write(stdout, &si, sizeof(struct stat));
+		write(STDOUT_FILENO, &si, sizeof(struct stat));
 	}
 
 	return 0;

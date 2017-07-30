@@ -29,7 +29,8 @@ program code */
 .text
 	/* exports _start, syscall? to other compilation units (files) */
 	.globl _start,
-	.globl syscall0, syscall1, syscall2, syscall3, syscall4, syscall5
+	.globl syscall0, syscall1, syscall2, syscall3, syscall4, syscall5,
+	.globl syscall6,
 
 	_start:
 		xor rbp,rbp /* xoring a value with itself = 0 */
@@ -95,5 +96,17 @@ program code */
 		mov rdx,rcx	/* rdx (syscall param 3) = func param 4 (rcx) */
 		mov r10,r8	/* r10 (syscall param 4) = func param 5 (r8) */
 		mov r8,r9	/* r8 (syscall param 5) = func param 6 (r9) */
+		syscall
+		ret
+
+	/* XXX FIXME this is broken */
+	syscall6:
+		mov rax,rdi	/* rax (syscall number) = func param 1 (rdi) */
+		mov rdi,rsi	/* rdi (syscall param 1) = func param 2 (rsi) */
+		mov rsi,rdx	/* rsi (syscall param 2) = func param 3 (rdx) */
+		mov rdx,rcx	/* rdx (syscall param 3) = func param 4 (rcx) */
+		mov r10,r8	/* r10 (syscall param 4) = func param 5 (r8) */
+		mov r8,r9	/* r8 (syscall param 5) = func param 6 (r9) */
+		mov r9,r11	/* r9 (syscall param 6) = func param 7 (sp?) */
 		syscall
 		ret

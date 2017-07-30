@@ -19,6 +19,7 @@ License (COPYING) along with this library; if not, see:
         https://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt
 */
 #include <string.h>
+#include <errno.h>
 
 size_t strlen(char const *str)
 {
@@ -26,10 +27,6 @@ size_t strlen(char const *str)
 	for (p = str; *p; ++p) ;
 	return p - str;
 }
-
-char *errstrs[] = { "SUCCESS", "UNKNOWN" };
-
-size_t _eh_unknown_err = 1;
 
 char *strerror(int errnum)
 {

@@ -1,5 +1,7 @@
 hello
 stat
+puts
+malloc-free
 
 ###################
 # backup files

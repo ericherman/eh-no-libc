@@ -29,8 +29,16 @@ extern "C" {
 #include <stddef.h>
 #include <stdarg.h>
 
+#if (!defined(EH_PRINTF_SKIP_FPRINTF))
+#include <stdio.h>		/* FILE */
+#endif
+
 /* Returns the number of characters printed (excluding the null byte). */
 int eh_printf(const char *format, ...);
+
+#if (!defined(EH_PRINTF_SKIP_FPRINTF))
+int eh_fprintf(FILE *stream, const char *format, ...);
+#endif
 
 /* Returns the number of characters printed (excluding the null byte).
    If the output  was truncated  due  to  this  limit  then the return
@@ -41,6 +49,10 @@ int eh_printf(const char *format, ...);
 int eh_snprintf(char *str, size_t size, const char *format, ...);
 
 int eh_vprintf(const char *format, va_list ap);
+
+#if (!defined(EH_PRINTF_SKIP_FPRINTF))
+int eh_vfprintf(FILE *stream, const char *format, va_list ap);
+#endif
 
 int eh_vsnprintf(char *str, size_t size, const char *format, va_list ap);
 

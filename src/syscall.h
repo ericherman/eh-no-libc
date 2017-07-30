@@ -38,6 +38,10 @@ void *syscall3(size_t number, void *arg1, void *arg2, void *arg3);
 void *syscall4(size_t number, void *arg1, void *arg2, void *arg3, void *arg4);
 void *syscall5(size_t number, void *arg1, void *arg2, void *arg3, void *arg4,
 	       void *arg5);
+void *syscall6(size_t number, void *arg1, void *arg2, void *arg3, void *arg4,
+	       void *arg5, void *arg6);
+void *syscall7(size_t number, void *arg1, void *arg2, void *arg3, void *arg4,
+	       void *arg5, void *arg6, void *arg7);
 
 #endif /* if ((defined LINUX_I386) || (defined LINUX_AMD64)) */
 
