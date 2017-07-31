@@ -43,6 +43,8 @@ void *syscall6(size_t number, void *arg1, void *arg2, void *arg3, void *arg4,
 void *syscall7(size_t number, void *arg1, void *arg2, void *arg3, void *arg4,
 	       void *arg5, void *arg6, void *arg7);
 
+void _eh_crash(const char *msg, size_t len);
+
 #endif /* if ((defined LINUX_I386) || (defined LINUX_AMD64)) */
 
 #endif /* _SYSCALL_H */

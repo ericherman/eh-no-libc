@@ -69,6 +69,7 @@ EHLIBC_SRC=$(ARCH_SRC) \
  src/sys/time.h \
  src/time.h \
  src/syscall.h \
+ src/syscall.c \
  src/unistd.h \
  src/unistd.c \
  src/wchar.h \
