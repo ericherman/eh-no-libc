@@ -1,5 +1,6 @@
 #include <sys/mman.h>
 #include <syscall.h>
+#include <errno.h>
 
 #ifndef DEBUG
 #define _Sys_mman_c_debug 0
@@ -16,23 +17,23 @@ void *mmap(void *addr, size_t len, int prot, int flags, int fd, off_t offset)
 
 #if _Sys_mman_c_debug
 	char buf[70];
-	int errnum;
 #endif
 
+	errno = 0;
 	rv = syscall6(SYS_mmap, addr, (void *)len, (void *)(ssize_t)prot,
 		      (void *)(ssize_t)flags, (void *)(ssize_t)fd,
 		      (void *)(ssize_t)offset);
 
 	s_rv = (long)((ssize_t)rv);
 
-#if _Sys_mman_c_debug
 	if (s_rv < 0) {
-		errnum = (int)s_rv;
-		eh_snprintf(buf, 70, "mmap returned %ld (%s)?", s_rv,
-			    strerror(errnum));
+		errno = -s_rv;
+#if _Sys_mman_c_debug
+		eh_snprintf(buf, 70, "mmap returned %ld, errno: %d (%s)?", s_rv,
+			    errno, strerror(errno));
 		_eh_crash(buf, strlen(buf));
-	}
 #endif
+	}
 
 	return s_rv < 0 ? NULL : rv;
 }
