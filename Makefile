@@ -12,18 +12,20 @@ ifeq ($(TARGET), LINUX_AMD64)
 ARCH_DEFINES=-DLINUX_AMD64
 ARCH_SRC=\
  src/linux-amd64/start.S \
+ src/linux-amd64/syscalls.S \
+ src/linux-amd64/syscalls.h \
  src/linux-amd64/types.h \
  src/linux-amd64/limits.h \
- src/linux-amd64/float.h \
- src/linux-amd64/syscalls.h
+ src/linux-amd64/float.h
 else
 ARCH_DEFINES=-m32 -DLINUX_I386
 ARCH_SRC=\
  src/linux-i386/start.S \
+ src/linux-i386/syscalls.S \
+ src/linux-i386/syscalls.h \
  src/linux-i386/types.h \
  src/linux-i386/limits.h \
- src/linux-i386/float.h \
- src/linux-i386/syscalls.h
+ src/linux-i386/float.h
 endif
 
 EH_PRINTF_SRC=\
