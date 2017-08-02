@@ -15,14 +15,28 @@
 
 char *dumb_os_mmap(size_t length)
 {
-	void *memory;
+	void *memory, *addr;
+	int prot, flags, fd, offset;
+
+	addr = NULL;
+	prot = PROT_READ | PROT_WRITE;
+	flags = MAP_PRIVATE | MAP_ANONYMOUS;
+	fd = -1;
+	offset = 0;
 
 	/*
 	   fprintf(stderr, "requesting " FMT_SIZE_T " bytes.\n", length);
 	 */
+#ifdef DEBUG
+	fprintf(stderr, "addr: NULL\n");
+	fprintf(stderr, "len: %lu\n", (unsigned long)length);
+	fprintf(stderr, "prot: %x\n", prot);
+	fprintf(stderr, "flags: %x\n", flags);
+	fprintf(stderr, "fd: %d\n", fd);
+	fprintf(stderr, "offset: %d\n", offset);
+#endif
 
-	memory = mmap(NULL, length, PROT_READ | PROT_WRITE,
-		      MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+	memory = mmap(addr, length, prot, flags, fd, offset);
 
 	if (!memory) {
 		fprintf(stderr, "Could not allocate " FMT_SIZE_T " bytes\n",
