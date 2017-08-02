@@ -528,6 +528,9 @@ static size_t eh_unsigned_long_to_ascii_inner(char *dest, size_t dest_size,
 			reversed_buf[i++] = a + (d - 10);
 		}
 	}
+	if (i == 0) {
+		reversed_buf[i++] = '0';
+	}
 
 	/* If the field size was not specified (zero), or the value is
 	   wider than the specified field width, then the field is
@@ -626,6 +629,9 @@ static size_t eh_unsigned_int_to_ascii_inner(char *dest, size_t dest_size,
 		} else {
 			reversed_buf[i++] = a + (d - 10);
 		}
+	}
+	if (i == 0) {
+		reversed_buf[i++] = '0';
 	}
 
 	/* If the field size was not specified (zero), or the value is
