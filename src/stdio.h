@@ -86,7 +86,7 @@ long int ftell(FILE *);
 off_t ftello(FILE *);
 int ftrylockfile(FILE *);
 void funlockfile(FILE *);
-size_t fwrite(const void *, size_t, size_t, FILE *);
+size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream);
 int getc(FILE *);
 int getchar(void);
 int getc_unlocked(FILE *);

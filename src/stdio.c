@@ -110,3 +110,20 @@ int fileno(FILE *stream)
 
 	return stream->_fileno;
 }
+
+size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream)
+{
+	size_t i;
+	const char *cptr;
+	int fd;
+
+	cptr = (const char *)ptr;	/* pointer math */
+	fd = fileno(stream);
+
+	for (i = 0; i < nmemb; ++i) {
+		write(fd, cptr, size);
+		cptr += size;
+	}
+
+	return i;
+}
