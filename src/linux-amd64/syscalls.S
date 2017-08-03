@@ -29,6 +29,10 @@ program code */
 	.globl syscall0, syscall1, syscall2, syscall3, syscall4, syscall5,
 	.globl syscall6,
 
+	/* Registers %rbp, %rbx and %r12 through %r15 "belong" to the calling
+	 * function and the called function is required to preserve their
+	 * values. */
+
 	syscall0:
 		mov rax,rdi	/* rax (syscall number) = func param 1 (rdi) */
 		syscall
