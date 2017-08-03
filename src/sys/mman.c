@@ -14,12 +14,10 @@ void *mmap(void *addr, size_t len, int prot, int flags, int fd, off_t offset)
 {
 	void *rv;
 	long s_rv;
-
 #if _Sys_mman_c_debug
 	char buf[70];
 #endif
 
-	errno = 0;
 	rv = syscall6(SYS_mmap, addr, (void *)len, (void *)(ssize_t)prot,
 		      (void *)(ssize_t)flags, (void *)(ssize_t)fd,
 		      (void *)(ssize_t)offset);

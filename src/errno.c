@@ -24,7 +24,7 @@ License (COPYING) along with this library; if not, see:
 #define ENOMEM 12
 
 /* this could be thread-local */
-int errno;
+int errno = 0;
 
 /*
 #include <stdio.h>
