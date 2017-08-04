@@ -1,6 +1,5 @@
 #include <dumb-alloc-private.h>
 #include <dumb-os-alloc.h>
-#include <dumb-printf-defines.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
@@ -236,20 +235,20 @@ static void _da_free(struct dumb_alloc *da, void *ptr)
 
 static void _dump_chunk(struct dumb_alloc_chunk *chunk)
 {
-	printf("chunk %p ( " FMT_SIZE_T " )\n", (void *)chunk,
-	       (CAST_SIZE_T) ((void *)chunk));
+	printf("chunk %p ( %lu )\n", (void *)chunk,
+	       (unsigned long)((void *)chunk));
 	if (!chunk) {
 		return;
 	}
-	printf("\tstart: %p ( " FMT_SIZE_T " )\n", (void *)chunk->start,
-	       (CAST_SIZE_T) ((void *)chunk->start));
-	printf("\tavailable_length: " FMT_SIZE_T "\n",
-	       (CAST_SIZE_T) chunk->available_length);
+	printf("\tstart: %p ( %lu )\n", (void *)chunk->start,
+	       (unsigned long)((void *)chunk->start));
+	printf("\tavailable_length: %lu\n",
+	       (unsigned long)chunk->available_length);
 	printf("\tin_use: %d\n", chunk->in_use);
-	printf("\tprev: %p ( " FMT_SIZE_T " )\n", (void *)chunk->prev,
-	       (CAST_SIZE_T) ((void *)chunk->prev));
-	printf("\tnext: %p ( " FMT_SIZE_T " )\n", (void *)chunk->next,
-	       (CAST_SIZE_T) ((void *)chunk->next));
+	printf("\tprev: %p ( %lu )\n", (void *)chunk->prev,
+	       (unsigned long)((void *)chunk->prev));
+	printf("\tnext: %p ( %lu )\n", (void *)chunk->next,
+	       (unsigned long)((void *)chunk->next));
 	if (chunk->next) {
 		_dump_chunk(chunk->next);
 	}
@@ -257,25 +256,24 @@ static void _dump_chunk(struct dumb_alloc_chunk *chunk)
 
 static void _dump_block(struct dumb_alloc_block *block)
 {
-	printf("block %p ( " FMT_SIZE_T " )\n", (void *)block,
-	       (CAST_SIZE_T) ((void *)block));
+	printf("block %p ( %lu )\n", (void *)block,
+	       (unsigned long)((void *)block));
 	if (!block) {
 		return;
 	}
-	printf("\tregion_start: %p ( " FMT_SIZE_T " )\n",
+	printf("\tregion_start: %p ( %lu )\n",
 	       (void *)block->region_start,
-	       (CAST_SIZE_T) ((void *)block->region_start));
-	printf("\ttotal_length: " FMT_SIZE_T "\n",
-	       (CAST_SIZE_T) block->total_length);
-	printf("\tfirst_chunk: %p ( " FMT_SIZE_T " )\n",
+	       (unsigned long)((void *)block->region_start));
+	printf("\ttotal_length: %lu\n", (unsigned long)block->total_length);
+	printf("\tfirst_chunk: %p ( %lu )\n",
 	       (void *)block->first_chunk,
-	       (CAST_SIZE_T) ((void *)block->first_chunk));
+	       (unsigned long)((void *)block->first_chunk));
 	if (block->first_chunk) {
 		_dump_chunk(block->first_chunk);
 	}
-	printf("\tnext_block: %p ( " FMT_SIZE_T " )\n",
+	printf("\tnext_block: %p ( %lu )\n",
 	       (void *)block->next_block,
-	       (CAST_SIZE_T) ((void *)block->next_block));
+	       (unsigned long)((void *)block->next_block));
 	if (block->next_block) {
 		_dump_block(block->next_block);
 	}
@@ -283,20 +281,18 @@ static void _dump_block(struct dumb_alloc_block *block)
 
 static void _dump(struct dumb_alloc *da)
 {
-	printf("sizeof(struct dumb_alloc): " FMT_SIZEOF "\n",
-	       sizeof(struct dumb_alloc));
-	printf("sizeof(struct dumb_alloc_block): " FMT_SIZEOF "\n",
-	       sizeof(struct dumb_alloc_block));
-	printf("sizeof(struct dumb_alloc_chunk): " FMT_SIZEOF "\n",
-	       sizeof(struct dumb_alloc_chunk));
+	printf("sizeof(struct dumb_alloc): %lu\n",
+	       (unsigned long)sizeof(struct dumb_alloc));
+	printf("sizeof(struct dumb_alloc_block): %lu\n",
+	       (unsigned long)sizeof(struct dumb_alloc_block));
+	printf("sizeof(struct dumb_alloc_chunk): %lu\n",
+	       (unsigned long)sizeof(struct dumb_alloc_chunk));
 
-	printf("context %p ( " FMT_SIZE_T " )\n", (void *)da,
-	       (CAST_SIZE_T) ((void *)da));
+	printf("context %p ( %lu )\n", (void *)da, (unsigned long)((void *)da));
 	if (!da) {
 		return;
 	}
-	printf("\tblock: %p ( " FMT_SIZE_T " )\n", da->data,
-	       (CAST_SIZE_T) da->data);
+	printf("\tblock: %p ( %lu )\n", da->data, (unsigned long)da->data);
 	if (da->data) {
 		_dump_block((struct dumb_alloc_block *)da->data);
 	}

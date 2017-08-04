@@ -1,5 +1,4 @@
 #include <dumb-os-alloc.h>
-#include <dumb-printf-defines.h>
 #include <sys/mman.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -25,7 +24,7 @@ char *dumb_os_mmap(size_t length)
 	offset = 0;
 
 	/*
-	   fprintf(stderr, "requesting " FMT_SIZE_T " bytes.\n", length);
+	   fprintf(stderr, "requesting %lu bytes.\n", length);
 	 */
 #ifdef DEBUG
 	fprintf(stderr, "addr: NULL\n");
@@ -39,8 +38,8 @@ char *dumb_os_mmap(size_t length)
 	memory = mmap(addr, length, prot, flags, fd, offset);
 
 	if (!memory) {
-		fprintf(stderr, "Could not allocate " FMT_SIZE_T " bytes\n",
-			(CAST_SIZE_T) length);
+		fprintf(stderr, "Could not allocate %lu bytes\n",
+			(unsigned long)length);
 	}
 
 	return (char *)memory;

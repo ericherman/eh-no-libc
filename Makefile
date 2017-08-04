@@ -48,7 +48,6 @@ DUMB_ALLOC_HEADERS=\
  src/dumb-alloc/dumb-alloc.h \
  src/dumb-alloc/dumb-alloc-global.h \
  src/dumb-alloc/dumb-alloc-private.h \
- src/dumb-alloc/dumb-printf-defines.h \
  src/dumb-alloc/dumb-os-alloc.h
 
 EHLIBC_SRC=$(ARCH_SRC) \
