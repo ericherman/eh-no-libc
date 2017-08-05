@@ -185,6 +185,7 @@ tidy:
 		-T time_t \
 		-T syscall_slong_t \
 		-T eh_printf_context_s \
+		-T dumb_alloc \
 		`find src demo -name '*.h' -o -name '*.c'`
 	patch -Rp1 -i misc/pre-tidy.patch
 

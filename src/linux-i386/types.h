@@ -23,13 +23,13 @@ License (COPYING) along with this library; if not, see:
 
 #define NULL ((void *)0)
 
-typedef unsigned long long int	uint64_t;
+typedef unsigned long long int uint64_t;
 typedef unsigned long long int uint_least64_t;
-typedef unsigned long long int	uint_fast64_t;
+typedef unsigned long long int uint_fast64_t;
 
-typedef signed long long int	int64_t;
+typedef signed long long int int64_t;
 typedef signed long long int int_least64_t;
-typedef signed long long int	int_fast64_t;
+typedef signed long long int int_fast64_t;
 
 typedef unsigned int uint32_t;
 typedef unsigned int uint_least32_t;
