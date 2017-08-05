@@ -87,6 +87,17 @@ int snprintf(char *buf, size_t len, const char *format, ...)
 	return rv;
 }
 
+static void _ensure_initialized(FILE *stream)
+{
+	if ((stream == stdout) && (_eh_stdout_init == 0)) {
+		stdout->_fileno = STDOUT_FILENO;
+		_eh_stdout_init = 1;
+	} else if ((stream == stderr) && (_eh_stderr_init == 0)) {
+		stderr->_fileno = STDERR_FILENO;
+		_eh_stderr_init = 1;
+	}
+}
+
 int vfprintf(FILE *stream, const char *format, va_list ap)
 {
 	return eh_vfprintf(stream, format, ap);
@@ -107,6 +118,8 @@ int fileno(FILE *stream)
 	if (!stream) {
 		return -1;
 	}
+
+	_ensure_initialized(stream);
 
 	return stream->_fileno;
 }
