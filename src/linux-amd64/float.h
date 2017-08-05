@@ -22,11 +22,13 @@ License (COPYING) along with this library; if not, see:
 #define _LINUX_AMD64_FLOAT_H	1
 
 #define FLT_RADIX	2
+
 #define FLT_MANT_DIG	24
-#define FLT_MAX_EXP	128
 #define DBL_MANT_DIG	53
-#define DBL_MAX_EXP	1024
 #define LDBL_MANT_DIG	64
+
+#define FLT_MAX_EXP	128
+#define DBL_MAX_EXP	1024
 #define LDBL_MAX_EXP	16384
 
 #endif /* _LINUX_AMD64_FLOAT_H */
