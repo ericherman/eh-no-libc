@@ -142,7 +142,7 @@ char *strndup(const char *s, size_t n)
 
 char *strdupa(const char *s)
 {
-	size_t len;
+	size_t i, len;
 	char *dup;
 
 	len = s ? strlen(s) : 0;
@@ -150,9 +150,10 @@ char *strdupa(const char *s)
 	if (!dup) {
 		return NULL;
 	}
-	dup[0] = '\0';
+	for (i = 0; i <= len; ++i) {
+		dup[0] = '\0';
+	}
 	strcpy(dup, s);
-	dup[len] = '\0';
 
 	return dup;
 }
