@@ -2,6 +2,8 @@ hello
 stat
 puts
 malloc-free
+test-strcpy
+test-strdup
 
 ###################
 # backup files
