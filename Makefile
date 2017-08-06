@@ -146,12 +146,21 @@ PUTS_EXE=puts
 MALLOC_FREE_SRC=demo/malloc-free.c
 MALLOC_FREE_EXE=malloc-free
 
+TEST_STRCPY_SRC=tests/echeck.c tests/test-strcpy.c
+TEST_STRCPY_EXE=test-strcpy
+
+TEST_STRDUP_SRC=tests/echeck.c tests/test-strdup.c
+TEST_STRDUP_EXE=test-strdup
+
+TESTS=$(TEST_STRCPY_EXE) $(TEST_STRDUP_EXE)
+
 default: hello
+
 
 $(HELLO_EXE): $(HELLO_SRC) $(EHLIBC_SRC) $(HEADERS)
 	gcc -o $(HELLO_EXE) $(OUR_CFLAGS) $(HELLO_SRC)
-	$(FILE) ./$(HELLO_EXE)
-	./$(HELLO_EXE) $(USER)
+	($(FILE) ./$(HELLO_EXE))
+	(./$(HELLO_EXE) $(USER))
 
 $(STAT_EXE): $(STAT_SRC) $(EHLIBC_SRC) $(HEADERS)
 	gcc -o $(STAT_EXE) $(OUR_CFLAGS) $(STAT_SRC)
@@ -162,10 +171,22 @@ $(PUTS_EXE): $(PUTS_SRC) $(EHLIBC_SRC) $(HEADERS)
 $(MALLOC_FREE_EXE): $(MALLOC_FREE_SRC) $(EHLIBC_SRC) $(HEADERS)
 	gcc -o $(MALLOC_FREE_EXE) $(OUR_CFLAGS) $(MALLOC_FREE_SRC)
 
-check: $(PUTS_EXE) $(STAT_EXE) $(HELLO_EXE)
+$(TEST_STRCPY_EXE): $(TEST_STRCPY_SRC) $(EHLIBC_SRC) $(HEADERS)
+	gcc -o $(TEST_STRCPY_EXE) $(OUR_CFLAGS) $(TEST_STRCPY_SRC)
+
+$(TEST_STRDUP_EXE): $(TEST_STRDUP_SRC) $(EHLIBC_SRC) $(HEADERS)
+	gcc -o $(TEST_STRDUP_EXE) $(OUR_CFLAGS) $(TEST_STRDUP_SRC)
+
+test: $(TESTS)
+	./$(TEST_STRCPY_EXE)
+	./$(TEST_STRDUP_EXE)
+
+sanity: $(PUTS_EXE) $(STAT_EXE) $(HELLO_EXE)
 	./$(HELLO_EXE)
 	./$(PUTS_EXE)
 	./$(STAT_EXE) | hexdump
+
+check: sanity test
 
 tidy:
 	patch -Np1 -i misc/pre-tidy.patch
@@ -191,5 +212,5 @@ tidy:
 
 
 clean:
-	rm -fv $(HELLO_EXE) $(STAT_EXE) $(PUTS_EXE) $(MALLOC_FREE_EXE)
+	rm -fv $(HELLO_EXE) $(STAT_EXE) $(PUTS_EXE) $(MALLOC_FREE_EXE) $(TESTS)
 	find . -name '*~' -exec rm -v \{} \;
