@@ -26,8 +26,8 @@ void fill_str(char *str, size_t len, char c)
 {
 	size_t i, last;
 
-	last = len -1;
-	for(i = 0; i<last;++i) {
+	last = len - 1;
+	for (i = 0; i < last; ++i) {
 		str[i] = c;
 	}
 	str[last] = '\0';

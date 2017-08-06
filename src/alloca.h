@@ -21,6 +21,8 @@ License (COPYING) along with this library; if not, see:
 #ifndef _ALLOCA_H
 #define _ALLOCA_H	1
 
+void *alloca(size_t size);
+
 #define alloca(size) __builtin_alloca(size)
 
 #endif /* _ALLOCA_H */

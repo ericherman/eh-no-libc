@@ -22,6 +22,8 @@ License (COPYING) along with this library; if not, see:
 #include <errno.h>
 #include <stdlib.h>
 
+#include <stdio.h>
+
 size_t strlen(char const *str)
 {
 	char const *p;
@@ -33,6 +35,9 @@ size_t strnlen(char const *str, size_t max_len)
 {
 	char const *p;
 	size_t i;
+	if (!str) {
+		return 0;
+	}
 	for (i = 0, p = str; i < max_len && *p; ++i, ++p) ;
 	return p - str;
 }
@@ -40,28 +45,43 @@ size_t strnlen(char const *str, size_t max_len)
 int strcmp(const char *s1, const char *s2)
 {
 	size_t i;
-	for (i = 0; *s1 && *s2 && *s1 == *s2; ++i) {
-		++s1;
-		++s2;
+
+	i = 0;
+	if (s1 == s2) {
+		return 0;
 	}
-	return *s1 - *s2;
+	if (!s1 || !s2) {
+		return s1 ? 1 : -1;
+	}
+	for (i = 0; s1[i] && s2[i] && s1[i] == s2[i]; ++i) ;
+	return s1[i] - s2[i];
 }
 
 int strncmp(const char *s1, const char *s2, size_t max_len)
 {
 	size_t i;
-	for (i = 0; (i < max_len) && *s1 && *s2 && (*s1 == *s2); ++i) {
-		++s1;
-		++s2;
+	if (s1 == s2) {
+		return 0;
 	}
-	return *s1 - *s2;
+	if (!s1 || !s2) {
+		return s1 ? 1 : -1;
+	}
+	for (i = 0; i < max_len && s1[i] && s2[i] && s1[i] == s2[i]; ++i) ;
+	return s1[i] - s2[i];
 }
 
 char *strcpy(char *dest, const char *src)
 {
 	size_t i;
-	for (i = 0; *(src + i); ++i) {
-		*(dest + i) = *(src + i);
+	if (!dest) {
+		return NULL;
+	}
+	i = 0;
+	if (src) {
+		while (*(src + i)) {
+			*(dest + i) = *(src + i);
+			++i;
+		}
 	}
 	*(dest + i) = '\0';
 	return dest;
@@ -70,8 +90,15 @@ char *strcpy(char *dest, const char *src)
 char *strncpy(char *dest, const char *src, size_t n)
 {
 	size_t i;
-	for (i = 0; i < n && *(src + i); ++i) {
-		*(dest + i) = *(src + i);
+	if (!dest) {
+		return NULL;
+	}
+	i = 0;
+	if (src) {
+		while (i < n && *(src + i)) {
+			*(dest + i) = *(src + i);
+			++i;
+		}
 	}
 	if (i < n) {
 		*(dest + i) = '\0';
@@ -84,7 +111,7 @@ char *strdup(const char *s)
 	size_t len;
 	char *dup;
 
-	len = strlen(s);
+	len = s ? strlen(s) : 0;
 	dup = malloc(len + 1);
 	if (!dup) {
 		return NULL;
@@ -101,7 +128,7 @@ char *strndup(const char *s, size_t n)
 	size_t len;
 	char *dup;
 
-	len = strnlen(s, n);
+	len = s ? strnlen(s, n) : 0;
 	dup = malloc(len + 1);
 	if (!dup) {
 		return NULL;
@@ -109,6 +136,41 @@ char *strndup(const char *s, size_t n)
 	dup[len] = '\0';
 
 	strncpy(dup, s, n);
+
+	return dup;
+}
+
+char *strdupa(const char *s)
+{
+	size_t len;
+	char *dup;
+
+	len = s ? strlen(s) : 0;
+	dup = alloca(len + 1);
+	if (!dup) {
+		return NULL;
+	}
+	dup[0] = '\0';
+	strcpy(dup, s);
+	dup[len] = '\0';
+
+	return dup;
+}
+
+char *strndupa(const char *s, size_t n)
+{
+	size_t i, len;
+	char *dup;
+
+	len = s ? strnlen(s, n) : 0;
+	dup = alloca(len + 1);
+	if (!dup) {
+		return NULL;
+	}
+	for (i = 0; i <= len; ++i) {
+		dup[0] = '\0';
+	}
+	strncpy(dup, s, len < n ? len : n);
 
 	return dup;
 }

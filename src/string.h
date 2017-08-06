@@ -22,6 +22,7 @@ License (COPYING) along with this library; if not, see:
 #define _STRING_H	1
 
 #include <stdint.h>
+#include <alloca.h>
 
 int strcmp(const char *s1, const char *s2);
 
@@ -34,6 +35,10 @@ char *strncpy(char *dest, const char *src, size_t n);
 char *strdup(const char *s);
 
 char *strndup(const char *s, size_t n);
+
+char *strdupa(const char *s);
+
+char *strndupa(const char *s, size_t n);
 
 size_t strlen(char const *str);
 

@@ -26,6 +26,7 @@ License (COPYING) along with this library; if not, see:
 int main(void)
 {
 	char *actual;
+	char *actual2;
 	const char *expect;
 	int failures;
 
@@ -34,13 +35,34 @@ int main(void)
 	expect = "foo bar";
 	actual = strdup(expect);
 	failures += check_str(actual, expect);
-	if(actual) { free(actual); }
+	if (actual) {
+		free(actual);
+	}
 
 	expect = "foo bar";
 	actual = strndup(expect, 3);
 	expect = "foo";
 	failures += check_str(actual, expect);
-	if(actual) { free(actual); }
+	if (actual) {
+		free(actual);
+	}
+
+	expect = "foo bar";
+	actual = strdupa(expect);
+	if (!actual) {
+		++failures;
+	} else {
+		failures += check_str(actual, expect);
+	}
+
+	expect = "foo bar";
+	actual2 = strndupa(expect, 3);
+	expect = "foo";
+	if (!actual) {
+		++failures;
+	} else {
+		failures += check_str(actual2, expect);
+	}
 
 	return check_status(failures);
 }
