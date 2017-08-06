@@ -3,14 +3,6 @@
 #include <errno.h>
 #include <unistd.h>
 
-#ifndef DEBUG
-#define _Sys_mman_c_debug 0
-#else
-#define _Sys_mman_c_debug 1
-#include <string.h>		/* strlen, strerror */
-#include "eh-printf/eh-printf.h"	/* eh_snprintf */
-#endif
-
 #if ((!defined(USE_LEGACY_MMAP)) && defined(LINUX_I386))
 #define USE_LEGACY_MMAP 1
 #endif
@@ -48,9 +40,6 @@ void *mmap(void *addr, size_t len, int prot, int flags, int fd, off_t offset)
 {
 	void *rv;
 	long s_rv;
-#if _Sys_mman_c_debug
-	char buf[70];
-#endif
 
 	if (USE_LEGACY_MMAP) {
 		rv = legacy_mmap(addr, len, prot, flags, fd, offset);
@@ -63,10 +52,6 @@ void *mmap(void *addr, size_t len, int prot, int flags, int fd, off_t offset)
 
 	if (s_rv < 0 && s_rv >= -4096) {
 		errno = -s_rv;
-#if _Sys_mman_c_debug
-		eh_snprintf(buf, 70, "mmap returned %ld, errno: %d (%s)?", s_rv,
-			    errno, strerror(errno));
-#endif
 	}
 
 	return (s_rv < 0 && s_rv >= -4096) ? NULL : rv;
@@ -81,5 +66,3 @@ int munmap(void *addr, size_t len)
 
 	return rv == NULL ? 0 : -1;
 }
-
-#undef _Sys_mman_c_debug
