@@ -86,6 +86,6 @@ program code */
 		mov rdx,rcx	/* rdx (syscall param 3) = func param 4 (rcx) */
 		mov r10,r8	/* r10 (syscall param 4) = func param 5 (r8) */
 		mov r8,r9	/* r8 (syscall param 5) = func param 6 (r9) */
-		mov r9,r11	/* r9 (syscall param 6) = func param 7 (sp?) */
+		mov r9,[rsp+8]	/* r9 (syscall param 6) = func param 7 (sp+8) */
 		syscall
 		ret
