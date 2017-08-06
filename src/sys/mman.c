@@ -1,6 +1,7 @@
 #include <sys/mman.h>
 #include <syscall.h>
 #include <errno.h>
+#include <unistd.h>
 
 #ifndef DEBUG
 #define _Sys_mman_c_debug 0
@@ -22,6 +23,15 @@ static void *legacy_mmap(void *addr, size_t len, int prot, int flags, int fd,
 			 off_t offset)
 {
 	void *params[7];
+	long page_size;
+
+	page_size = sysconf(_SC_PAGESIZE);
+	if (offset % page_size) {
+		offset = page_size * (1 + (offset / page_size));
+	}
+	if (len % page_size) {
+		len = page_size * (1 + (len / page_size));
+	}
 
 	params[0] = addr;
 	params[1] = (void *)((long)len);
@@ -29,7 +39,7 @@ static void *legacy_mmap(void *addr, size_t len, int prot, int flags, int fd,
 	params[3] = (void *)((long)flags);
 	params[4] = (void *)((long)fd);
 	params[5] = (void *)((long)offset);
-	params[6] = 0;
+	params[6] = NULL;
 
 	return syscall1(SYS_mmap, (void *)params);
 }
@@ -51,16 +61,15 @@ void *mmap(void *addr, size_t len, int prot, int flags, int fd, off_t offset)
 	}
 	s_rv = (long)((ssize_t)rv);
 
-	if (s_rv < 0) {
+	if (s_rv < 0 && s_rv >= -4096) {
 		errno = -s_rv;
 #if _Sys_mman_c_debug
 		eh_snprintf(buf, 70, "mmap returned %ld, errno: %d (%s)?", s_rv,
 			    errno, strerror(errno));
-		_eh_crash(buf, strlen(buf));
 #endif
 	}
 
-	return s_rv < 0 ? NULL : rv;
+	return (s_rv < 0 && s_rv >= -4096) ? NULL : rv;
 }
 
 /* returns zero on succuess */
