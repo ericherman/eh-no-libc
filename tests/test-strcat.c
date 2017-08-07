@@ -1,6 +1,6 @@
 /*
-eh-no-libc - exploring coding without the standard library
-Copyright (C) 2017 Eric Herman
+test-strcat.c
+Copyright (C) 2016 Eric Herman
 
 This work is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -18,31 +18,31 @@ License (COPYING) along with this library; if not, see:
 
         https://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt
 */
-#ifndef _STRING_H
-#define _STRING_H	1
+#include "echeck.h"
+#include <stdio.h>
+#include <string.h>
 
-#include <stdint.h>
+/* int main(int argc, char **argv) */
+int main(void)
+{
+	char actual[80], *rv;
+	const char *expect;
+	int failures;
 
-char *strcat(char *dest, const char *src);
+	failures = 0;
 
-char *strncat(char *dest, const char *src, size_t n);
+	actual[0] = '\0';
+	expect = "foo bar";
+	rv = strcat(actual, "foo");
+	failures += check_ptr(rv, actual);
+	rv = strcat(actual, " bar");
+	failures += check_ptr(rv, actual);
+	failures += check_str(actual, expect);
 
-int strcmp(const char *s1, const char *s2);
+	rv = strncat(actual, " whiz bang pow", 10);
+	failures += check_ptr(rv, actual);
+	expect = "foo bar whiz bang";
+	failures += check_str(actual, expect);
 
-int strncmp(const char *s1, const char *s2, size_t n);
-
-char *strcpy(char *dest, const char *src);
-
-char *strncpy(char *dest, const char *src, size_t n);
-
-char *strdup(const char *s);
-
-char *strndup(const char *s, size_t n);
-
-size_t strlen(char const *str);
-
-size_t strnlen(const char *s, size_t maxlen);
-
-char *strerror(int errnum);
-
-#endif /* _STRING_H */
+	return check_status(failures);
+}

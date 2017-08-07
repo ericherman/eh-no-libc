@@ -24,6 +24,34 @@ License (COPYING) along with this library; if not, see:
 
 #include <stdio.h>
 
+char *strcat(char *dest, const char *src)
+{
+	char *d;
+
+	for (d = dest; *d; ++d) ;
+
+	for (; *src; ++d, ++src) {
+		*d = *src;
+	}
+	*d = '\0';
+
+	return dest;
+}
+
+char *strncat(char *dest, const char *src, size_t n)
+{
+	char *d;
+
+	for (d = dest; *d; ++d) ;
+
+	for (; n && *src; --n, ++d, ++src) {
+		*d = *src;
+	}
+	*d = '\0';
+
+	return dest;
+}
+
 size_t strlen(char const *str)
 {
 	char const *p;
