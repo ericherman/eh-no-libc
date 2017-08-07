@@ -30,8 +30,8 @@ char *strcat(char *dest, const char *src)
 
 	for (d = dest; *d; ++d) ;
 
-	for (; *src; ++d, ++src) {
-		*d = *src;
+	while (*src) {
+		*d++ = *src++;
 	}
 	*d = '\0';
 
@@ -44,8 +44,8 @@ char *strncat(char *dest, const char *src, size_t n)
 
 	for (d = dest; *d; ++d) ;
 
-	for (; n && *src; --n, ++d, ++src) {
-		*d = *src;
+	for (; n && *src; --n) {
+		*d++ = *src++;
 	}
 	*d = '\0';
 
