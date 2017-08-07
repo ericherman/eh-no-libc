@@ -140,42 +140,6 @@ char *strndup(const char *s, size_t n)
 	return dup;
 }
 
-char *strdupa(const char *s)
-{
-	size_t i, len;
-	char *dup;
-
-	len = s ? strlen(s) : 0;
-	dup = alloca(len + 1);
-	if (!dup) {
-		return NULL;
-	}
-	for (i = 0; i <= len; ++i) {
-		dup[0] = '\0';
-	}
-	strcpy(dup, s);
-
-	return dup;
-}
-
-char *strndupa(const char *s, size_t n)
-{
-	size_t i, len;
-	char *dup;
-
-	len = s ? strnlen(s, n) : 0;
-	dup = alloca(len + 1);
-	if (!dup) {
-		return NULL;
-	}
-	for (i = 0; i <= len; ++i) {
-		dup[0] = '\0';
-	}
-	strncpy(dup, s, len < n ? len : n);
-
-	return dup;
-}
-
 char *strerror(int errnum)
 {
 	size_t offset;

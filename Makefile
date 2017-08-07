@@ -112,7 +112,7 @@ COMMON_CFLAGS=\
  -fno-builtin
 
 ifeq ($(DEBUG), 1)
-DEBUG_CFLAGS=-g -O0 -DDEBUG
+DEBUG_CFLAGS=-g -O0 -DDEBUG -DTEST_STRDUPA=1
 else
 DEBUG_CFLAGS=-g -O2 -DNDEBUG \
  -fomit-frame-pointer \

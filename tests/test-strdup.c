@@ -22,17 +22,10 @@ License (COPYING) along with this library; if not, see:
 #include <stdio.h>
 #include <string.h>
 
-#ifndef TEST_STRDUPA
-#define TEST_STRDUPA 0
-#endif
-
 /* int main(int argc, char **argv) */
 int main(void)
 {
 	char *actual;
-#if TEST_STRDUPA
-	char *actual2;
-#endif
 	const char *expect;
 	int failures;
 
@@ -52,25 +45,6 @@ int main(void)
 	if (actual) {
 		free(actual);
 	}
-
-#if TEST_STRDUPA
-	expect = "foo bar";
-	actual = strdupa(expect);
-	if (!actual) {
-		++failures;
-	} else {
-		failures += check_str(actual, expect);
-	}
-
-	expect = "foo bar";
-	actual2 = strndupa(expect, 3);
-	expect = "foo";
-	if (!actual) {
-		++failures;
-	} else {
-		failures += check_str(actual2, expect);
-	}
-#endif
 
 	return check_status(failures);
 }
