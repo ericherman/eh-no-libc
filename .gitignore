@@ -3,6 +3,7 @@ stat
 puts
 malloc-free
 test-strcat
+test-strchr
 test-strcpy
 test-strdup
 

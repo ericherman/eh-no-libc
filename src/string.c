@@ -52,6 +52,32 @@ char *strncat(char *dest, const char *src, size_t n)
 	return dest;
 }
 
+char *strchr(const char *s, int c)
+{
+	for (; *s && *s != c; ++s) ;
+	if (*s == '\0' && c != 0) {
+		return NULL;
+	}
+	return (char *)s;
+}
+
+char *strrchr(const char *s, int c)
+{
+	char *r;
+	for (r = NULL; *s; ++s) {
+		if (*s == c) {
+			r = (char *)s;
+		}
+	}
+	return r;
+}
+
+char *strchrnul(const char *s, int c)
+{
+	for (; *s && *s != c; ++s) ;
+	return (char *)s;
+}
+
 size_t strlen(char const *str)
 {
 	char const *p;

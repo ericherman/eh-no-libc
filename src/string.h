@@ -27,6 +27,21 @@ char *strcat(char *dest, const char *src);
 
 char *strncat(char *dest, const char *src, size_t n);
 
+/* The strchr() function returns a pointer to the first occurrence of
+ * the character c in the string s, or NULL if the character is not
+ * found. */
+char *strchr(const char *s, int c);
+
+/* The strrchr() function returns a pointer to the last occurrence of
+ * the character c in the string s, or NULL if the character is not
+ * found. */
+char *strrchr(const char *s, int c);
+
+/* The  strchrnul() function is like strchr() except that if c is not
+ * found in s, then it returns a pointer to the null byte at the end of
+ * s, rather than NULL. */
+char *strchrnul(const char *s, int c);
+
 int strcmp(const char *s1, const char *s2);
 
 int strncmp(const char *s1, const char *s2, size_t n);
