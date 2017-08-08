@@ -81,6 +81,9 @@ char *strchrnul(const char *s, int c)
 size_t strlen(char const *str)
 {
 	char const *p;
+	if (!str) {
+		return 0;
+	}
 	for (p = str; *p; ++p) ;
 	return p - str;
 }
@@ -203,4 +206,61 @@ char *strerror(int errnum)
 		return errstrs[offset];
 	}
 	return errstrs[_eh_unknown_err];
+}
+
+size_t strspn(const char *s, const char *accept)
+{
+	size_t i, j, found, len;
+
+	if (!s) {
+		return 0;
+	}
+	if (!accept) {
+		return strlen(accept);
+	}
+
+	len = strlen(accept);
+	if (!len) {
+		return 0;
+	}
+
+	for (i = 0; s[i]; ++i) {
+		found = 0;
+		for (j = 0; !found && j < len; ++j) {
+			if (s[i] == accept[j]) {
+				found = 1;
+			}
+		}
+		if (!found) {
+			return i;
+		}
+	}
+	return i;
+}
+
+size_t strcspn(const char *s, const char *reject)
+{
+	size_t i, j, found, len;
+
+	if (!s) {
+		return 0;
+	}
+	if (!reject) {
+		return strlen(s);
+	}
+
+	len = strlen(reject);
+	if (!len) {
+		return strlen(s);
+	}
+
+	for (i = 0; s[i]; ++i) {
+		found = 0;
+		for (j = 0; !found && j < len; ++j) {
+			if (s[i] == reject[j]) {
+				return i;
+			}
+		}
+	}
+	return i;
 }

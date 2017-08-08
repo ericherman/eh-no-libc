@@ -60,4 +60,8 @@ size_t strnlen(const char *s, size_t maxlen);
 
 char *strerror(int errnum);
 
+size_t strspn(const char *s, const char *accept);
+
+size_t strcspn(const char *s, const char *reject);
+
 #endif /* _STRING_H */

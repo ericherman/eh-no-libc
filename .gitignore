@@ -6,6 +6,7 @@ test-strcat
 test-strchr
 test-strcpy
 test-strdup
+test-strspn
 
 ###################
 # backup files
