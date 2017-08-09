@@ -197,6 +197,22 @@ static int eh_vprintf_ctx(eh_output_char_func output_char,
 				++special;	/* long long int ? */
 				break;
 
+			case 'p':
+				l = va_arg(ap, long unsigned);
+				upper = eh_lower;
+				zero_padded = 1;
+				alt_form = 1;
+				if (!field_size) {
+					field_size = 2 + (2 * sizeof(size_t));
+				}
+				eh_unsigned_long_to_ascii(buf, 100, eh_hex,
+							  upper, alt_form,
+							  zero_padded,
+							  field_size, l);
+				used += output_str(ctx, buf, eh_strlen(buf));
+				special = 0;
+				break;
+
 			case 'x':
 			case 'X':
 				upper =
