@@ -208,6 +208,32 @@ char *strerror(int errnum)
 	return errstrs[_eh_unknown_err];
 }
 
+char *strpbrk(const char *s, const char *accept)
+{
+	size_t i, j, len;
+
+	if (!s) {
+		return NULL;
+	}
+	if (!accept) {
+		return NULL;
+	}
+
+	len = strlen(accept);
+	if (!len) {
+		return NULL;
+	}
+
+	for (i = 0; s[i]; ++i) {
+		for (j = 0; j < len; ++j) {
+			if (s[i] == accept[j]) {
+				return (char *)(s + i);
+			}
+		}
+	}
+	return NULL;
+}
+
 size_t strspn(const char *s, const char *accept)
 {
 	size_t i, j, found, len;
