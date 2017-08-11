@@ -9,6 +9,7 @@ test-strdup
 test-strspn
 test-strpbrk
 test-strstr
+test-strtok
 
 ###################
 # backup files

@@ -68,4 +68,8 @@ size_t strcspn(const char *s, const char *reject);
 
 char *strstr(const char *haystack, const char *needle);
 
+char *strtok(char *str, const char *delim);
+
+char *strtok_r(char *str, const char *delim, char **saveptr);
+
 #endif /* _STRING_H */

@@ -317,3 +317,46 @@ char *strstr(const char *haystack, const char *needle)
 	}
 	return NULL;
 }
+
+char *_eh_strtok;
+
+char *strtok(char *s, const char *delim)
+{
+	return strtok_r(s, delim, &_eh_strtok);
+}
+
+char *strtok_r(char *s, const char *delim, char **saveptr)
+{
+	char *tok;
+
+	if (!saveptr || !(*saveptr)) {
+		return NULL;
+	}
+
+	if (!delim || !(*delim)) {
+		return s;
+	}
+
+	if (!s) {
+		s = *saveptr;
+	}
+	if (!s) {
+		return NULL;
+	}
+
+	s += strspn(s, delim);
+	if (!(*s)) {
+		*saveptr = s;
+		return NULL;
+	}
+
+	tok = s;
+	s = strpbrk(tok, delim);
+	if (!s) {
+		*saveptr = NULL;
+	} else {
+		*s = '\0';
+		*saveptr = s + 1;
+	}
+	return tok;
+}
