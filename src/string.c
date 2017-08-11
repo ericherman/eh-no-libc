@@ -24,6 +24,29 @@ License (COPYING) along with this library; if not, see:
 
 #include <stdio.h>
 
+void *memccpy(void *dest, const void *src, int c, size_t n)
+{
+	size_t i;
+	unsigned char *cdest, *csrc;
+	if (!dest) {
+		return NULL;
+	}
+	cdest = (unsigned char *)dest;
+
+	if (!src) {
+		return dest;
+	}
+	csrc = (unsigned char *)src;
+
+	for (i = 0; i < n; ++i) {
+		*(cdest + i) = *(csrc + i);
+		if ((int)(*(csrc + i)) == c) {
+			n = 0;
+		}
+	}
+	return (i > n && n == 0) ? cdest + i : NULL;
+}
+
 char *strcat(char *dest, const char *src)
 {
 	char *d;

@@ -23,6 +23,8 @@ License (COPYING) along with this library; if not, see:
 
 #include <stdint.h>
 
+void *memccpy(void *dest, const void *src, int c, size_t n);
+
 char *strcat(char *dest, const char *src);
 
 char *strncat(char *dest, const char *src, size_t n);

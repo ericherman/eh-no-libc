@@ -2,6 +2,7 @@ hello
 stat
 puts
 malloc-free
+test-memccpy
 test-strcat
 test-strchr
 test-strcpy
