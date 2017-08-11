@@ -329,7 +329,7 @@ char *strtok_r(char *s, const char *delim, char **saveptr)
 {
 	char *tok;
 
-	if (!saveptr || !(*saveptr)) {
+	if (!saveptr) {
 		return NULL;
 	}
 
