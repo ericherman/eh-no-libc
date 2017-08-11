@@ -290,3 +290,30 @@ size_t strcspn(const char *s, const char *reject)
 	}
 	return i;
 }
+
+char *strstr(const char *haystack, const char *needle)
+{
+	size_t i, j, found, len;
+
+	if (!haystack) {
+		return NULL;
+	}
+
+	len = 0;
+	if (!needle || !(len = strlen(needle))) {
+		return (char *)haystack;
+	}
+
+	for (i = 0; haystack[i]; ++i) {
+		found = 1;
+		for (j = 0; found && j < len; ++j) {
+			if (haystack[i] != needle[j]) {
+				found = 0;
+			}
+		}
+		if (found) {
+			return (char *)(haystack + i);
+		}
+	}
+	return NULL;
+}

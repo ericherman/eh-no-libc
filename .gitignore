@@ -8,6 +8,7 @@ test-strcpy
 test-strdup
 test-strspn
 test-strpbrk
+test-strstr
 
 ###################
 # backup files
