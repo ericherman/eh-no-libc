@@ -360,3 +360,15 @@ char *strtok_r(char *s, const char *delim, char **saveptr)
 	}
 	return tok;
 }
+
+/* strcoll and strxfrm are not supported */
+size_t strxfrm(char *dest, const char *src, size_t n)
+{
+	return strlen(strncpy(dest, src, n));
+}
+
+/* strcoll and strxfrm are not supported */
+int strcoll(const char *s1, const char *s2)
+{
+	return strcmp(s1, s2);
+}
