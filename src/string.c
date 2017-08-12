@@ -158,6 +158,20 @@ void *memmove(void *d, const void *s, size_t n)
 	return d;
 }
 
+void *memset(void *s, int c, size_t n)
+{
+	unsigned char *d;
+
+	if (!s) {
+		return NULL;
+	}
+	d = s;
+	while (n--) {
+		d[n] = c;
+	}
+	return d;
+}
+
 char *strcat(char *dest, const char *src)
 {
 	char *d;
