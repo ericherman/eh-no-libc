@@ -1,14 +1,37 @@
+/*
+dumb-alloc.c: OO memory allocator
+Copyright (C) 2012, 2017 Eric Herman <eric@freesa.org>
+
+This work is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later
+version.
+
+This work is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License (COPYING) along with this library; if not, see:
+
+        https://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt
+*/
 #include <dumb-alloc-private.h>
 #include <dumb-os-alloc.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
+#include <string.h>
 
 static void *_da_alloc(struct dumb_alloc *da, size_t request);
+static void *_da_realloc(struct dumb_alloc *da, void *ptr, size_t request);
 static void _da_free(struct dumb_alloc *da, void *ptr);
 static void _dump_chunk(struct dumb_alloc_chunk *chunk);
 static void _dump_block(struct dumb_alloc_block *block);
 static void _dump(struct dumb_alloc *da);
+static void _chunk_join_next(struct dumb_alloc_chunk *chunk);
 
 static void _init_chunk(struct dumb_alloc_chunk *chunk, size_t available_length)
 {
@@ -20,8 +43,8 @@ static void _init_chunk(struct dumb_alloc_chunk *chunk, size_t available_length)
 	chunk->next = (struct dumb_alloc_chunk *)NULL;
 }
 
-static void _init_block(char *memory, size_t region_size,
-			size_t initial_overhead)
+static struct dumb_alloc_block *_init_block(char *memory, size_t region_size,
+					    size_t initial_overhead)
 {
 	struct dumb_alloc_block *block;
 	size_t block_available_length;
@@ -39,27 +62,43 @@ static void _init_block(char *memory, size_t region_size,
 	    block->total_length - (initial_overhead +
 				   sizeof(struct dumb_alloc_block));
 	_init_chunk(block->first_chunk, block_available_length);
+	return block;
 }
 
 void dumb_alloc_init(struct dumb_alloc *da, char *memory, size_t length,
 		     size_t overhead)
 {
 	da->malloc = _da_alloc;
+	da->realloc = _da_realloc;
 	da->free = _da_free;
 	da->dump = _dump;
-	da->data = (memory + overhead);
-	_init_block(memory, length, overhead);
+	da->data = _init_block(memory, length, overhead);
+}
+
+static struct dumb_alloc_block *_first_block(struct dumb_alloc *da)
+{
+	struct dumb_alloc_block *block;
+
+	block = (struct dumb_alloc_block *)da->data;
+
+	return block;
 }
 
 static void _split_chunk(struct dumb_alloc_chunk *from, size_t request)
 {
 	size_t remaining_available_length;
-	if ((request + sizeof(struct dumb_alloc_chunk)) >
+
+	from->in_use = 1;
+
+	if ((request + sizeof(struct dumb_alloc_chunk)) >=
 	    from->available_length) {
 		return;
 	}
 
 	remaining_available_length = from->available_length - request;
+	if (remaining_available_length <= sizeof(struct dumb_alloc_chunk)) {
+		return;
+	}
 
 	from->available_length = request;
 	from->next =
@@ -79,18 +118,18 @@ static void *_da_alloc(struct dumb_alloc *da, size_t request)
 	size_t needed;
 	size_t requested;
 	size_t total_mem;
+	size_t overhead_consumed;
 
 	if (!da) {
 		return NULL;
 	}
-	block = (struct dumb_alloc_block *)da->data;
+	block = _first_block(da);
 	while (block != NULL) {
 		for (chunk = block->first_chunk; chunk != NULL;
 		     chunk = chunk->next) {
 			if (chunk->in_use == 0) {
 				if (chunk->available_length >= request) {
 					_split_chunk(chunk, request);
-					chunk->in_use = 1;
 					return chunk->start;
 				}
 			}
@@ -98,7 +137,7 @@ static void *_da_alloc(struct dumb_alloc *da, size_t request)
 		block = block->next_block;
 	}
 
-	last_block = (struct dumb_alloc_block *)da->data;
+	last_block = _first_block(da);
 	total_mem = last_block->total_length;
 	while (last_block->next_block != NULL) {
 		last_block = last_block->next_block;
@@ -135,13 +174,83 @@ static void *_da_alloc(struct dumb_alloc *da, size_t request)
 			return NULL;
 		}
 	}
-	block = (struct dumb_alloc_block *)memory;
-	_init_block(memory, requested, 0);
+	overhead_consumed = 0;
+	block = _init_block(memory, requested, overhead_consumed);
 	last_block->next_block = block;
 	chunk = block->first_chunk;
 	_split_chunk(chunk, request);
-	chunk->in_use = 1;
 	return chunk->start;
+}
+
+/* The  realloc()  function  changes  the  size  of  the memory
+ * block pointed to by ptr to size bytes.  The contents will be
+ * unchanged in the range from the start of the region up to the
+ * minimum of the old and new sizes.  If the new size is larger
+ * than the old size, the added memory will not be initialized.
+ * If ptr is NULL, then the call is equivalent to malloc(size),
+ * for all values of size; if size is equal to zero, and ptr is
+ * not NULL, then the call is equivalent to  free(ptr).   Unless
+ * ptr is NULL, it must have been returned by an earlier call to
+ * malloc(), calloc() or realloc().  If the area pointed to was
+ * moved, a free(ptr) is done.  */
+static void *_da_realloc(struct dumb_alloc *da, void *ptr, size_t request)
+{
+	struct dumb_alloc_block *block;
+	struct dumb_alloc_chunk *chunk;
+	size_t old_size;
+
+	if (!da) {
+		return NULL;
+	}
+
+	if (!ptr) {
+		return _da_alloc(da, request);
+	}
+	if (request == 0) {
+		_da_free(da, ptr);
+		return NULL;
+	}
+
+	old_size = 0;
+	block = _first_block(da);
+	while (block != NULL) {
+		for (chunk = block->first_chunk; old_size == 0 && chunk != NULL;
+		     chunk = chunk->next) {
+			if (ptr == chunk->start) {
+				old_size = chunk->available_length;
+			}
+		}
+		block = (old_size == 0) ? block->next_block : NULL;
+	}
+
+	if (old_size == 0) {
+		return NULL;
+	}
+
+	if (old_size == request) {
+		return chunk->start;
+	}
+
+	if (old_size > request) {
+		_split_chunk(chunk, request);
+		return chunk->start;
+	}
+
+	if (chunk->next && chunk->next->in_use == 0) {
+		_chunk_join_next(chunk);
+		if (chunk->available_length < request) {
+			_split_chunk(chunk, request);
+			return chunk->start;
+		}
+		if (chunk->available_length == request) {
+			return chunk->start;
+		}
+	}
+
+	ptr = _da_alloc(da, request);
+	memcpy(ptr, chunk->start, old_size);
+	_da_free(da, chunk->start);
+	return ptr;
 }
 
 static void _chunk_join_next(struct dumb_alloc_chunk *chunk)
@@ -182,7 +291,7 @@ static void _release_unused_block(struct dumb_alloc *da)
 	struct dumb_alloc_block *block;
 	struct dumb_alloc_block *block_prev;
 
-	block = (struct dumb_alloc_block *)da->data;
+	block = _first_block(da);
 	while (block != NULL) {
 		block_prev = block;
 		block = block->next_block;
@@ -203,7 +312,7 @@ static void _da_free(struct dumb_alloc *da, void *ptr)
 	if (!da || !ptr) {
 		return;
 	}
-	block = (struct dumb_alloc_block *)da->data;
+	block = _first_block(da);
 	while (block != NULL) {
 		for (chunk = block->first_chunk; chunk != NULL;
 		     chunk = chunk->next) {
