@@ -21,6 +21,8 @@ License (COPYING) along with this library; if not, see:
 #ifndef _STRING_H
 #define _STRING_H	1
 
+/* http://pubs.opengroup.org/onlinepubs/007908775/xsh/string.h.html */
+
 #include <stdint.h>
 
 void *memccpy(void *dest, const void *src, int c, size_t n);
