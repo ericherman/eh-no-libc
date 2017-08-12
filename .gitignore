@@ -8,6 +8,7 @@ test-memcmp
 test-memcpy
 test-memmove
 test-memset
+test-strcasecmp
 test-strcat
 test-strchr
 test-strcpy

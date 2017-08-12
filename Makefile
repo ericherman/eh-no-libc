@@ -51,10 +51,12 @@ DUMB_ALLOC_HEADERS=\
  src/dumb-alloc/dumb-os-alloc.h
 
 EHLIBC_SRC=$(ARCH_SRC) \
+ src/ctype.c \
  src/errno.c \
  src/stdio.c \
  src/stdlib.c \
  src/string.c \
+ src/strings.c \
  src/sys/mman.c \
  src/syscall.c \
  src/unistd.c \
@@ -64,6 +66,7 @@ EHLIBC_SRC=$(ARCH_SRC) \
 EHLIBC_HEADERS=$(ARCH_HEADERS) \
  src/alloca.h \
  src/stdarg.h \
+ src/ctype.h \
  src/errno.h \
  src/float.h \
  src/libio.h \
@@ -75,6 +78,7 @@ EHLIBC_HEADERS=$(ARCH_HEADERS) \
  src/stdio.h \
  src/stdlib.h \
  src/string.h \
+ src/strings.h \
  src/sys/mman.h \
  src/sys/stat.h \
  src/sys/time.h \
@@ -167,6 +171,9 @@ TEST_MEMSET_EXE=test-memset
 TEST_STRCAT_SRC=tests/echeck.c tests/test-strcat.c
 TEST_STRCAT_EXE=test-strcat
 
+TEST_STRCASECMP_SRC=tests/echeck.c tests/test-strcasecmp.c
+TEST_STRCASECMP_EXE=test-strcasecmp
+
 TEST_STRCHR_SRC=tests/echeck.c tests/test-strchr.c
 TEST_STRCHR_EXE=test-strchr
 
@@ -195,6 +202,7 @@ TESTS=\
  $(TEST_MEMCPY_EXE) \
  $(TEST_MEMMOVE_EXE) \
  $(TEST_MEMSET_EXE) \
+ $(TEST_STRCASECMP_EXE) \
  $(TEST_STRCAT_EXE) \
  $(TEST_STRCHR_EXE) \
  $(TEST_STRCPY_EXE) \
@@ -244,6 +252,9 @@ $(TEST_MEMSET_EXE): $(TEST_MEMSET_SRC) $(EHLIBC_SRC) $(HEADERS)
 $(TEST_STRCAT_EXE): $(TEST_STRCAT_SRC) $(EHLIBC_SRC) $(HEADERS)
 	gcc -o $(TEST_STRCAT_EXE) $(OUR_CFLAGS) $(TEST_STRCAT_SRC)
 
+$(TEST_STRCASECMP_EXE): $(TEST_STRCASECMP_SRC) $(EHLIBC_SRC) $(HEADERS)
+	gcc -o $(TEST_STRCASECMP_EXE) $(OUR_CFLAGS) $(TEST_STRCASECMP_SRC)
+
 $(TEST_STRCHR_EXE): $(TEST_STRCHR_SRC) $(EHLIBC_SRC) $(HEADERS)
 	gcc -o $(TEST_STRCHR_EXE) $(OUR_CFLAGS) $(TEST_STRCHR_SRC)
 
@@ -272,6 +283,7 @@ test: $(TESTS)
 	./$(TEST_MEMCPY_EXE)
 	./$(TEST_MEMMOVE_EXE)
 	./$(TEST_MEMSET_EXE)
+	./$(TEST_STRCASECMP_EXE)
 	./$(TEST_STRCAT_EXE)
 	./$(TEST_STRCHR_EXE)
 	./$(TEST_STRCPY_EXE)
