@@ -11,6 +11,11 @@ void free(void *ptr)
 	dumb_free(ptr);
 }
 
+void *realloc(void *ptr, size_t size)
+{
+	return dumb_realloc(ptr, size);
+}
+
 void *calloc(size_t nmemb, size_t size)
 {
 	size_t i, len;
