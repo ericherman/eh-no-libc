@@ -139,6 +139,25 @@ void *memcpy(void *d, const void *s, size_t n)
 	return d;
 }
 
+void *memmove(void *d, const void *s, size_t n)
+{
+	const unsigned char *src;
+	unsigned char *copy;
+	unsigned char *dest;
+
+	dest = d;
+	src = s;
+	if (((dest < src) && ((dest + n) < src))
+	    || ((dest > src) && (dest > (src + n)))) {
+		return memcpy(dest, src, n);
+	}
+	copy = malloc(n);
+	memcpy(copy, src, n);
+	d = memcpy(dest, copy, n);
+	free(copy);
+	return d;
+}
+
 char *strcat(char *dest, const char *src)
 {
 	char *d;

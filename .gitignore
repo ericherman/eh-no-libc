@@ -6,6 +6,7 @@ test-memccpy
 test-memchr
 test-memcmp
 test-memcpy
+test-memmove
 test-strcat
 test-strchr
 test-strcpy
