@@ -4,6 +4,7 @@ puts
 malloc-free
 test-memccpy
 test-memchr
+test-memcmp
 test-strcat
 test-strchr
 test-strcpy

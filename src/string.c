@@ -94,6 +94,32 @@ void *rawmemchr(const void *a, int c)
 	return ucs;
 }
 
+int memcmp(const void *a1, const void *a2, size_t n)
+{
+	size_t i;
+	const unsigned char *s1;
+	const unsigned char *s2;
+	int d;
+
+	if (a1 == a2) {
+		return 0;
+	}
+
+	if (!a1 || !a2) {
+		return a1 ? 1 : -1;
+	}
+
+	s1 = (unsigned char *)a1;
+	s2 = (unsigned char *)a2;
+	for (i = 0; i < n; ++i) {
+		d = s1[i] - s2[i];
+		if (d) {
+			return d;
+		}
+	}
+	return 0;
+}
+
 char *strcat(char *dest, const char *src)
 {
 	char *d;

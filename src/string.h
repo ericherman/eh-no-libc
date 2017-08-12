@@ -31,6 +31,8 @@ void *memrchr(const void *s, int c, size_t n);
 
 void *rawmemchr(const void *s, int c);
 
+int memcmp(const void *s1, const void *s2, size_t n);
+
 char *strcat(char *dest, const char *src);
 
 char *strncat(char *dest, const char *src, size_t n);
