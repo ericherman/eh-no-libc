@@ -101,7 +101,7 @@ int memcmp(const void *a1, const void *a2, size_t n)
 	const unsigned char *s2;
 	int d;
 
-	if (a1 == a2) {
+	if (a1 == a2 || n == 0) {
 		return 0;
 	}
 
@@ -267,7 +267,7 @@ int strncmp(const char *s1, const char *s2, size_t max_len)
 	size_t i;
 	int d;
 
-	if (s1 == s2) {
+	if (s1 == s2 || max_len == 0) {
 		return 0;
 	}
 	if (!s1 || !s2) {
