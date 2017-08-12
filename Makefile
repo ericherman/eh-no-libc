@@ -112,7 +112,7 @@ COMMON_CFLAGS=\
  -fno-builtin
 
 ifeq ($(DEBUG), 1)
-DEBUG_CFLAGS=-g -O0 -DDEBUG -DTEST_STRDUPA=1
+DEBUG_CFLAGS=-g -O0 -DDEBUG
 else
 DEBUG_CFLAGS=-g -O2 -DNDEBUG \
  -fomit-frame-pointer \
@@ -184,6 +184,7 @@ TESTS=\
  $(TEST_STRSTR_EXE) \
  $(TEST_STRTOK_EXE) \
 
+SANITY=$(PUTS_EXE) $(STAT_EXE) $(HELLO_EXE) $(CHECKERED_ALLOC_FREE_EXE)
 
 default: hello
 
@@ -240,7 +241,9 @@ test: $(TESTS)
 	./$(TEST_STRSTR_EXE)
 	./$(TEST_STRTOK_EXE)
 
-sanity: $(PUTS_EXE) $(STAT_EXE) $(HELLO_EXE) $(CHECKERED_ALLOC_FREE_EXE)
+demo: sanity
+
+sanity: $(SANITY)
 	./$(HELLO_EXE)
 	./$(PUTS_EXE)
 	./$(STAT_EXE) | hexdump
@@ -272,5 +275,5 @@ tidy:
 
 
 clean:
-	rm -fv $(HELLO_EXE) $(STAT_EXE) $(PUTS_EXE) $(TESTS)
+	rm -fv $(SANITY) $(TESTS)
 	find . -name '*~' -exec rm -v \{} \;
