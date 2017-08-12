@@ -89,7 +89,7 @@ size_t eh_sys_output_void_str(void *ctx, const char *str, size_t len)
 	return eh_sys_output_str((struct eh_printf_context_s *)ctx, str, len);
 }
 
-int eh_vfdprintf(int fd, const char *format, va_list ap)
+int eh_vdprintf(int fd, const char *format, va_list ap)
 {
 	int rv;
 	struct eh_printf_context_s ctx;
@@ -104,15 +104,25 @@ int eh_vfdprintf(int fd, const char *format, va_list ap)
 	return rv;
 }
 
+int eh_dprintf(int fd, const char *format, ...)
+{
+	va_list ap;
+	int rv;
+	va_start(ap, format);
+	rv = eh_vdprintf(fd, format, ap);
+	va_end(ap);
+	return rv;
+}
+
 int eh_vprintf(const char *format, va_list ap)
 {
-	return eh_vfdprintf(EH_PRINTF_SYSOUT_FILENO, format, ap);
+	return eh_vdprintf(EH_PRINTF_SYSOUT_FILENO, format, ap);
 }
 
 #if (!defined(EH_PRINTF_SKIP_FPRINTF))
 int eh_vfprintf(FILE *stream, const char *format, va_list ap)
 {
-	return eh_vfdprintf(fileno(stream), format, ap);
+	return eh_vdprintf(fileno(stream), format, ap);
 }
 
 int eh_fprintf(FILE *stream, const char *format, ...)

@@ -36,6 +36,8 @@ extern "C" {
 /* Returns the number of characters printed (excluding the null byte). */
 int eh_printf(const char *format, ...);
 
+int eh_dprintf(int fd, const char *format, ...);
+
 #if (!defined(EH_PRINTF_SKIP_FPRINTF))
 int eh_fprintf(FILE *stream, const char *format, ...);
 #endif
@@ -49,6 +51,8 @@ int eh_fprintf(FILE *stream, const char *format, ...);
 int eh_snprintf(char *str, size_t size, const char *format, ...);
 
 int eh_vprintf(const char *format, va_list ap);
+
+int eh_vdprintf(int fd, const char *format, va_list ap);
 
 #if (!defined(EH_PRINTF_SKIP_FPRINTF))
 int eh_vfprintf(FILE *stream, const char *format, va_list ap);

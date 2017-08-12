@@ -12,7 +12,7 @@
  
  #include <stddef.h>
  #include <stdarg.h>
-@@ -56,8 +58,10 @@
+@@ -60,8 +62,10 @@
  
  int eh_vsnprintf(char *str, size_t size, const char *format, va_list ap);
  
