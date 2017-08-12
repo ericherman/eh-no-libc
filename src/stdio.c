@@ -113,6 +113,21 @@ int fprintf(FILE *stream, const char *format, ...)
 	return rv;
 }
 
+int vdprintf(int fd, const char *format, va_list ap)
+{
+	return eh_vdprintf(fd, format, ap);
+}
+
+int dprintf(int fd, const char *format, ...)
+{
+	va_list ap;
+	int rv;
+	va_start(ap, format);
+	rv = eh_vdprintf(fd, format, ap);
+	va_end(ap);
+	return rv;
+}
+
 int fileno(FILE *stream)
 {
 	if (!stream) {

@@ -22,6 +22,7 @@ License (COPYING) along with this library; if not, see:
 #define _STDIO_H	1
 
 /* http://pubs.opengroup.org/onlinepubs/007908775/xsh/stdio.h.html */
+/* http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/stdio.h.html */
 
 #include <stdarg.h>
 #include <stddef.h>
@@ -62,6 +63,7 @@ extern int optopt;
 void clearerr(FILE *);
 char *ctermid(char *);
 char *cuserid(char *);		/* LEGACY */
+int dprintf(int fildes, const char *format, ...);
 int fclose(FILE *);
 FILE *fdopen(int, const char *);
 int feof(FILE *);
@@ -121,6 +123,7 @@ char *tmpnam(char *);
 int ungetc(int, FILE *);
 int vfprintf(FILE *stream, const char *format, va_list ap);
 int vprintf(const char *format, va_list ap);
+int vdprintf(int fildes, const char *format, va_list ap);
 int vsnprintf(char *buf, size_t len, const char *format, va_list ap);
 int vsprintf(char *, const char *, va_list);
 
