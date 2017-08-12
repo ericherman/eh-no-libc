@@ -5,6 +5,7 @@ malloc-free
 test-memccpy
 test-memchr
 test-memcmp
+test-memcpy
 test-strcat
 test-strchr
 test-strcpy

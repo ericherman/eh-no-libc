@@ -120,6 +120,25 @@ int memcmp(const void *a1, const void *a2, size_t n)
 	return 0;
 }
 
+void *memcpy(void *d, const void *s, size_t n)
+{
+	size_t i;
+	unsigned char *dest;
+	const unsigned char *src;
+
+	if (!d) {
+		return NULL;
+	}
+	if (s) {
+		dest = d;
+		src = s;
+		for (i = 0; i < n; ++i) {
+			*(dest + i) = *(src + i);
+		}
+	}
+	return d;
+}
+
 char *strcat(char *dest, const char *src)
 {
 	char *d;
@@ -213,14 +232,23 @@ int strcmp(const char *s1, const char *s2)
 int strncmp(const char *s1, const char *s2, size_t max_len)
 {
 	size_t i;
+	int d;
+
 	if (s1 == s2) {
 		return 0;
 	}
 	if (!s1 || !s2) {
 		return s1 ? 1 : -1;
 	}
-	for (i = 0; i < max_len && s1[i] && s2[i] && s1[i] == s2[i]; ++i) ;
-	return s1[i] - s2[i];
+	for (i = 0; i < max_len; ++i) {
+		d = s1[i] - s2[i];
+		if (d) {
+			return d;
+		} else if (s1[i] == '\0') {
+			return 0;
+		}
+	}
+	return 0;
 }
 
 char *strcpy(char *dest, const char *src)

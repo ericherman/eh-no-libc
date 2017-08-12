@@ -152,8 +152,11 @@ TEST_MEMCCPY_EXE=test-memccpy
 TEST_MEMCHR_SRC=tests/echeck.c tests/test-memchr.c
 TEST_MEMCHR_EXE=test-memchr
 
-TEST_MEMCMP_SRC=tests/echeck.c tests/test-memccpy.c
-TEST_MEMCMP_EXE=test-memccpy
+TEST_MEMCMP_SRC=tests/echeck.c tests/test-memcmp.c
+TEST_MEMCMP_EXE=test-memcmp
+
+TEST_MEMCPY_SRC=tests/echeck.c tests/test-memcpy.c
+TEST_MEMCPY_EXE=test-memcpy
 
 TEST_STRCAT_SRC=tests/echeck.c tests/test-strcat.c
 TEST_STRCAT_EXE=test-strcat
@@ -183,6 +186,7 @@ TESTS=\
  $(TEST_MEMCCPY_EXE) \
  $(TEST_MEMCHR_EXE) \
  $(TEST_MEMCMP_EXE) \
+ $(TEST_MEMCPY_EXE) \
  $(TEST_STRCAT_EXE) \
  $(TEST_STRCHR_EXE) \
  $(TEST_STRCPY_EXE) \
@@ -220,6 +224,9 @@ $(TEST_MEMCHR_EXE): $(TEST_MEMCHR_SRC) $(EHLIBC_SRC) $(HEADERS)
 $(TEST_MEMCMP_EXE): $(TEST_MEMCMP_SRC) $(EHLIBC_SRC) $(HEADERS)
 	gcc -o $(TEST_MEMCMP_EXE) $(OUR_CFLAGS) $(TEST_MEMCMP_SRC)
 
+$(TEST_MEMCPY_EXE): $(TEST_MEMCPY_SRC) $(EHLIBC_SRC) $(HEADERS)
+	gcc -o $(TEST_MEMCPY_EXE) $(OUR_CFLAGS) $(TEST_MEMCPY_SRC)
+
 $(TEST_STRCAT_EXE): $(TEST_STRCAT_SRC) $(EHLIBC_SRC) $(HEADERS)
 	gcc -o $(TEST_STRCAT_EXE) $(OUR_CFLAGS) $(TEST_STRCAT_SRC)
 
@@ -248,6 +255,7 @@ test: $(TESTS)
 	./$(TEST_MEMCCPY_EXE)
 	./$(TEST_MEMCHR_EXE)
 	./$(TEST_MEMCMP_EXE)
+	./$(TEST_MEMCPY_EXE)
 	./$(TEST_STRCAT_EXE)
 	./$(TEST_STRCHR_EXE)
 	./$(TEST_STRCPY_EXE)
