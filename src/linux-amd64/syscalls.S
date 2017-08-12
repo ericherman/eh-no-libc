@@ -78,7 +78,6 @@ program code */
 		syscall
 		ret
 
-	/* XXX FIXME this is broken */
 	syscall6:
 		mov rax,rdi	/* rax (syscall number) = func param 1 (rdi) */
 		mov rdi,rsi	/* rdi (syscall param 1) = func param 2 (rsi) */
