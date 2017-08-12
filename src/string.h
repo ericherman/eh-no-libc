@@ -25,6 +25,12 @@ License (COPYING) along with this library; if not, see:
 
 void *memccpy(void *dest, const void *src, int c, size_t n);
 
+void *memchr(const void *s, int c, size_t n);
+
+void *memrchr(const void *s, int c, size_t n);
+
+void *rawmemchr(const void *s, int c);
+
 char *strcat(char *dest, const char *src);
 
 char *strncat(char *dest, const char *src, size_t n);

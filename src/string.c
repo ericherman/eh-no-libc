@@ -22,8 +22,6 @@ License (COPYING) along with this library; if not, see:
 #include <errno.h>
 #include <stdlib.h>
 
-#include <stdio.h>
-
 void *memccpy(void *dest, const void *src, int c, size_t n)
 {
 	size_t i;
@@ -45,6 +43,55 @@ void *memccpy(void *dest, const void *src, int c, size_t n)
 		}
 	}
 	return (i > n && n == 0) ? cdest + i : NULL;
+}
+
+void *memchr(const void *a, int c, size_t n)
+{
+	size_t i;
+	unsigned char *ucs;
+
+	if (!a) {
+		return NULL;
+	}
+
+	ucs = (unsigned char *)a;
+	for (i = 0; i < n && ((int)(*ucs)) != c; ++i) {
+		++ucs;
+	}
+
+	return (i == n) ? NULL : ucs;
+}
+
+void *memrchr(const void *a, int c, size_t n)
+{
+	size_t i;
+	unsigned char *ucs;
+
+	if (!a) {
+		return NULL;
+	}
+
+	ucs = ((unsigned char *)a) + n;
+	for (i = n; i > 0; --i) {
+		--ucs;
+		if (((int)(*ucs)) == c) {
+			return ucs;
+		}
+	}
+
+	return NULL;
+}
+
+void *rawmemchr(const void *a, int c)
+{
+	unsigned char *ucs;
+
+	ucs = (unsigned char *)a;
+	while (((int)(*ucs)) != c) {
+		++ucs;
+	}
+
+	return ucs;
 }
 
 char *strcat(char *dest, const char *src)
