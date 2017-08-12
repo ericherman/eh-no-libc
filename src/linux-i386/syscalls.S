@@ -32,7 +32,7 @@ License (COPYING) along with this library; if not, see:
 	syscall1:
 		push ebx
 		mov eax,[esp+4+4]
-		mov ebx,[esp+8+4]
+		mov ebx,[esp+4+8]
 		int 0x80
 		pop ebx
 		ret
@@ -40,8 +40,8 @@ License (COPYING) along with this library; if not, see:
 	syscall2:
 		push ebx
 		mov eax,[esp+4+4]
-		mov ebx,[esp+8+4]
-		mov ecx,[esp+12+4]
+		mov ebx,[esp+4+8]
+		mov ecx,[esp+4+12]
 		int 0x80
 		pop ebx
 		ret
@@ -49,9 +49,9 @@ License (COPYING) along with this library; if not, see:
 	syscall3:
 		push ebx
 		mov eax,[esp+4+4]
-		mov ebx,[esp+8+4]
-		mov ecx,[esp+12+4]
-		mov edx,[esp+16+4]
+		mov ebx,[esp+4+8]
+		mov ecx,[esp+4+12]
+		mov edx,[esp+4+16]
 		int 0x80
 		pop ebx
 		ret
@@ -59,11 +59,11 @@ License (COPYING) along with this library; if not, see:
 	syscall4:
 		push ebx
 		push esi
-		mov eax,[esp+4+8]
+		mov eax,[esp+8+4]
 		mov ebx,[esp+8+8]
-		mov ecx,[esp+12+8]
-		mov edx,[esp+16+8]
-		mov esi,[esp+20+8]
+		mov ecx,[esp+8+12]
+		mov edx,[esp+8+16]
+		mov esi,[esp+8+20]
 		int 0x80
 		pop esi
 		pop ebx
@@ -73,32 +73,31 @@ License (COPYING) along with this library; if not, see:
 		push ebx
 		push esi
 		push edi
-		mov eax,[esp+4+12]
-		mov ebx,[esp+8+12]
+		mov eax,[esp+12+4]
+		mov ebx,[esp+12+8]
 		mov ecx,[esp+12+12]
-		mov edx,[esp+16+12]
-		mov esi,[esp+20+12]
-		mov edi,[esp+24+12]
+		mov edx,[esp+12+16]
+		mov esi,[esp+12+20]
+		mov edi,[esp+12+24]
 		int 0x80
 		pop edi
 		pop esi
 		pop ebx
 		ret
 
-	/* XXX FIXME this is broken */
 	syscall6:
 		push ebx
 		push esi
 		push edi
 		push ebp
 
-		mov eax,[esp+4+16]
-		mov ebx,[esp+8+16]
-		mov ecx,[esp+12+16]
+		mov eax,[esp+16+4]
+		mov ebx,[esp+16+8]
+		mov ecx,[esp+16+12]
 		mov edx,[esp+16+16]
-		mov esi,[esp+20+16]
-		mov edi,[esp+24+16]
-		mov ebp,[esp+28+16]
+		mov esi,[esp+16+20]
+		mov edi,[esp+16+24]
+		mov ebp,[esp+16+28]
 
 		int 0x80
 
