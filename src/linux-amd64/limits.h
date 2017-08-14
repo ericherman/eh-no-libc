@@ -31,9 +31,9 @@ License (COPYING) along with this library; if not, see:
 #define SHRT_MAX	32767
 #define USHRT_MAX	65535
 
-#define INT_MIN		(-2147483648)
 #define INT_MAX		2147483647
 #define UINT_MAX	4294967295U
+#define INT_MIN		(-INT_MAX -1)
 
 #define LONG_MAX	9223372036854775807LL
 #define ULONG_MAX	18446744073709551615ULL
