@@ -6,28 +6,12 @@ TARGET=LINUX_AMD64
  endif
 endif
 
-#USE_HOST_SYS_SYSCALL_H=-DUSE_HOST_SYS_SYSCALL_H=1
-
 ifeq ($(TARGET), LINUX_AMD64)
 ARCH_DEFINES=-DLINUX_AMD64
-ARCH_SRC=\
- src/linux-amd64/start.S \
- src/linux-amd64/syscalls.S
-ARCH_HEADERS=\
- src/linux-amd64/syscalls.h \
- src/linux-amd64/types.h \
- src/linux-amd64/limits.h \
- src/linux-amd64/float.h
+ARCH_DIR=linux-amd64
 else
 ARCH_DEFINES=-m32 -DLINUX_I386
-ARCH_SRC=\
- src/linux-i386/start.S \
- src/linux-i386/syscalls.S
-ARCH_HEADERS=\
- src/linux-i386/syscalls.h \
- src/linux-i386/types.h \
- src/linux-i386/limits.h \
- src/linux-i386/float.h
+ARCH_DIR=linux-i386
 endif
 
 EH_PRINTF_SRC=\
@@ -50,7 +34,9 @@ DUMB_ALLOC_HEADERS=\
  src/dumb-alloc/dumb-alloc-private.h \
  src/dumb-alloc/dumb-os-alloc.h
 
-EHLIBC_SRC=$(ARCH_SRC) \
+EHLIBC_SRC=\
+ src/$(ARCH_DIR)/start.S \
+ src/$(ARCH_DIR)/syscalls.S \
  src/ctype.c \
  src/errno.c \
  src/stdio.c \
@@ -63,14 +49,17 @@ EHLIBC_SRC=$(ARCH_SRC) \
  $(DUMB_ALLOC_SRC) \
  $(EH_PRINTF_SRC)
 
-EHLIBC_HEADERS=$(ARCH_HEADERS) \
+EHLIBC_HEADERS=\
+ src/$(ARCH_DIR)/types.h \
  src/alloca.h \
  src/stdarg.h \
  src/ctype.h \
  src/errno.h \
  src/float.h \
+ src/$(ARCH_DIR)/float.h \
  src/libio.h \
  src/limits.h \
+ src/$(ARCH_DIR)/limits.h \
  src/mman.h \
  src/stdarg.h \
  src/stddef.h \
@@ -84,13 +73,11 @@ EHLIBC_HEADERS=$(ARCH_HEADERS) \
  src/sys/time.h \
  src/time.h \
  src/syscall.h \
+ src/$(ARCH_DIR)/syscalls.h \
  src/unistd.h \
  src/wchar.h
 
 HEADERS=$(EHLIBC_HEADERS) $(DUMB_ALLOC_HEADERS) $(EH_PRINTF_HEADERS)
-
-EHLIBC_HEADERS=$(ARCH_HEADERS) \
- src/alloca.h \
 
 CSTD_CFLAGS=-std=gnu89 -Wno-long-long
 
