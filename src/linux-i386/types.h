@@ -62,6 +62,7 @@ typedef ssize_t ptrdiff_t;
 typedef ssize_t wchar_t;
 typedef uint32_t off_t;
 typedef uint64_t off64_t;
+typedef uint32_t mode_t;
 
 typedef struct {
 	long long __max_align_ll

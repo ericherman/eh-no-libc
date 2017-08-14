@@ -35,6 +35,7 @@ DUMB_ALLOC_HEADERS=\
  src/dumb-alloc/dumb-os-alloc.h
 
 EHLIBC_SRC=\
+ src/stdc-predef.h \
  src/$(ARCH_DIR)/start.S \
  src/$(ARCH_DIR)/syscalls.S \
  src/ctype.c \
@@ -50,11 +51,13 @@ EHLIBC_SRC=\
  $(EH_PRINTF_SRC)
 
 EHLIBC_HEADERS=\
+ src/stdc-predef.h \
  src/$(ARCH_DIR)/types.h \
  src/alloca.h \
  src/stdarg.h \
  src/ctype.h \
  src/errno.h \
+ src/fcntl.h \
  src/float.h \
  src/$(ARCH_DIR)/float.h \
  src/libio.h \
@@ -71,6 +74,7 @@ EHLIBC_HEADERS=\
  src/sys/mman.h \
  src/sys/stat.h \
  src/sys/time.h \
+ src/sys/types.h \
  src/time.h \
  src/syscall.h \
  src/$(ARCH_DIR)/syscalls.h \
@@ -137,6 +141,9 @@ PUTS_EXE=puts
 CHECKERED_ALLOC_FREE_SRC=demo/malloc-free.c
 CHECKERED_ALLOC_FREE_EXE=malloc-free
 
+TEST_FILE_IO_ROUNDTRIP_SRC=tests/echeck.c tests/test-file-io-roundtrip.c
+TEST_FILE_IO_ROUNDTRIP_EXE=test-file-io-roundtrip
+
 TEST_FFS_SRC=tests/echeck.c tests/test-ffs.c
 TEST_FFS_EXE=test-ffs
 
@@ -186,6 +193,7 @@ TEST_STRTOK_SRC=tests/echeck.c tests/test-strtok.c
 TEST_STRTOK_EXE=test-strtok
 
 TESTS=\
+ $(TEST_FILE_IO_ROUNDTRIP_EXE) \
  $(TEST_FFS_EXE) \
  $(TEST_MEMCCPY_EXE) \
  $(TEST_MEMCHR_EXE) \
@@ -221,6 +229,11 @@ $(PUTS_EXE): $(PUTS_SRC) $(EHLIBC_SRC) $(HEADERS)
 
 $(CHECKERED_ALLOC_FREE_EXE): $(CHECKERED_ALLOC_FREE_SRC) $(EHLIBC_SRC) $(HEADERS)
 	gcc -o $(CHECKERED_ALLOC_FREE_EXE) $(OUR_CFLAGS) $(CHECKERED_ALLOC_FREE_SRC)
+
+$(TEST_FILE_IO_ROUNDTRIP_EXE): $(TEST_FILE_IO_ROUNDTRIP_SRC) $(EHLIBC_SRC) \
+		$(HEADERS)
+	gcc -o $(TEST_FILE_IO_ROUNDTRIP_EXE) $(OUR_CFLAGS) \
+		$(TEST_FILE_IO_ROUNDTRIP_SRC)
 
 $(TEST_FFS_EXE): $(TEST_FFS_SRC) $(EHLIBC_SRC) $(HEADERS)
 	gcc -o $(TEST_FFS_EXE) $(OUR_CFLAGS) $(TEST_FFS_SRC)
@@ -271,6 +284,7 @@ $(TEST_STRTOK_EXE): $(TEST_STRTOK_SRC) $(EHLIBC_SRC) $(HEADERS)
 	gcc -o $(TEST_STRTOK_EXE) $(OUR_CFLAGS) $(TEST_STRTOK_SRC)
 
 test: $(TESTS)
+	./$(TEST_FILE_IO_ROUNDTRIP_EXE)
 	./$(TEST_FFS_EXE)
 	./$(TEST_MEMCCPY_EXE)
 	./$(TEST_MEMCHR_EXE)
@@ -313,6 +327,7 @@ tidy:
 		-T uint8_t \
 		-T int8_t \
 		-T dev_t \
+		-T mode_t \
 		-T time_t \
 		-T syscall_slong_t \
 		-T eh_printf_context_s \

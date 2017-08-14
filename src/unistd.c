@@ -22,8 +22,33 @@ License (COPYING) along with this library; if not, see:
 #include <sys/stat.h>
 #include <syscall.h>
 #include <limits.h>
+#include <stdarg.h>
 
 #if ((defined LINUX_I386) || (defined LINUX_AMD64))
+
+int open(const char *pathname, int flags, mode_t mode)
+{
+	return (int)(ssize_t)syscall3(SYS_open, (void *)pathname,
+				      (void *)(ssize_t)flags,
+				      (void *)(ssize_t)mode);
+}
+
+int close(int fd)
+{
+	return (int)(ssize_t)syscall1(SYS_close, (void *)(ssize_t)fd);
+}
+
+ssize_t read(int fd, void *buf, size_t count)
+{
+	return (ssize_t)syscall3(SYS_read, (void *)(ssize_t)fd, (void *)buf,
+				 (void *)count);
+}
+
+int unlink(const char *pathname)
+{
+	return (int)(ssize_t)syscall1(SYS_close, (void *)pathname);
+}
+
 ssize_t write(int fd, void const *data, size_t nbytes)
 {
 	void *vpfd;

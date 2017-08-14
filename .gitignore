@@ -3,6 +3,7 @@ stat
 puts
 malloc-free
 test-ffs
+test-file-io-roundtrip
 test-memccpy
 test-memchr
 test-memcmp

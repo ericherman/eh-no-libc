@@ -18,26 +18,17 @@ License (COPYING) along with this library; if not, see:
 
         https://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt
 */
-#ifndef _UNISTD_H
-#define _UNISTD_H	1
+#ifndef	_FCNTL_H
+#define	_FCNTL_H	1
 
-#define _SC_PAGESIZE	30
+#include <stdint.h>
+#include <linux/fcntl.h>
 
-#define STDIN_FILENO 0
-#define STDOUT_FILENO 1
-#define STDERR_FILENO 2
+/*
+int open(const char *pathname, int flags);
+int open(const char *pathname, int flags, mode_t mode);
+extern int open(const char *pathname, int flags, ...);
+*/
+int open(const char *pathname, int flags, mode_t mode);
 
-#include <sys/stat.h>
-
-#if ((defined LINUX_AMD64) || (defined LINUX_I386))
-
-int close(int fd);
-ssize_t read(int fd, void *buf, size_t count);
-int stat(const char *pathname, struct stat *buf);
-long sysconf(int name);
-int unlink(const char *pathname);
-ssize_t write(int fd, void const *data, size_t nbytes);
-
-#endif /* ((defined LINUX_AMD64) || (defined LINUX_I386)) */
-
-#endif /* _UNISTD_H */
+#endif /* fcntl.h  */

@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include <sys/time.h>
+#include <linux/stat.h>
 
 typedef uint64_t dev_t;
 
