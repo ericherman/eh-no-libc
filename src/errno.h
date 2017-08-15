@@ -38,5 +38,6 @@ int main(void)
 }
 */
 #define ENOMEM	12
+#define EINVAL	22
 
 #endif /* _ERRNO_H */

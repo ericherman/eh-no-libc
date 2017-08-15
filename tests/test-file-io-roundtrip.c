@@ -45,7 +45,8 @@ int main(void)
 	char actual[80];
 	const char *expect;
 	int failures;
-	int fd, fd2, save_errno;
+	FILE *f;
+	int fd, save_errno;
 	char fd_path[PATH_MAX];
 	size_t num_read;
 
@@ -56,18 +57,17 @@ int main(void)
 	expect = "foo\nbar\n";
 
 	snprintf(fd_path, PATH_MAX, "/proc/self/fd/%d", fd);
-	fd2 = open(fd_path, O_RDONLY);
-	if (fd2 < 0) {
+	f = fopen(fd_path, "r+");
+	if (!f) {
 		save_errno = errno;
 		fprintf(stderr, "could not open '%s' errno: %d\n", fd_path,
 			save_errno);
 		return 1;
 	}
-
-	num_read = read(fd2, actual, 79);
+	num_read = fread(actual, 1, (80 - 1), f);
 	actual[num_read] = '\0';
 
-	close(fd2);
+	fclose(f);
 	close(fd);
 
 	failures += check_str(actual, expect);

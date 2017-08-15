@@ -23,6 +23,8 @@ License (COPYING) along with this library; if not, see:
 #include <unistd.h>
 #include <string.h>
 #include "eh-printf/eh-printf.h"
+#include <fcntl.h>
+#include <stdlib.h>
 
 FILE _eh_stdin;
 FILE _eh_stdout;
@@ -128,6 +130,11 @@ int dprintf(int fd, const char *format, ...)
 	return rv;
 }
 
+int fclose(FILE *stream)
+{
+	return close(fileno(stream));
+}
+
 int fileno(FILE *stream)
 {
 	if (!stream) {
@@ -137,6 +144,19 @@ int fileno(FILE *stream)
 	_ensure_initialized(stream);
 
 	return stream->_fileno;
+}
+
+size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream)
+{
+	int fd;
+	ssize_t bytes;
+
+	fd = fileno(stream);
+	bytes = read(fd, ptr, (size * nmemb));
+	if (bytes < 0) {
+		return 0;
+	}
+	return bytes / size;
 }
 
 size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream)
@@ -154,4 +174,65 @@ size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream)
 	}
 
 	return i;
+}
+
+FILE *fopen(const char *path, const char *mode)
+{
+	int fd;
+	int r, w, a, p, flags;
+	mode_t _mode;
+	FILE *f;
+
+	if (!path) {
+		errno = EINVAL;
+		return NULL;
+	}
+
+	r = w = a = p = flags = _mode = 0;
+
+	if (mode) {
+		while (*mode) {
+			switch (*mode) {
+			case 'r':
+				r = 1;
+				break;
+			case 'w':
+				w = 1;
+				break;
+			case 'a':
+				a = 1;
+				break;
+			case '+':
+				p = 1;
+				break;
+			case 'b':	/* ignore */ ;
+			default:;
+			};
+			++mode;
+		}
+	}
+	if (w && p) {
+		flags = flags | O_RDWR | O_CREAT | O_TRUNC;
+		_mode = S_IRUSR | S_IWUSR | S_IRGRP;
+	} else if (w) {
+		flags = flags | O_WRONLY | O_CREAT | O_APPEND;
+		_mode = S_IRUSR | S_IWUSR | S_IRGRP;
+	} else if (r && p) {
+		flags = flags | O_RDWR;
+		_mode = S_IRUSR | S_IWUSR | S_IRGRP;
+	} else if (r) {
+		flags = flags | O_RDONLY;
+		_mode = S_IRUSR | S_IRGRP;
+	}
+
+	fd = open(path, flags, mode);
+	f = malloc(sizeof(FILE));
+	if (!f) {
+		return NULL;
+	}
+	f->_fileno = fd;
+	f->_flags = flags;
+	f->_mode = _mode;
+
+	return f;
 }

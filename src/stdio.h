@@ -27,6 +27,7 @@ License (COPYING) along with this library; if not, see:
 #include <stdarg.h>
 #include <stddef.h>
 #include <unistd.h>
+#include <errno.h>
 
 #include <libio.h>
 struct _IO_FILE;
@@ -64,7 +65,7 @@ void clearerr(FILE *);
 char *ctermid(char *);
 char *cuserid(char *);		/* LEGACY */
 int dprintf(int fildes, const char *format, ...);
-int fclose(FILE *);
+int fclose(FILE *stream);
 FILE *fdopen(int, const char *);
 int feof(FILE *);
 int ferror(FILE *);
@@ -74,11 +75,11 @@ int fgetpos(FILE *, fpos_t *);
 char *fgets(char *, int, FILE *);
 int fileno(FILE *stream);
 void flockfile(FILE *);
-FILE *fopen(const char *, const char *);
+FILE *fopen(const char *path, const char *mode);
 int fprintf(FILE *stream, const char *format, ...);
 int fputc(int, FILE *);
 int fputs(const char *, FILE *);
-size_t fread(void *, size_t, size_t, FILE *);
+size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream);
 FILE *freopen(const char *, const char *, FILE *);
 int fscanf(FILE *, const char *, ...);
 int fseek(FILE *, long int, int);
