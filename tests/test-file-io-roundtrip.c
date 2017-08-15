@@ -56,7 +56,7 @@ int main(void)
 	expect = "foo\nbar\n";
 
 	snprintf(fd_path, PATH_MAX, "/proc/self/fd/%d", fd);
-	fd2 = open(fd_path, O_RDONLY, 0);
+	fd2 = open(fd_path, O_RDONLY);
 	if (fd2 < 0) {
 		save_errno = errno;
 		fprintf(stderr, "could not open '%s' errno: %d\n", fd_path,

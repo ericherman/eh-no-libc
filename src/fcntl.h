@@ -27,8 +27,7 @@ License (COPYING) along with this library; if not, see:
 /*
 int open(const char *pathname, int flags);
 int open(const char *pathname, int flags, mode_t mode);
-extern int open(const char *pathname, int flags, ...);
 */
-int open(const char *pathname, int flags, mode_t mode);
+extern int open(const char *pathname, int flags, ...);
 
 #endif /* fcntl.h  */

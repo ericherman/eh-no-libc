@@ -22,12 +22,24 @@ License (COPYING) along with this library; if not, see:
 #include <sys/stat.h>
 #include <syscall.h>
 #include <limits.h>
+#include <fcntl.h>
 #include <stdarg.h>
 
 #if ((defined LINUX_I386) || (defined LINUX_AMD64))
 
-int open(const char *pathname, int flags, mode_t mode)
+int open(const char *pathname, int flags, ...)
 {
+	mode_t mode;
+
+	if ((flags & O_CREAT) || (flags & O_TMPFILE)) {
+		va_list arg;
+		va_start(arg, flags);
+		mode = va_arg(arg, mode_t);
+		va_end(arg);
+	} else {
+		mode = 0;
+	}
+
 	return (int)(ssize_t)syscall3(SYS_open, (void *)pathname,
 				      (void *)(ssize_t)flags,
 				      (void *)(ssize_t)mode);
