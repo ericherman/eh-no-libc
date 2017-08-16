@@ -24,6 +24,16 @@ License (COPYING) along with this library; if not, see:
 #include <stdint.h>
 #include <linux/fcntl.h>
 
+#ifndef O_TMPFILE
+#ifndef __O_TMPFILE
+#define __O_TMPFILE 020000000
+#endif
+#define O_TMPFILE (__O_TMPFILE | O_DIRECTORY)
+#endif
+#ifndef O_TMPFILE_MASK
+#define O_TMPFILE_MASK (__O_TMPFILE | O_DIRECTORY | O_CREAT)
+#endif
+
 /*
 int open(const char *pathname, int flags);
 int open(const char *pathname, int flags, mode_t mode);

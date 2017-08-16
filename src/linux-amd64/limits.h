@@ -43,4 +43,6 @@ License (COPYING) along with this library; if not, see:
 #define ULLONG_MAX	18446744073709551615ULL
 #define LLONG_MIN	(-LLONG_MAX - 1LL)
 
+#include <linux/limits.h>
+
 #endif /* _LINUX_AMD_LIMITS_H */

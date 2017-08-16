@@ -25,20 +25,7 @@ License (COPYING) along with this library; if not, see:
 #include <fcntl.h>
 #include <unistd.h>
 #include <errno.h>
-
-#ifndef PATH_MAX
-#define PATH_MAX	4096
-#endif
-
-#ifndef O_TMPFILE
-#ifndef __O_TMPFILE
-#define __O_TMPFILE 020000000
-#endif
-#define O_TMPFILE (__O_TMPFILE | O_DIRECTORY)
-#endif
-#ifndef O_TMPFILE_MASK
-#define O_TMPFILE_MASK (__O_TMPFILE | O_DIRECTORY | O_CREAT)
-#endif
+#include <limits.h>
 
 int main(void)
 {
