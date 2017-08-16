@@ -46,7 +46,7 @@ int ffsl(long int ld)
 	}
 
 	for (i = 0; i < 8 * sizeof(long int); ++i) {
-		if (ld & (1U << i)) {
+		if (ld & (1UL << i)) {
 			return i + 1;
 		}
 	}
@@ -62,7 +62,7 @@ int ffsll(long long int lld)
 	}
 
 	for (i = 0; i < 8 * sizeof(long long int); ++i) {
-		if (lld & (1U << i)) {
+		if (lld & (1ULL << i)) {
 			return i + 1;
 		}
 	}
