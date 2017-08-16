@@ -129,6 +129,9 @@ OUR_CFLAGS=\
 # extracted from https://github.com/torvalds/linux/blob/master/scripts/Lindent
 LINDENT=indent -npro -kr -i8 -ts8 -sob -l80 -ss -ncs -cp1 -il0
 
+EXIT_SRC=demo/exit.c
+EXIT_EXE=exit
+
 HELLO_SRC=demo/hello.c
 HELLO_EXE=hello
 
@@ -211,10 +214,13 @@ TESTS=\
  $(TEST_STRSTR_EXE) \
  $(TEST_STRTOK_EXE) \
 
-SANITY=$(PUTS_EXE) $(STAT_EXE) $(HELLO_EXE) $(CHECKERED_ALLOC_FREE_EXE)
+SANITY=$(EXIT_EXE) $(PUTS_EXE) $(STAT_EXE) $(HELLO_EXE) $(CHECKERED_ALLOC_FREE_EXE)
 
 default: hello
 
+
+$(EXIT_EXE): $(EXIT_SRC) $(EHLIBC_SRC) $(HEADERS)
+	gcc -o $(EXIT_EXE) $(OUR_CFLAGS) $(EXIT_SRC)
 
 $(HELLO_EXE): $(HELLO_SRC) $(EHLIBC_SRC) $(HEADERS)
 	gcc -o $(HELLO_EXE) $(OUR_CFLAGS) $(HELLO_SRC)
@@ -305,6 +311,7 @@ test: $(TESTS)
 demo: sanity
 
 sanity: $(SANITY)
+	./$(EXIT_EXE)
 	./$(HELLO_EXE)
 	./$(PUTS_EXE)
 	./$(STAT_EXE) | hexdump

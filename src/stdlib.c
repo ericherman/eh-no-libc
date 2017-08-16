@@ -1,5 +1,98 @@
 #include <stdlib.h>
+#include <syscall.h>
 #include "dumb-alloc-global.h"
+
+int atoi(const char *nptr)
+{
+	int negate;
+	int val;
+	int end;
+	if (!nptr) {
+		return 0;
+	}
+	if (*nptr == '-') {
+		nptr++;
+		negate = -1;
+	} else {
+		negate = 1;
+	}
+	end = 0;
+	val = 0;
+	while (*nptr && !end) {
+		if (*nptr >= '0' && *nptr <= '9') {
+			val = val * 10;
+			val = val + (*nptr - '0');
+			++nptr;
+		} else {
+			end = 1;
+		}
+	}
+
+	return negate * val;
+}
+
+long atol(const char *nptr)
+{
+	long negate;
+	long val;
+	int end;
+	if (!nptr) {
+		return 0;
+	}
+	if (*nptr == '-') {
+		nptr++;
+		negate = -1;
+	} else {
+		negate = 1;
+	}
+	end = 0;
+	val = 0;
+	while (*nptr && !end) {
+		if (*nptr >= '0' && *nptr <= '9') {
+			val = val * 10L;
+			val = val + (long)(*nptr - '0');
+			++nptr;
+		} else {
+			end = 1;
+		}
+	}
+
+	return negate * val;
+}
+
+long long atoll(const char *nptr)
+{
+	long long negate;
+	long long val;
+	int end;
+	if (!nptr) {
+		return 0;
+	}
+	if (*nptr == '-') {
+		nptr++;
+		negate = -1;
+	} else {
+		negate = 1;
+	}
+	end = 0;
+	val = 0;
+	while (*nptr && !end) {
+		if (*nptr >= '0' && *nptr <= '9') {
+			val = val * 10LL;
+			val = val + (long long)(*nptr - '0');
+			++nptr;
+		} else {
+			end = 1;
+		}
+	}
+
+	return negate * val;
+}
+
+void exit(int status)
+{
+	syscall1(SYS_exit, (void *)(ssize_t)status);
+}
 
 void *malloc(size_t size)
 {
