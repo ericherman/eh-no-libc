@@ -59,6 +59,30 @@ int putchar(int c)
 	return write(STDOUT_FILENO, (unsigned char *)&c, 1);
 }
 
+int putc(int c, FILE *stream)
+{
+	return fputc(c, stream);
+}
+
+int fputc(int c, FILE *stream)
+{
+	ssize_t rv;
+
+	if (!stream) {
+		return EOF;
+	}
+	rv = write(fileno(stream), (unsigned char *)&c, 1);
+	return (rv == 1) ? (int)c : EOF;
+}
+
+int fputs(const char *s, FILE *stream)
+{
+	if (!stream) {
+		return EOF;
+	}
+	return write(fileno(stream), s, strlen(s));
+}
+
 int vprintf(const char *format, va_list ap)
 {
 	return eh_vprintf(format, ap);

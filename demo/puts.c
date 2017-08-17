@@ -24,6 +24,8 @@ License (COPYING) along with this library; if not, see:
 int main(void)
 {
 	puts("puts(\"hello, world\")");
+	fputs("fputs(\"hello, world\", stdout)", stdout);
+	fputc('\n', stdout);
 
 	return 0;
 }
