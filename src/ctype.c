@@ -20,6 +20,11 @@ License (COPYING) along with this library; if not, see:
 */
 #include <ctype.h>
 
+int isascii(int c)
+{
+	return (c >= 0 && c <= 127) ? 1 : 0;
+}
+
 int toupper(int c)
 {
 	if (c >= 'a' && c <= 'z') {

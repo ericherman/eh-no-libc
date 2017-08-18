@@ -21,6 +21,8 @@ License (COPYING) along with this library; if not, see:
 #ifndef _CTYPE_H
 #define _CTYPE_H	1
 
+int isascii(int c);
+
 int toupper(int c);
 int tolower(int c);
 
