@@ -25,6 +25,21 @@ int isascii(int c)
 	return (c >= 0 && c <= 127) ? 1 : 0;
 }
 
+int isspace(int c)
+{
+	switch (c) {
+	case '\t':
+	case '\n':
+	case '\v':
+	case '\f':
+	case '\r':
+	case ' ':
+		return 1;
+	default:
+		return 0;
+	}
+}
+
 int toupper(int c)
 {
 	if (c >= 'a' && c <= 'z') {
