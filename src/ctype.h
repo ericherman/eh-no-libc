@@ -23,6 +23,7 @@ License (COPYING) along with this library; if not, see:
 
 int isascii(int c);
 int isspace(int c);
+int isblank(int c);
 
 int toupper(int c);
 int tolower(int c);

@@ -25,6 +25,11 @@ int isascii(int c)
 	return (c >= 0 && c <= 127) ? 1 : 0;
 }
 
+int isblank(int c)
+{
+	return (c == ' ' || c == '\t') ? 1 : 0;
+}
+
 int isspace(int c)
 {
 	switch (c) {
