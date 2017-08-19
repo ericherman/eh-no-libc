@@ -22,6 +22,8 @@ License (COPYING) along with this library; if not, see:
 #define _CTYPE_H	1
 
 int isascii(int c);
+int islower(int c);
+int isupper(int c);
 int isspace(int c);
 int isblank(int c);
 
