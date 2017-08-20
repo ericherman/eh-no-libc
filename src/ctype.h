@@ -21,6 +21,7 @@ License (COPYING) along with this library; if not, see:
 #ifndef _CTYPE_H
 #define _CTYPE_H	1
 
+int isalpha(int c);
 int isascii(int c);
 int isdigit(int c);
 int islower(int c);

@@ -20,6 +20,11 @@ License (COPYING) along with this library; if not, see:
 */
 #include <ctype.h>
 
+int isalpha(int c)
+{
+	return islower(c) || isupper(c);
+}
+
 int isascii(int c)
 {
 	return (c >= 0 && c <= 127) ? 1 : 0;
