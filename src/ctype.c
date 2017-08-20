@@ -40,6 +40,11 @@ int isupper(int c)
 	return (c >= 'A' && c <= 'Z') ? 1 : 0;
 }
 
+int isdigit(int c)
+{
+	return (c >= '0' && c <= '9') ? 1 : 0;
+}
+
 int isspace(int c)
 {
 	switch (c) {
