@@ -25,6 +25,11 @@ int isalpha(int c)
 	return islower(c) || isupper(c);
 }
 
+int isalnum(int c)
+{
+	return isalpha(c) || isdigit(c);
+}
+
 int isascii(int c)
 {
 	return (c >= 0 && c <= 127) ? 1 : 0;
