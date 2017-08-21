@@ -3,6 +3,7 @@ hello
 stat
 puts
 malloc-free
+ctypes
 test-ffs
 test-file-io-roundtrip
 test-memccpy

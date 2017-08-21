@@ -22,12 +22,12 @@ License (COPYING) along with this library; if not, see:
 
 int isalpha(int c)
 {
-	return islower(c) || isupper(c);
+	return (islower(c) || isupper(c)) ? 1024 : 0;
 }
 
 int isalnum(int c)
 {
-	return isalpha(c) || isdigit(c);
+	return (isalpha(c) || isdigit(c)) ? 8 : 0;
 }
 
 int isascii(int c)
@@ -42,22 +42,23 @@ int isblank(int c)
 
 int islower(int c)
 {
-	return (c >= 'a' && c <= 'z') ? 1 : 0;
+	return (c >= 'a' && c <= 'z') ? 512 : 0;
 }
 
 int isupper(int c)
 {
-	return (c >= 'A' && c <= 'Z') ? 1 : 0;
+	return (c >= 'A' && c <= 'Z') ? 256 : 0;
 }
 
 int isdigit(int c)
 {
-	return (c >= '0' && c <= '9') ? 1 : 0;
+	return (c >= '0' && c <= '9') ? 2048 : 0;
 }
 
 int isxdigit(int c)
 {
-	return isdigit(c) || (c >= 'A' && c <= 'F') || (c >= 'a' && c <= 'f');
+	return (isdigit(c) || (c >= 'A' && c <= 'F')
+		|| (c >= 'a' && c <= 'f')) ? 4096 : 0;
 }
 
 int isspace(int c)
@@ -69,7 +70,7 @@ int isspace(int c)
 	case '\f':
 	case '\r':
 	case ' ':
-		return 1;
+		return 8192;
 	default:
 		return 0;
 	}
@@ -77,15 +78,7 @@ int isspace(int c)
 
 int iscntrl(int c)
 {
-	switch (c) {
-	case '\n':
-	case '\v':
-	case '\f':
-	case '\r':
-		return 1;
-	default:
-		return 0;
-	}
+	return ((c >= 0 && c <= 31) || (c == 127)) ? 2 : 0;
 }
 
 int toupper(int c)
