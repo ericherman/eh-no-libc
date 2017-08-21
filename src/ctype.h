@@ -24,6 +24,7 @@ License (COPYING) along with this library; if not, see:
 int isalpha(int c);
 int isalnum(int c);
 int isascii(int c);
+int iscntrl(int c);
 int isdigit(int c);
 int islower(int c);
 int isupper(int c);

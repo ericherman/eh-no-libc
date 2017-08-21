@@ -75,6 +75,19 @@ int isspace(int c)
 	}
 }
 
+int iscntrl(int c)
+{
+	switch (c) {
+	case '\n':
+	case '\v':
+	case '\f':
+	case '\r':
+		return 1;
+	default:
+		return 0;
+	}
+}
+
 int toupper(int c)
 {
 	if (c >= 'a' && c <= 'z') {
