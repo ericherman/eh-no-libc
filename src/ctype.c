@@ -55,6 +55,11 @@ int isdigit(int c)
 	return (c >= '0' && c <= '9') ? 1 : 0;
 }
 
+int isxdigit(int c)
+{
+	return isdigit(c) || (c >= 'A' && c <= 'F') || (c >= 'a' && c <= 'f');
+}
+
 int isspace(int c)
 {
 	switch (c) {
