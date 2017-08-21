@@ -39,6 +39,9 @@ int main(int argc, char **argv)
 		printf("isspace(%d) == (%d)\n", c, isspace(c));
 		printf("isupper(%d) == (%d)\n", c, isupper(c));
 		printf("isxdigit(%d) == (%d)\n", c, isxdigit(c));
+		printf("isgraph(%d) == (%d)\n", c, isgraph(c));
+		printf("isprint(%d) == (%d)\n", c, isprint(c));
+		printf("ispunct(%d) == (%d)\n", c, ispunct(c));
 		printf("tolower(%d) == (%d)\n", c, tolower(c));
 		printf("toupper(%d) == (%d)\n", c, toupper(c));
 		printf("\n");

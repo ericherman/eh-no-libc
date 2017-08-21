@@ -81,6 +81,22 @@ int iscntrl(int c)
 	return ((c >= 0 && c <= 31) || (c == 127)) ? 2 : 0;
 }
 
+int isgraph(int c)
+{
+	return (c < 0 || isspace(c) || iscntrl(c) || c >= 128) ? 0 : 32768;
+}
+
+int isprint(int c)
+{
+	return ((c == ' ') || isgraph(c)) ? 16384 : 0;
+}
+
+int ispunct(int c)
+{
+	return ((c >= 33 && c <= 47) || (c >= 58 && c <= 64)
+		|| (c >= 91 && c <= 96) || (c >= 123 && c <= 126)) ? 4 : 0;
+}
+
 int toupper(int c)
 {
 	if (c >= 'a' && c <= 'z') {
