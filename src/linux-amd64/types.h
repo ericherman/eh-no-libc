@@ -57,6 +57,8 @@ typedef signed char int_fast8_t;
 
 typedef uint64_t size_t;
 typedef int64_t ssize_t;
+typedef ssize_t intptr_t;
+typedef size_t uintptr_t;
 typedef ssize_t ptrdiff_t;
 
 typedef uint32_t wchar_t;
