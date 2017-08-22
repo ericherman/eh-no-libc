@@ -7,6 +7,10 @@
 #define	EXIT_FAILURE	1
 void exit(int status);
 
+int abs(int j);
+long int labs(long int j);
+long long int llabs(long long int j);
+
 int atoi(const char *nptr);
 long atol(const char *nptr);
 long long atoll(const char *nptr);

@@ -1,6 +1,31 @@
 #include <stdlib.h>
 #include <syscall.h>
+#include <limits.h>
 #include "dumb-alloc-global.h"
+
+int abs(int j)
+{
+	if (j < 0 && j > INT_MIN) {
+		return -j;
+	}
+	return j;
+}
+
+long int labs(long int j)
+{
+	if (j < 0 && j > LONG_MIN) {
+		return -j;
+	}
+	return j;
+}
+
+long long int llabs(long long int j)
+{
+	if (j < 0 && j > LLONG_MIN) {
+		return -j;
+	}
+	return j;
+}
 
 int atoi(const char *nptr)
 {
