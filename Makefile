@@ -329,20 +329,68 @@ tidy:
 	patch -Np1 -i misc/pre-tidy.patch
 	$(LINDENT) \
 		-T FILE \
+		-T dev_t \
+		-T fpos64_t \
+		-T fpos_t \
+		-T imaxdiv_t \
+		-T int16_t \
+		-T int16_t \
+		-T int32_t \
+		-T int32_t \
+		-T int64_t \
+		-T int64_t \
+		-T int8_t \
+		-T int8_t \
+		-T int_fast16_t \
+		-T int_fast32_t \
+		-T int_fast64_t \
+		-T int_fast8_t \
+		-T int_least16_t \
+		-T int_least32_t \
+		-T int_least64_t \
+		-T int_least8_t \
+		-T intmax_t \
+		-T intptr_t \
+		-T max_align_t \
+		-T mbstate_t \
+		-T mode_t \
+		-T mode_t \
+		-T off64_t \
+		-T off_t \
+		-T ptrdiff_t \
+		-T size_t \
 		-T size_t \
 		-T ssize_t \
-		-T uint64_t \
-		-T int64_t \
-		-T uint32_t \
-		-T int32_t \
-		-T uint16_t \
-		-T int16_t \
-		-T uint8_t \
-		-T int8_t \
-		-T dev_t \
-		-T mode_t \
-		-T time_t \
+		-T ssize_t \
+		-T sys_get_t \
+		-T sys_mq_t \
+		-T sys_name_t \
+		-T sys_rt_t \
+		-T sys_set_t \
+		-T sys_t \
 		-T syscall_slong_t \
+		-T time_t \
+		-T uint16_t \
+		-T uint16_t \
+		-T uint32_t \
+		-T uint32_t \
+		-T uint64_t \
+		-T uint64_t \
+		-T uint8_t \
+		-T uint8_t \
+		-T uint_fast16_t \
+		-T uint_fast32_t \
+		-T uint_fast64_t \
+		-T uint_fast8_t \
+		-T uint_least16_t \
+		-T uint_least32_t \
+		-T uint_least64_t \
+		-T uint_least8_t \
+		-T uintmax_t \
+		-T uintptr_t \
+		-T wchar_t \
+		-T wctype_t \
+		-T wint_t \
 		-T eh_printf_context_s \
 		-T dumb_alloc \
 		`find src tests demo -name '*.h' -o -name '*.c'`

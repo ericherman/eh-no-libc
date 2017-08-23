@@ -55,6 +55,9 @@ typedef signed char int8_t;
 typedef signed char int_least8_t;
 typedef signed char int_fast8_t;
 
+typedef int64_t intmax_t;
+typedef uint64_t uintmax_t;
+
 typedef uint64_t size_t;
 typedef int64_t ssize_t;
 typedef ssize_t intptr_t;
@@ -68,6 +71,11 @@ typedef uint32_t wctype_t;
 typedef uint32_t off_t;
 typedef uint64_t off64_t;
 typedef uint32_t mode_t;
+
+typedef struct {
+	uint64_t quot;
+	uint64_t rem;
+} imaxdiv_t;
 
 typedef struct {
 	long long __max_align_ll
