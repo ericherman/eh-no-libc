@@ -39,7 +39,6 @@ int main(void)
 	rv = strtok(str, delim);
 	failures += (rv == NULL) ? 1 : 0;
 	failures += check_str(rv, expect);
-/*
 
 	expect = "Snohomish, WA 98290";
 	rv = strtok(NULL, delim);
@@ -52,6 +51,6 @@ int main(void)
 	expect = NULL;
 	rv = strtok(NULL, delim);
 	failures += check_str(rv, expect);
-*/
+
 	return check_status(failures);
 }
