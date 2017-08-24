@@ -21,6 +21,7 @@ test-strspn
 test-strpbrk
 test-strstr
 test-strtok
+test-strtol
 
 ###################
 # backup files

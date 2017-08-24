@@ -1,6 +1,27 @@
+/*
+eh-no-libc - exploring coding without the standard library
+Copyright (C) 2017 Eric Herman
+
+This work is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later
+version.
+
+This work is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License (COPYING) along with this library; if not, see:
+
+        https://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt
+*/
 #include <stdlib.h>
 #include <syscall.h>
 #include <limits.h>
+#include <errno.h>
 #include "dumb-alloc-global.h"
 
 int abs(int j)
@@ -58,60 +79,250 @@ int atoi(const char *nptr)
 
 long atol(const char *nptr)
 {
-	long negate;
-	long val;
-	int end;
-	if (!nptr) {
-		return 0;
-	}
-	if (*nptr == '-') {
-		nptr++;
-		negate = -1;
-	} else {
-		negate = 1;
-	}
-	end = 0;
-	val = 0;
-	while (*nptr && !end) {
-		if (*nptr >= '0' && *nptr <= '9') {
-			val = val * 10L;
-			val = val + (long)(*nptr - '0');
-			++nptr;
-		} else {
-			end = 1;
-		}
-	}
-
-	return negate * val;
+	return strtol(nptr, NULL, 10);
 }
 
 long long atoll(const char *nptr)
 {
-	long long negate;
-	long long val;
-	int end;
+	return strtoll(nptr, NULL, 10);
+}
+
+long int strtol(const char *nptr, char **endptr, int base)
+{
+	long val;
+	int negate, end;
+	char ascii_end1, ascii_end2, ascii_end3;
+
 	if (!nptr) {
+		if (endptr) {
+			*endptr = NULL;
+		}
 		return 0;
 	}
+
+	if (base < 2 || base > 36) {
+		errno = EINVAL;
+		if (endptr) {
+			*endptr = NULL;
+		}
+		return 0;
+	}
+	if (base <= 10) {
+		ascii_end1 = '0' + (base - 1);
+		ascii_end2 = 0;
+		ascii_end3 = 0;
+	} else {
+		ascii_end1 = '9';
+		ascii_end2 = 'A' + (base - 11);
+		ascii_end3 = 'a' + (base - 11);
+	}
+
 	if (*nptr == '-') {
 		nptr++;
 		negate = -1;
 	} else {
-		negate = 1;
+		negate = 0;
 	}
 	end = 0;
 	val = 0;
 	while (*nptr && !end) {
-		if (*nptr >= '0' && *nptr <= '9') {
-			val = val * 10LL;
-			val = val + (long long)(*nptr - '0');
+		if (*nptr >= '0' && *nptr <= ascii_end1) {
+			val = val * (long)base;
+			val = val + (long)(*nptr - '0');
+			++nptr;
+		} else if (*nptr >= 'A' && *nptr <= ascii_end2) {
+			val = val * (long)base;
+			val = val + 10L + (long)(*nptr - 'A');
+			++nptr;
+		} else if (*nptr >= 'a' && *nptr <= ascii_end3) {
+			val = val * (long)base;
+			val = val + 10L + (long)(*nptr - 'a');
 			++nptr;
 		} else {
 			end = 1;
 		}
 	}
 
-	return negate * val;
+	if (endptr) {
+		*endptr = (char *)nptr;
+	}
+	return negate ? -val : val;
+}
+
+long long int strtoll(const char *nptr, char **endptr, int base)
+{
+	long long int val;
+	int negate, end;
+	char ascii_end1, ascii_end2, ascii_end3;
+
+	if (!nptr) {
+		if (endptr) {
+			*endptr = NULL;
+		}
+		return 0;
+	}
+
+	if (base < 2 || base > 36) {
+		errno = EINVAL;
+		if (endptr) {
+			*endptr = NULL;
+		}
+		return 0;
+	}
+	if (base <= 10) {
+		ascii_end1 = '0' + (base - 1);
+		ascii_end2 = 0;
+		ascii_end3 = 0;
+	} else {
+		ascii_end1 = '9';
+		ascii_end2 = 'A' + (base - 11);
+		ascii_end3 = 'a' + (base - 11);
+	}
+
+	if (*nptr == '-') {
+		nptr++;
+		negate = -1;
+	} else {
+		negate = 0;
+	}
+	end = 0;
+	val = 0;
+	while (*nptr && !end) {
+		if (*nptr >= '0' && *nptr <= ascii_end1) {
+			val = val * (long long int)base;
+			val = val + (long long int)(*nptr - '0');
+			++nptr;
+		} else if (*nptr >= 'A' && *nptr <= ascii_end2) {
+			val = val * (long long int)base;
+			val = val + 10LL + (long long int)(*nptr - 'A');
+			++nptr;
+		} else if (*nptr >= 'a' && *nptr <= ascii_end3) {
+			val = val * (long long int)base;
+			val = val + 10LL + (long long int)(*nptr - 'a');
+			++nptr;
+		} else {
+			end = 1;
+		}
+	}
+
+	if (endptr) {
+		*endptr = (char *)nptr;
+	}
+	return negate ? -val : val;
+}
+
+unsigned long int strtoul(const char *nptr, char **endptr, int base)
+{
+	unsigned long int val;
+	int end;
+	char ascii_end1, ascii_end2, ascii_end3;
+
+	if (!nptr) {
+		if (endptr) {
+			*endptr = NULL;
+		}
+		return 0;
+	}
+
+	if (base < 2 || base > 36) {
+		errno = EINVAL;
+		if (endptr) {
+			*endptr = NULL;
+		}
+		return 0;
+	}
+	if (base <= 10) {
+		ascii_end1 = '0' + (base - 1);
+		ascii_end2 = 0;
+		ascii_end3 = 0;
+	} else {
+		ascii_end1 = '9';
+		ascii_end2 = 'A' + (base - 11);
+		ascii_end3 = 'a' + (base - 11);
+	}
+
+	end = 0;
+	val = 0;
+	while (*nptr && !end) {
+		if (*nptr >= '0' && *nptr <= ascii_end1) {
+			val = val * (unsigned long int)base;
+			val = val + (unsigned long int)(*nptr - '0');
+			++nptr;
+		} else if (*nptr >= 'A' && *nptr <= ascii_end2) {
+			val = val * (unsigned long int)base;
+			val = val + 10UL + (unsigned long int)(*nptr - 'A');
+			++nptr;
+		} else if (*nptr >= 'a' && *nptr <= ascii_end3) {
+			val = val * (unsigned long)base;
+			val = val + 10UL + (unsigned long int)(*nptr - 'a');
+			++nptr;
+		} else {
+			end = 1;
+		}
+	}
+
+	if (endptr) {
+		*endptr = (char *)nptr;
+	}
+	return val;
+}
+
+unsigned long long int strtoull(const char *nptr, char **endptr, int base)
+{
+	unsigned long long int val;
+	int end;
+	char ascii_end1, ascii_end2, ascii_end3;
+
+	if (!nptr) {
+		if (endptr) {
+			*endptr = NULL;
+		}
+		return 0;
+	}
+
+	if (base < 2 || base > 36) {
+		errno = EINVAL;
+		if (endptr) {
+			*endptr = NULL;
+		}
+		return 0;
+	}
+	if (base <= 10) {
+		ascii_end1 = '0' + (base - 1);
+		ascii_end2 = 0;
+		ascii_end3 = 0;
+	} else {
+		ascii_end1 = '9';
+		ascii_end2 = 'A' + (base - 11);
+		ascii_end3 = 'a' + (base - 11);
+	}
+
+	end = 0;
+	val = 0;
+	while (*nptr && !end) {
+		if (*nptr >= '0' && *nptr <= ascii_end1) {
+			val = val * (unsigned long long int)base;
+			val = val + (unsigned long long int)(*nptr - '0');
+			++nptr;
+		} else if (*nptr >= 'A' && *nptr <= ascii_end2) {
+			val = val * (unsigned long long int)base;
+			val =
+			    val + 10ULL + (unsigned long long int)(*nptr - 'A');
+			++nptr;
+		} else if (*nptr >= 'a' && *nptr <= ascii_end3) {
+			val = val * (unsigned long long int)base;
+			val =
+			    val + 10ULL + (unsigned long long int)(*nptr - 'a');
+			++nptr;
+		} else {
+			end = 1;
+		}
+	}
+
+	if (endptr) {
+		*endptr = (char *)nptr;
+	}
+	return val;
 }
 
 void exit(int status)
