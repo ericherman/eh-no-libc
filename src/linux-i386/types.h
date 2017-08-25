@@ -22,6 +22,7 @@ License (COPYING) along with this library; if not, see:
 #define TYPES_H
 
 #define NULL ((void *)0)
+#define _LONG_SAME_AS_LLONG 0
 
 typedef unsigned long long int uint64_t;
 typedef unsigned long long int uint_least64_t;

@@ -21,6 +21,7 @@ License (COPYING) along with this library; if not, see:
 #include "echeck.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <inttypes.h>
 
 int test_strtol(int test_null)
 {
@@ -152,7 +153,75 @@ int test_strtoull(int test_null)
 		end_ptr = "wrong";
 		str = NULL;
 		lu = strtoull(str, &end_ptr, 10);
-		failures += check_long(lu, 0UL);
+		failures += check_unsigned_long(lu, 0UL);
+	}
+
+	return failures;
+}
+
+int test_strtoimax(int test_null)
+{
+	int failures;
+	intmax_t imax;
+	char *str, *end_ptr;
+	ssize_t diff;
+
+	failures = 0;
+
+	end_ptr = "wrong";
+	str = "123 foo";
+	imax = strtoimax(str, &end_ptr, 10);
+	failures += check_long(imax, 123LL);
+	diff = end_ptr - str;
+	failures += check_long((long)diff, 3L);
+
+	str = "7FFFFFFF foo";
+	imax = strtoimax(str, NULL, 16);
+	failures += check_long(imax, 0x7FFFFFFFLL);
+
+	str = "4badc0de foo";
+	imax = strtoimax(str, NULL, 16);
+	failures += check_long(imax, 0x4badc0deLL);
+
+	if (test_null) {
+		end_ptr = "wrong";
+		str = NULL;
+		imax = strtoimax(str, &end_ptr, 10);
+		failures += check_long(imax, 0UL);
+	}
+
+	return failures;
+}
+
+int test_strtoumax(int test_null)
+{
+	int failures;
+	uintmax_t umax;
+	char *str, *end_ptr;
+	ssize_t diff;
+
+	failures = 0;
+
+	end_ptr = "wrong";
+	str = "123 foo";
+	umax = strtoumax(str, &end_ptr, 10);
+	failures += check_unsigned_long(umax, 123ULL);
+	diff = end_ptr - str;
+	failures += check_long((long)diff, 3L);
+
+	str = "7FFFFFFF foo";
+	umax = strtoumax(str, NULL, 16);
+	failures += check_unsigned_long(umax, 0x7FFFFFFFULL);
+
+	str = "4badc0de foo";
+	umax = strtoumax(str, NULL, 16);
+	failures += check_unsigned_long(umax, 0x4badc0deULL);
+
+	if (test_null) {
+		end_ptr = "wrong";
+		str = NULL;
+		umax = strtoumax(str, &end_ptr, 10);
+		failures += check_unsigned_long(umax, 0UL);
 	}
 
 	return failures;
@@ -171,6 +240,8 @@ int main(int argc, char **argv)
 	failures += test_strtoll(test_null);
 	failures += test_strtoul(test_null);
 	failures += test_strtoull(test_null);
+	failures += test_strtoimax(test_null);
+	failures += test_strtoumax(test_null);
 
 	return check_status(failures);
 }

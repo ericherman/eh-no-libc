@@ -22,6 +22,7 @@ License (COPYING) along with this library; if not, see:
 #define _INTTYPES_H	1
 
 #include <stdint.h>
+#include <stdlib.h>
 
 #if defined LINUX_AMD64
 #include "linux-amd64/inttypes.h"
@@ -30,7 +31,6 @@ License (COPYING) along with this library; if not, see:
 #endif
 
 /* intmax_t imaxabs(intmax_t j); */
-#define imaxabs(j) llabs(j)
 
 /* imaxdiv_t imaxdiv(intmax_t numerator, intmax_t denominator); */
 
@@ -39,5 +39,21 @@ License (COPYING) along with this library; if not, see:
 
 /* intmax_t wcstoimax(const wchar_t *nptr, wchar_t **endptr, int base); */
 /* uintmax_t wcstoumax(const wchar_t *nptr, wchar_t **endptr, int base); */
+
+#if _LONG_SAME_AS_LLONG
+
+#define imaxabs(j) labs(j)
+
+#define strtoimax(nptr, endptr, base) strtol(nptr, endptr, base)
+#define strtoumax(nptr, endptr, base) strtoul(nptr, endptr, base)
+
+#else /* _LONG_SAME_AS_LLONG */
+
+#define imaxabs(j) llabs(j)
+
+#define strtoimax(nptr, endptr, base) strtoll(nptr, endptr, base)
+#define strtoumax(nptr, endptr, base) strtoull(nptr, endptr, base)
+
+#endif /* _LONG_SAME_AS_LLONG */
 
 #endif /* _INTTYPES_H */
