@@ -53,6 +53,7 @@ int ffsl(long int ld)
 	return -1;
 }
 
+#if (_LONG_SAME_AS_LLONG == 0)
 int ffsll(long long int lld)
 {
 	size_t i;
@@ -68,6 +69,7 @@ int ffsll(long long int lld)
 	}
 	return -1;
 }
+#endif
 
 int strcasecmp(const char *s1, const char *s2)
 {

@@ -40,6 +40,7 @@ long int labs(long int j)
 	return j;
 }
 
+#if (_LONG_SAME_AS_LLONG == 0)
 long long int llabs(long long int j)
 {
 	if (j < 0 && j > LLONG_MIN) {
@@ -47,6 +48,7 @@ long long int llabs(long long int j)
 	}
 	return j;
 }
+#endif
 
 int atoi(const char *nptr)
 {
@@ -82,10 +84,12 @@ long atol(const char *nptr)
 	return strtol(nptr, NULL, 10);
 }
 
+#if (_LONG_SAME_AS_LLONG == 0)
 long long atoll(const char *nptr)
 {
 	return strtoll(nptr, NULL, 10);
 }
+#endif
 
 long int strtol(const char *nptr, char **endptr, int base)
 {
@@ -149,6 +153,7 @@ long int strtol(const char *nptr, char **endptr, int base)
 	return negate ? -val : val;
 }
 
+#if (_LONG_SAME_AS_LLONG == 0)
 long long int strtoll(const char *nptr, char **endptr, int base)
 {
 	long long int val;
@@ -210,6 +215,7 @@ long long int strtoll(const char *nptr, char **endptr, int base)
 	}
 	return negate ? -val : val;
 }
+#endif
 
 unsigned long int strtoul(const char *nptr, char **endptr, int base)
 {
@@ -267,6 +273,7 @@ unsigned long int strtoul(const char *nptr, char **endptr, int base)
 	return val;
 }
 
+#if (_LONG_SAME_AS_LLONG == 0)
 unsigned long long int strtoull(const char *nptr, char **endptr, int base)
 {
 	unsigned long long int val;
@@ -324,6 +331,7 @@ unsigned long long int strtoull(const char *nptr, char **endptr, int base)
 	}
 	return val;
 }
+#endif
 
 void exit(int status)
 {

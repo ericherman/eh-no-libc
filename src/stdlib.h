@@ -29,15 +29,33 @@ void exit(int status);
 
 int abs(int j);
 long int labs(long int j);
+#if _LONG_SAME_AS_LLONG
+#define llabs(j) labs(j)
+#else
 long long int llabs(long long int j);
+#endif
 
 int atoi(const char *nptr);
 long atol(const char *nptr);
+#if _LONG_SAME_AS_LLONG
+#define atoll(nptr) atol(nptr)
+#else
 long long atoll(const char *nptr);
+#endif
+
 long int strtol(const char *nptr, char **endptr, int base);
+#if _LONG_SAME_AS_LLONG
+#define strtoll(nptr, endptr, base) strtol(nptr, endptr, base)
+#else
 long long int strtoll(const char *nptr, char **endptr, int base);
+#endif
+
 unsigned long int strtoul(const char *nptr, char **endptr, int base);
+#if _LONG_SAME_AS_LLONG
+#define strtoull(nptr, endptr, base) strtoul(nptr, endptr, base)
+#else
 unsigned long long int strtoull(const char *nptr, char **endptr, int base);
+#endif
 
 void *malloc(size_t size);
 void *calloc(size_t nmemb, size_t size);

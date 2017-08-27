@@ -38,7 +38,11 @@ int ffs(int i);
 
 int ffsl(long int i);
 
+#if (_LONG_SAME_AS_LLONG)
+#define ffsll(i) ffsl(i)
+#else
 int ffsll(long long int i);
+#endif
 
 /* char *index(const char *s, int c); */
 #define index(s, c) strchr((s), (c));
