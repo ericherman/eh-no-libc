@@ -6,6 +6,7 @@ malloc-free
 ctypes
 test-ffs
 test-file-io-roundtrip
+test-fgetc
 test-memccpy
 test-memchr
 test-memcmp

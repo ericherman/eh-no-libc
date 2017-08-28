@@ -38,6 +38,18 @@ FILE *stdin = &_eh_stdin;
 FILE *stdout = &_eh_stdout;
 FILE *stderr = &_eh_stderr;
 
+int fgetc(FILE *stream)
+{
+	size_t bytes, size, nmemb;
+	char c;
+
+	size = sizeof(char);
+	nmemb = 1;
+
+	bytes = fread(&c, size, nmemb, stream);
+	return (bytes == 1) ? (int)c : EOF;
+}
+
 int puts(char const *str)
 {
 	int written;

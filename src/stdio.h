@@ -70,7 +70,7 @@ FILE *fdopen(int, const char *);
 int feof(FILE *);
 int ferror(FILE *);
 int fflush(FILE *);
-int fgetc(FILE *);
+int fgetc(FILE *stream);
 int fgetpos(FILE *, fpos_t *);
 char *fgets(char *, int, FILE *);
 int fileno(FILE *stream);
