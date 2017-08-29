@@ -38,11 +38,14 @@ FILE *stdin = &_eh_stdin;
 FILE *stdout = &_eh_stdout;
 FILE *stderr = &_eh_stderr;
 
+static void _ensure_initialized(FILE *stream);
+
 int fgetc(FILE *stream)
 {
 	size_t bytes, size, nmemb;
 	char c;
 
+	_ensure_initialized(stream);
 	size = sizeof(char);
 	nmemb = 1;
 
@@ -133,6 +136,9 @@ static void _ensure_initialized(FILE *stream)
 	} else if ((stream == stderr) && (_eh_stderr_init == 0)) {
 		stderr->_fileno = STDERR_FILENO;
 		_eh_stderr_init = 1;
+	} else if ((stream == stdin) && (_eh_stdin_init == 0)) {
+		stdin->_fileno = STDIN_FILENO;
+		_eh_stdin_init = 1;
 	}
 }
 

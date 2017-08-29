@@ -59,11 +59,12 @@ int main(void)
 	failures += check_int(fgetc(f), (int)'o');
 	failures += check_int(fgetc(f), (int)'o');
 	failures += check_int(fgetc(f), (int)'\n');
-	failures += check_int(fgetc(f), (int)'b');
-	failures += check_int(fgetc(f), (int)'a');
-	failures += check_int(fgetc(f), (int)'r');
-	failures += check_int(fgetc(f), (int)'\n');
+	failures += check_int(getc(f), (int)'b');
+	failures += check_int(getc(f), (int)'a');
+	failures += check_int(getc(f), (int)'r');
+	failures += check_int(getc(f), (int)'\n');
 	failures += check_int(fgetc(f), EOF);
+	failures += check_int(getc(f), EOF);
 
 	fclose(f);
 	close(fd);

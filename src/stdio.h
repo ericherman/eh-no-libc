@@ -90,7 +90,7 @@ off_t ftello(FILE *);
 int ftrylockfile(FILE *);
 void funlockfile(FILE *);
 size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream);
-int getc(FILE *);
+#define getc(in) fgetc(in)
 int getchar(void);
 int getc_unlocked(FILE *);
 int getchar_unlocked(void);
