@@ -22,5 +22,6 @@ License (COPYING) along with this library; if not, see:
 #define _MATH_H	1
 
 int isinf(double x);
+int isnan(double x);
 
 #endif /* _MATH_H */

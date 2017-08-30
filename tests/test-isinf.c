@@ -24,10 +24,24 @@ License (COPYING) along with this library; if not, see:
 int main(void)
 {
 	int failures;
+	union f_u32_u {
+		uint32_t u32;
+		float f32;
+	} fu;
 
 	failures = check_int(isinf(1.0), 0);
+	failures = check_int(isnan(1.0), 0);
+
 	failures = check_int(isinf(2.0 / 0), 1);
+	failures = check_int(isnan(2.0 / 0), 0);
+
 	failures = check_int(isinf(-2.0 / 0), -1);
+	failures = check_int(isnan(-2.0 / 0), 0);
+
+	fu.u32 = 0x7f800001;	/* NaN */
+
+	failures = check_int(isinf(fu.f32), 0);
+	failures = check_int(isnan(fu.f32), 1);
 
 	return check_status(failures);
 }

@@ -36,3 +36,14 @@ int isinf(double x)
 
 	return 0;
 }
+
+int isnan(double x)
+{
+	uint8_t sign;
+	int16_t exponent;
+	uint64_t fraction;
+
+	eh_double_to_fields(x, &sign, &exponent, &fraction);
+
+	return (exponent == 0x400 && fraction);
+}
