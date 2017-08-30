@@ -440,5 +440,6 @@ tidy:
 
 
 clean:
-	rm -fv $(SANITY) $(TESTS)
-	find . -name '*~' -exec rm -v \{} \;
+	rm -rfv `cat .gitignore | sed -e 's/#.*//'`
+	pushd src && rm -rfv `cat ../.gitignore | sed -e 's/#.*//'`; popd
+	pushd tests && rm -rfv `cat ../.gitignore | sed -e 's/#.*//'`; popd
