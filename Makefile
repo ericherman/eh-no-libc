@@ -41,6 +41,7 @@ EHLIBC_SRC=\
  src/assert.c \
  src/ctype.c \
  src/errno.c \
+ src/math.c \
  src/stdio.c \
  src/stdlib.c \
  src/string.c \
@@ -68,6 +69,7 @@ EHLIBC_HEADERS=\
  src/libio.h \
  src/limits.h \
  src/$(ARCH_DIR)/limits.h \
+ src/math.h \
  src/mman.h \
  src/stdarg.h \
  src/stddef.h \
@@ -167,6 +169,9 @@ TEST_FILE_IO_ROUNDTRIP_EXE=test-file-io-roundtrip
 TEST_FFS_SRC=tests/echeck.c tests/test-ffs.c
 TEST_FFS_EXE=test-ffs
 
+TEST_ISINF_SRC=tests/echeck.c tests/test-isinf.c
+TEST_ISINF_EXE=test-isinf
+
 TEST_MEMCCPY_SRC=tests/echeck.c tests/test-memccpy.c
 TEST_MEMCCPY_EXE=test-memccpy
 
@@ -219,6 +224,7 @@ TESTS=\
  $(TEST_FILE_IO_ROUNDTRIP_EXE) \
  $(TEST_FGETC_EXE) \
  $(TEST_FFS_EXE) \
+ $(TEST_ISINF_EXE) \
  $(TEST_MEMCCPY_EXE) \
  $(TEST_MEMCHR_EXE) \
  $(TEST_MEMCMP_EXE) \
@@ -275,6 +281,11 @@ $(TEST_FILE_IO_ROUNDTRIP_EXE): $(TEST_FILE_IO_ROUNDTRIP_SRC) $(EHLIBC_SRC) \
 $(TEST_FFS_EXE): $(TEST_FFS_SRC) $(EHLIBC_SRC) $(TEST_HEADERS)
 	gcc -o $(TEST_FFS_EXE) $(OUR_CFLAGS) $(TEST_FFS_SRC)
 
+$(TEST_ISINF_EXE): $(TEST_ISINF_SRC) $(EHLIBC_SRC) $(TEST_HEADERS)
+	gcc -o $(TEST_ISINF_EXE) $(OUR_CFLAGS) \
+		-Wno-error=div-by-zero -Wno-div-by-zero \
+		$(TEST_ISINF_SRC)
+
 $(TEST_MEMCCPY_EXE): $(TEST_MEMCCPY_SRC) $(EHLIBC_SRC) $(TEST_HEADERS)
 	gcc -o $(TEST_MEMCCPY_EXE) $(OUR_CFLAGS) $(TEST_MEMCCPY_SRC)
 
@@ -327,6 +338,7 @@ test: $(TESTS)
 	./$(TEST_FILE_IO_ROUNDTRIP_EXE)
 	./$(TEST_FGETC_EXE)
 	./$(TEST_FFS_EXE)
+	./$(TEST_ISINF_EXE)
 	./$(TEST_MEMCCPY_EXE)
 	./$(TEST_MEMCHR_EXE)
 	./$(TEST_MEMCMP_EXE)
