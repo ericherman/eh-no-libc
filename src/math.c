@@ -22,7 +22,7 @@ License (COPYING) along with this library; if not, see:
 #include <math.h>
 #include "eh-printf/eh-printf-parse-float.h"
 
-int isinf(double x)
+int _isinfd(double x)
 {
 	uint8_t sign;
 	int16_t exponent;
@@ -37,7 +37,7 @@ int isinf(double x)
 	return 0;
 }
 
-int isnan(double x)
+int _fpclassifyd(double x)
 {
 	uint8_t sign;
 	int16_t exponent;
@@ -45,5 +45,15 @@ int isnan(double x)
 
 	eh_double_to_fields(x, &sign, &exponent, &fraction);
 
-	return (exponent == 0x400 && fraction);
+	if ((exponent == 0) && (fraction == 0)) {
+		return FP_ZERO;
+	}
+
+	if (exponent == 0x400) {
+		return (fraction) ? FP_NAN : FP_INFINITE;
+	}
+
+	/* TODO: FP_SUBNORMAL */
+
+	return FP_NORMAL;
 }

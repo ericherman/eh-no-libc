@@ -21,7 +21,26 @@ License (COPYING) along with this library; if not, see:
 #ifndef _MATH_H
 #define _MATH_H	1
 
-int isinf(double x);
-int isnan(double x);
+enum {
+	FP_NAN,			/* Not a Number */
+	FP_INFINITE,		/* Infinity (either positive or negative) */
+	FP_ZERO,		/* Zero */
+	FP_SUBNORMAL,		/* too small for normalized representation */
+	FP_NORMAL		/* none of the above, must be normal */
+};
+
+int _fpclassifyd(double d);
+int _isinfd(double d);
+
+#define fpclassify(x)	_fpclassifyd((double)(x))
+
+#define isinf(x)	_isinfd((double)(x))
+
+#define isnan(x)	(fpclassify(x) == FP_NAN)
+
+#define isnormal(x)	(fpclassify(x) == FP_NORMAL)
+
+#define isfinite(x)	(fpclassify(x) != FP_NAN && \
+			 fpclassify(x) != FP_INFINITE)
 
 #endif /* _MATH_H */
