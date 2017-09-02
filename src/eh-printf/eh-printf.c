@@ -19,26 +19,17 @@ License (COPYING) along with this library; if not, see:
         https://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt
 */
 
-#if (!defined(EH_PRINTF_SKIP_FPRINTF))
-
 #if HAVE_CONFIG_H
 #include "config.h"
 #endif
 
-#if (HAVE_FILE_NO && !defined(_POSIX_C_SOURCE) && !defined(_POSIX_SOURCE))
-#define _POSIX_SOURCE 1
-#include <stdio.h>
-#endif
-
+#include "eh-printf.h"
+#if (!defined(EH_PRINTF_SKIP_FPRINTF))
+int fileno(FILE *stream);
 #endif /* (!defined(EH_PRINTF_SKIP_FPRINTF)) */
 
-#include "eh-printf.h"
 #include "eh-printf-private.h"
 #include "eh-printf-sys-context.h"
-
-#if HAVE_STDINT_H
-#include <stdint.h>
-#endif
 
 int eh_snprintf(char *dest, size_t size, const char *format, ...)
 {
@@ -773,7 +764,7 @@ static size_t eh_double_to_ascii(char *buf, size_t len, unsigned char alt_form,
 		f = (-f);
 	}
 
-	if (exponent == 0x400) {
+	if (exponent == Eh_double_exp_inf_nan) {
 		if (sign) {
 			if (w < len) {
 				buf[w++] = '-';

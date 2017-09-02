@@ -62,8 +62,8 @@
  
  #if HAVE_CONFIG_H
  #include "config.h"
-@@ -116,8 +118,10 @@
- 				  int16_t *exponent, uint64_t *fraction);
+@@ -154,8 +156,10 @@
+ int eh_float32_classify(Eh_float32 f);
  #endif
  
 +/*

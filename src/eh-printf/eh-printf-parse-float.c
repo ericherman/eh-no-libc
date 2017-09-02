@@ -30,8 +30,8 @@ License (COPYING) along with this library; if not, see:
 #define eh_rexp_mask 0x7FF0000000000000ULL
 #define eh_frac_mask 0x000FFFFFFFFFFFFFULL
 #endif
-void eh_float64_radix_2_to_fields(Eh_float64 d, uint8_t *sign,
-				  int16_t *exponent, uint64_t *fraction)
+int eh_float64_radix_2_to_fields(Eh_float64 d, uint8_t *sign,
+				 int16_t *exponent, uint64_t *fraction)
 {
 	union eh_float64_u {
 		Eh_float64 d;
@@ -45,8 +45,10 @@ void eh_float64_radix_2_to_fields(Eh_float64 d, uint8_t *sign,
 
 	*sign = (d_u64 & eh_sign_mask) ? 1U : 0U;
 	raw_exp = ((d_u64 & eh_rexp_mask) >> 52UL);
-	*exponent = raw_exp - 1023L;
+	*exponent = raw_exp - Eh_float64_exp_max;
 	*fraction = d_u64 & eh_frac_mask;
+
+	return eh_float32_classify_f(*exponent, *fraction);
 }
 
 #undef eh_sign_mask
@@ -55,8 +57,8 @@ void eh_float64_radix_2_to_fields(Eh_float64 d, uint8_t *sign,
 #endif
 
 #if (!defined EH_PRINTF_SKIP_FLOAT32)
-void eh_float32_radix_2_to_fields(Eh_float32 d, uint8_t *sign,
-				  int16_t *exponent, uint64_t *fraction)
+int eh_float32_radix_2_to_fields(Eh_float32 d, uint8_t *sign,
+				 int16_t *exponent, uint64_t *fraction)
 {
 	union eh_float32_u {
 		Eh_float32 d;
@@ -75,7 +77,59 @@ void eh_float32_radix_2_to_fields(Eh_float32 d, uint8_t *sign,
 
 	*sign = (d_u32 & sign_mask) ? 1U : 0U;
 	raw_exp = ((d_u32 & rexp_mask) >> 23U);
-	*exponent = raw_exp - 127;
+	*exponent = raw_exp - Eh_float32_exp_max;
 	*fraction = d_u32 & frac_mask;
+
+	return eh_float32_classify_f(*exponent, *fraction);
 }
 #endif
+
+int eh_float32_classify_f(int16_t exponent, uint32_t fraction)
+{
+	if ((exponent == 0) && (fraction == 0)) {
+		return EH_FP_ZERO;
+	}
+
+	if (exponent == Eh_float32_exp_inf_nan) {
+		return (fraction) ? EH_FP_NAN : EH_FP_INFINITE;
+	}
+
+	/* TODO: EH_FP_SUBNORMAL */
+
+	return EH_FP_NORMAL;
+}
+
+int eh_float64_classify_f(int16_t exponent, uint64_t fraction)
+{
+	if ((exponent == 0) && (fraction == 0)) {
+		return EH_FP_ZERO;
+	}
+
+	if (exponent == Eh_float64_exp_inf_nan) {
+		return (fraction) ? EH_FP_NAN : EH_FP_INFINITE;
+	}
+
+	/* TODO: EH_FP_SUBNORMAL */
+
+	return EH_FP_NORMAL;
+}
+
+int eh_float32_classify(Eh_float32 f)
+{
+	uint8_t sign;
+	int16_t exponent;
+	uint64_t fraction;
+
+	eh_float32_radix_2_to_fields(f, &sign, &exponent, &fraction);
+	return eh_float32_classify_f(exponent, fraction);
+}
+
+int eh_float64_classify(Eh_float64 d)
+{
+	uint8_t sign;
+	int16_t exponent;
+	uint64_t fraction;
+
+	eh_float64_radix_2_to_fields(d, &sign, &exponent, &fraction);
+	return eh_float64_classify_f(exponent, fraction);
+}

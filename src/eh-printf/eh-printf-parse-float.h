@@ -38,22 +38,56 @@ extern "C" {
 #include <float.h>
 #endif
 
+/* intended to match defines in math.h */
+#define EH_FP_NAN 0
+#define EH_FP_INFINITE 1
+#define EH_FP_ZERO 2
+#define EH_FP_SUBNORMAL 3
+#define EH_FP_NORMAL 4
+
+/*
+float32	Sign	Exponent	Fraction
+float32	1 [31]	8 [30-23]	23 [22-00]
+float32 SEEEEEEE EFFFFFFF FFFFFFFF FFFFFFFF
+
+float64	Sign	Exponent	Fraction
+float64 1 [63]	11 [62-52]	52 [51-00]
+float64 SEEEEEEE EEEEFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF FFFFFFFF
+*/
+
+#define Eh_float32_exp_max 127
+#define Eh_float32_exp_inf_nan 128
+#define Eh_float64_exp_max 1023L
+#define Eh_float64_exp_inf_nan 1024L
+
 #if (!defined eh_double_to_fields) \
  && (DBL_MAX_EXP == 1024) \
  && (DBL_MANT_DIG == 53) \
  && (FLT_RADIX == 2)
-#define eh_double_to_fields eh_float64_radix_2_to_fields
+#define Eh_double_exp_max	Eh_float64_exp_max
+#define Eh_double_exp_inf_nan	Eh_float64_exp_inf_nan
+#define eh_double_to_fields	eh_float64_radix_2_to_fields
+#define eh_double_classify_f	eh_float64_classify_f
+#define eh_double_classify	eh_float64_classify
 #endif
 
 #if (!defined eh_double_to_fields) \
  && (DBL_MAX_EXP == 128) \
  && (DBL_MANT_DIG == 24) \
  && (FLT_RADIX == 2)
-#define eh_double_to_fields eh_float32_radix_2_to_fields
+#define Eh_double_exp_max	Eh_float32_exp_max
+#define Eh_double_exp_inf_nan	Eh_float32_exp_inf_nan
+#define eh_double_to_fields	eh_float32_radix_2_to_fields
+#define eh_double_classify_f	eh_float32_classify_f
+#define eh_double_classify	eh_float32_classify
 #endif
 
 #if (!defined eh_double_to_fields)	/* wild guess */
-#define eh_double_to_fields eh_float64_radix_2_to_fields
+#define Eh_double_exp_max	Eh_float64_exp_max
+#define Eh_double_exp_inf_nan	Eh_float64_exp_inf_nan
+#define eh_double_to_fields	eh_float64_radix_2_to_fields
+#define eh_double_classify_f	eh_float64_classify_f
+#define eh_double_classify	eh_float64_classify
 #endif
 
 #if (!defined EH_HAVE_FLOAT32) \
@@ -107,13 +141,17 @@ typedef double Eh_float64;
 #endif
 
 #if (!defined EH_PRINTF_SKIP_FLOAT64)
-void eh_float64_radix_2_to_fields(Eh_float64 d, uint8_t *sign,
-				  int16_t *exponent, uint64_t *fraction);
+int eh_float64_radix_2_to_fields(Eh_float64 d, uint8_t *sign,
+				 int16_t *exponent, uint64_t *fraction);
+int eh_float64_classify_f(int16_t exponent, uint64_t fraction);
+int eh_float64_classify(Eh_float64 d);
 #endif
 
 #if (!defined EH_PRINTF_SKIP_FLOAT32)
-void eh_float32_radix_2_to_fields(Eh_float32 d, uint8_t *sign,
-				  int16_t *exponent, uint64_t *fraction);
+int eh_float32_radix_2_to_fields(Eh_float32 d, uint8_t *sign,
+				 int16_t *exponent, uint64_t *fraction);
+int eh_float32_classify_f(int16_t exponent, uint32_t fraction);
+int eh_float32_classify(Eh_float32 f);
 #endif
 
 #ifdef __cplusplus
