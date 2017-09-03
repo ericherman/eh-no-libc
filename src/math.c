@@ -27,10 +27,11 @@ int _isinfd(double x)
 	uint8_t sign;
 	int16_t exponent;
 	uint64_t fraction;
+	int classfied;
 
-	eh_double_to_fields(x, &sign, &exponent, &fraction);
+	classfied = eh_double_to_fields(x, &sign, &exponent, &fraction);
 
-	if (exponent == 0x400 && !fraction) {
+	if (classfied == FP_INFINITE) {
 		return (sign) ? -1 : 1;
 	}
 
@@ -39,21 +40,5 @@ int _isinfd(double x)
 
 int _fpclassifyd(double x)
 {
-	uint8_t sign;
-	int16_t exponent;
-	uint64_t fraction;
-
-	eh_double_to_fields(x, &sign, &exponent, &fraction);
-
-	if ((exponent == 0) && (fraction == 0)) {
-		return FP_ZERO;
-	}
-
-	if (exponent == 0x400) {
-		return (fraction) ? FP_NAN : FP_INFINITE;
-	}
-
-	/* TODO: FP_SUBNORMAL */
-
-	return FP_NORMAL;
+	return eh_double_classify(x);
 }
