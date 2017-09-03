@@ -28,20 +28,20 @@ License (COPYING) along with this library; if not, see:
 int EH_PRINTF_SYSOUT_FILENO = STDOUT_FILENO;
 int EH_PRINTF_SYSERR_FILENO = STDERR_FILENO;
 
-struct eh_printf_context_s start_sys_printf_context(int fileno)
+void start_sys_printf_context(struct eh_printf_context_s *ctx, int fileno)
 {
-	struct eh_printf_context_s ctx;
-
-	ctx.error = 0;
-	ctx.data = NULL;
-
-	if (fileno < 1) {
-		ctx.fileno = EH_PRINTF_SYSOUT_FILENO;
-	} else {
-		ctx.fileno = fileno;
+	if (!ctx) {
+		return;
 	}
 
-	return ctx;
+	ctx->error = 0;
+	ctx->data = NULL;
+
+	if (fileno < 1) {
+		ctx->fileno = EH_PRINTF_SYSOUT_FILENO;
+	} else {
+		ctx->fileno = fileno;
+	}
 }
 
 int end_sys_printf_context(struct eh_printf_context_s *ctx)

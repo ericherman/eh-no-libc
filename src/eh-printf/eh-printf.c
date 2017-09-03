@@ -85,7 +85,7 @@ int eh_vdprintf(int fd, const char *format, va_list ap)
 	int rv;
 	struct eh_printf_context_s ctx;
 
-	ctx = start_sys_printf_context(fd);
+	start_sys_printf_context(&ctx, fd);
 
 	rv = eh_vprintf_ctx(eh_sys_output_void_char, eh_sys_output_void_str,
 			    &ctx, format, ap);

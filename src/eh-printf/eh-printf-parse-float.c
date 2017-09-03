@@ -48,7 +48,7 @@ int eh_float64_radix_2_to_fields(Eh_float64 d, uint8_t *sign,
 	*exponent = raw_exp - Eh_float64_exp_max;
 	*fraction = d_u64 & eh_frac_mask;
 
-	return eh_float32_classify_f(*exponent, *fraction);
+	return eh_float64_classify_f(*exponent, *fraction);
 }
 
 #undef eh_sign_mask
@@ -84,7 +84,7 @@ int eh_float32_radix_2_to_fields(Eh_float32 d, uint8_t *sign,
 }
 #endif
 
-int eh_float32_classify_f(int16_t exponent, uint32_t fraction)
+int eh_float32_classify_f(int16_t exponent, uint64_t fraction)
 {
 	if ((exponent == 0) && (fraction == 0)) {
 		return EH_FP_ZERO;

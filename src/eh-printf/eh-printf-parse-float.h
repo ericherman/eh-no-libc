@@ -150,7 +150,7 @@ int eh_float64_classify(Eh_float64 d);
 #if (!defined EH_PRINTF_SKIP_FLOAT32)
 int eh_float32_radix_2_to_fields(Eh_float32 d, uint8_t *sign,
 				 int16_t *exponent, uint64_t *fraction);
-int eh_float32_classify_f(int16_t exponent, uint32_t fraction);
+int eh_float32_classify_f(int16_t exponent, uint64_t fraction);
 int eh_float32_classify(Eh_float32 f);
 #endif
 

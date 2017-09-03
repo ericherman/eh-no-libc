@@ -44,7 +44,7 @@ struct eh_printf_context_s {
 	void *data;		/* not all systems will need an opaque ptr */
 };
 
-struct eh_printf_context_s start_sys_printf_context(int fileno);
+void start_sys_printf_context(struct eh_printf_context_s *ctx, int fileno);
 
 int end_sys_printf_context(struct eh_printf_context_s *ctx);
 
