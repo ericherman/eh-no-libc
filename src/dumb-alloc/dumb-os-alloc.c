@@ -32,6 +32,10 @@ License (COPYING) along with this library; if not, see:
 #endif
 #endif
 
+#ifndef DUMB_ALLOC_MEM_LIMIT
+#define DUMB_ALLOC_MEM_LIMIT (1 * 1024 * 1024 * 1024)
+#endif
+
 char *dumb_os_mmap(size_t length)
 {
 	void *memory, *addr;
@@ -70,12 +74,12 @@ int dumb_os_munmap(void *addr, size_t bytes_length)
 	return munmap(addr, bytes_length);
 }
 
-size_t dumb_os_page_size()
+size_t dumb_os_page_size(void)
 {
 	return (size_t)sysconf(_SC_PAGESIZE);
 }
 
-size_t dumb_os_mem_limit()
+size_t dumb_os_mem_limit(void)
 {
-	return 1073741824;
+	return DUMB_ALLOC_MEM_LIMIT;
 }

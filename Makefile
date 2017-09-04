@@ -108,6 +108,7 @@ NOCLIB_CFLAGS=\
  -DHAVE_STDARG_H=1 \
  -DHAVE_STDDEF_H=1 \
  -DHAVE_STDINT_H=1 \
+ -DDUMB_ALLOC_MEM_LIMIT=0 \
  -I./src \
  -I./src/dumb-alloc \
  $(EHLIBC_SRC)

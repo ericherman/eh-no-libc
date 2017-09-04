@@ -30,9 +30,9 @@ void *dumb_realloc(void *ptr, size_t request_size);
 void dumb_free(void *ptr);
 
 /* resets the global context and clears all memory */
-void dumb_reset();
+void dumb_reset(void);
 
 void dumb_alloc_set_global(struct dumb_alloc *da);
-struct dumb_alloc *dumb_alloc_get_global();
+struct dumb_alloc *dumb_alloc_get_global(void);
 
 #endif /* DUMB_ALLOC_GLOBAL_H */

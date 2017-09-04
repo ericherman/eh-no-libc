@@ -29,12 +29,12 @@ void dumb_alloc_set_global(struct dumb_alloc *da)
 	global = da;
 }
 
-struct dumb_alloc *dumb_alloc_get_global()
+struct dumb_alloc *dumb_alloc_get_global(void)
 {
 	return global;
 }
 
-void _init_global()
+void _init_global(void)
 {
 	char *memory;
 	size_t length;

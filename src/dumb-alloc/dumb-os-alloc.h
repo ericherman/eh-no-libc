@@ -27,7 +27,7 @@ License (COPYING) along with this library; if not, see:
 char *dumb_os_mmap(size_t bytes_length);
 int dumb_os_munmap(void *addr, size_t bytes_length);
 
-size_t dumb_os_page_size();
-size_t dumb_os_mem_limit();
+size_t dumb_os_page_size(void);
+size_t dumb_os_mem_limit(void);
 
 #endif /* DUMB_OS_ALLOC_H */

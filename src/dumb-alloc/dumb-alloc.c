@@ -147,14 +147,16 @@ static void *_da_alloc(struct dumb_alloc *da, size_t request)
 	min_needed =
 	    request + sizeof(struct dumb_alloc_block) +
 	    sizeof(struct dumb_alloc_chunk);
-	if (min_needed + total_mem > dumb_os_mem_limit()) {
+	if (dumb_os_mem_limit()
+	    && (min_needed + total_mem > dumb_os_mem_limit())) {
 		errno = ENOMEM;
 		return NULL;
 	}
 	needed = min_needed + (2 * last_block->total_length);
 
 	requested = dumb_os_page_size() * (1 + (needed / dumb_os_page_size()));
-	if (requested + total_mem > dumb_os_mem_limit()) {
+	if (dumb_os_mem_limit()
+	    && (requested + total_mem > dumb_os_mem_limit())) {
 		memory = NULL;
 	} else {
 		memory = dumb_os_mmap(requested);
