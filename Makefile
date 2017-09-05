@@ -1,3 +1,5 @@
+SHELL=/bin/bash
+
 ifndef ($(TARGET))
  ifeq ($(shell uname), Linux)
    ifeq ($(shell arch), x86_64)
