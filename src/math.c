@@ -42,3 +42,8 @@ int _fpclassifyd(double x)
 {
 	return eh_double_classify(x);
 }
+
+double fabs(double x)
+{
+	return x >= 0.0 ? x : -x;
+}

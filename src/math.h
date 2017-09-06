@@ -43,4 +43,6 @@ int _isinfd(double d);
 #define isfinite(x)	(fpclassify(x) != FP_NAN && \
 			 fpclassify(x) != FP_INFINITE)
 
+double fabs(double x);
+
 #endif /* _MATH_H */
