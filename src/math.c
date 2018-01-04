@@ -20,19 +20,18 @@ License (COPYING) along with this library; if not, see:
 */
 
 #include <math.h>
-#include "eh-printf/eh-printf-parse-float.h"
+#include <errno.h>
+#include "efloat/efloat.h"
 
 int _isinfd(double x)
 {
-	uint8_t sign;
-	int16_t exponent;
-	uint64_t fraction;
-	int classfied;
+	struct efloat_double_fields fields;
+	enum efloat_class classfied;
 
-	classfied = eh_double_to_fields(x, &sign, &exponent, &fraction);
+	classfied = efloat_double_to_fields(x, &fields);
 
-	if (classfied == FP_INFINITE) {
-		return (sign) ? -1 : 1;
+	if (classfied == ef_inf) {
+		return (fields.sign) ? -1 : 1;
 	}
 
 	return 0;
@@ -40,10 +39,40 @@ int _isinfd(double x)
 
 int _fpclassifyd(double x)
 {
-	return eh_double_classify(x);
+	return (sizeof(double) == sizeof(efloat32))
+	    ? efloat32_classify(x)
+	    : efloat64_classify(x);
 }
 
 double fabs(double x)
 {
 	return x >= 0.0 ? x : -x;
+}
+
+/*
+   Max uint64_t: 18,446,744,073,709,551,615
+   While,  21! = 51,090,942,171,709,440,000
+   Thus we limit to 20
+*/
+uint64_t _factorial(uint64_t n)
+{
+	uint64_t limit, result;
+
+	limit = 20;
+	if (n > limit) {
+		errno = EINVAL;
+		return 0;
+	}
+
+	result = n;
+
+	if (n < 2) {
+		return 1;
+	}
+
+	do {
+		result *= --n;
+	} while (n > 1);
+
+	return result;
 }

@@ -21,6 +21,7 @@ License (COPYING) along with this library; if not, see:
 #ifndef _MATH_H
 #define _MATH_H	1
 
+/* XXX: this is the same ordering as efloat.h; extract? */
 enum {
 	FP_NAN,			/* Not a Number */
 	FP_INFINITE,		/* Infinity (either positive or negative) */

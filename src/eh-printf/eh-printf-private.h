@@ -23,7 +23,7 @@ License (COPYING) along with this library; if not, see:
 #include "config.h"
 #endif
 
-#include "eh-printf-parse-float.h"
+#include "efloat.h"
 
 #if HAVE_STDARG_H
 #include <stdarg.h>

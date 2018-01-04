@@ -743,9 +743,9 @@ static size_t eh_double_to_ascii(char *buf, size_t len, unsigned char alt_form,
 {
 	size_t u, w, digits, extra;
 	int i;
-	uint8_t c, sign;
-	int16_t exponent, exp_base;
-	uint64_t fraction;
+	uint8_t c;
+	int16_t exp_base;
+	struct efloat_double_fields fields;
 	double x, y;
 
 	if (!buf) {
@@ -757,20 +757,20 @@ static size_t eh_double_to_ascii(char *buf, size_t len, unsigned char alt_form,
 		buf[u] = '\0';
 	}
 
-	eh_double_to_fields(f, &sign, &exponent, &fraction);
+	efloat_double_to_fields(f, &fields);
 
 	w = 0;
-	if (sign) {
+	if (fields.sign) {
 		f = (-f);
 	}
 
-	if (exponent == Eh_double_exp_inf_nan) {
-		if (sign) {
+	if (fields.exponent == efloat_double_exp_inf_nan) {
+		if (fields.sign) {
 			if (w < len) {
 				buf[w++] = '-';
 			}
 		}
-		if (fraction) {
+		if (fields.significand) {
 			if (w < len) {
 				buf[w++] = 'n';
 			}
@@ -800,12 +800,12 @@ static size_t eh_double_to_ascii(char *buf, size_t len, unsigned char alt_form,
 	exp_base = (int16_t)ceil_log(10, f);
 	extra = alt_form ? 0 : 0;
 	if (exp_base > 0) {
-		digits = (sign + exp_base + 1 + past_decimal) + extra;
+		digits = (fields.sign + exp_base + 1 + past_decimal) + extra;
 	} else {
-		digits = (sign + 1 + 1 + past_decimal) + extra;
+		digits = (fields.sign + 1 + 1 + past_decimal) + extra;
 	}
 	if ((field_size > 0) && (digits < field_size)) {
-		if (zero_padded && sign) {
+		if (zero_padded && fields.sign) {
 			if (w < len) {
 				buf[w++] = '-';
 			}
@@ -815,12 +815,12 @@ static size_t eh_double_to_ascii(char *buf, size_t len, unsigned char alt_form,
 				buf[w++] = zero_padded ? '0' : ' ';
 			}
 		}
-		if ((!zero_padded) && sign) {
+		if ((!zero_padded) && fields.sign) {
 			if (w < len) {
 				buf[w++] = '-';
 			}
 		}
-	} else if (sign) {
+	} else if (fields.sign) {
 		if (w < len) {
 			buf[w++] = '-';
 		}

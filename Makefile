@@ -16,13 +16,16 @@ ARCH_DEFINES=-m32 -DLINUX_I386
 ARCH_DIR=linux-i386
 endif
 
+EFLOAT_SRC=\
+ src/efloat/efloat.c
+EFLOAT_HEADERS=\
+ src/efloat/efloat.h
+
 EH_PRINTF_SRC=\
  src/eh-printf/eh-printf.c \
- src/eh-printf/eh-printf-parse-float.c \
  src/eh-printf/eh-printf-sys-context-linux.c
 EH_PRINTF_HEADERS=\
  src/eh-printf/eh-printf.h \
- src/eh-printf/eh-printf-parse-float.h \
  src/eh-printf/eh-printf-private.h \
  src/eh-printf/eh-printf-sys-context.h
 
@@ -51,6 +54,7 @@ EHLIBC_SRC=\
  src/sys/mman.c \
  src/syscall.c \
  src/unistd.c \
+ $(EFLOAT_SRC) \
  $(DUMB_ALLOC_SRC) \
  $(EH_PRINTF_SRC)
 
@@ -94,7 +98,11 @@ EHLIBC_HEADERS=\
 ECHECK_HEADERS=\
  tests/echeck.h
 
-HEADERS=$(EHLIBC_HEADERS) $(DUMB_ALLOC_HEADERS) $(EH_PRINTF_HEADERS)
+HEADERS=\
+ $(EHLIBC_HEADERS) \
+ $(EFLOAT_HEADERS) \
+ $(DUMB_ALLOC_HEADERS) \
+ $(EH_PRINTF_HEADERS)
 
 TEST_HEADERS=$(HEADERS) $(ECHECK_HEADERS)
 
@@ -112,6 +120,7 @@ NOCLIB_CFLAGS=\
  -DHAVE_STDINT_H=1 \
  -DDUMB_ALLOC_MEM_LIMIT=0 \
  -I./src \
+ -I./src/efloat \
  -I./src/dumb-alloc \
  $(EHLIBC_SRC)
 
@@ -438,6 +447,9 @@ tidy:
 		-T wint_t \
 		-T eh_printf_context_s \
 		-T dumb_alloc \
+		-T efloat32 \
+		-T efloat64 \
+		-T efloat_class \
 		`find src tests demo -name '*.h' -o -name '*.c'`
 	patch -Rp1 -i misc/pre-tidy.patch
 
