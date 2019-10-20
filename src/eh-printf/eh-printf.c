@@ -173,9 +173,8 @@ static int eh_vprintf_ctx(eh_output_char_func output_char,
 				if (field_size == 0) {
 					zero_padded = 1;
 					break;
-				} else {
-					/* fall-through */
 				}
+				/* fall-through */
 			case '1':
 			case '2':
 			case '3':
