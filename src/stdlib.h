@@ -25,41 +25,63 @@ License (COPYING) along with this library; if not, see:
 
 #define	EXIT_SUCCESS	0
 #define	EXIT_FAILURE	1
-void exit(int status);
+#define exit(status) ehnlc_exit(status)
+void ehnlc_exit(int status);
 
-int abs(int j);
-long int labs(long int j);
+#define abs(j) ehnlc_abs(j)
+int ehnlc_abs(int j);
+
+#define labs(j) ehnlc_labs(j)
+long int ehnlc_labs(long int j);
 #if _LONG_SAME_AS_LLONG
-#define llabs(j) labs(j)
+#define llabs(j) ehnlc_labs(j)
 #else
-long long int llabs(long long int j);
+#define llabs(j) ehnlc_llabs(j)
+long long int ehnlc_llabs(long long int j);
 #endif
 
-int atoi(const char *nptr);
-long atol(const char *nptr);
+#define atoi(nptr) ehnlc_atoi(nptr)
+int ehnlc_atoi(const char *nptr);
+
+#define atol(nptr) ehnlc_atol(nptr)
+long ehnlc_atol(const char *nptr);
+
 #if _LONG_SAME_AS_LLONG
-#define atoll(nptr) atol(nptr)
+#define atoll(nptr) ehnlc_atol(nptr)
 #else
-long long atoll(const char *nptr);
+#define atoll(nptr) ehnlc_atoll(nptr)
+long long ehnlc_atoll(const char *nptr);
 #endif
 
-long int strtol(const char *nptr, char **endptr, int base);
+#define strtol(nptr, endptr, base) ehnlc_strtol(nptr, endptr, base)
+long int ehnlc_strtol(const char *nptr, char **endptr, int base);
 #if _LONG_SAME_AS_LLONG
-#define strtoll(nptr, endptr, base) strtol(nptr, endptr, base)
+#define strtoll(nptr, endptr, base) ehnlc_strtol(nptr, endptr, base)
 #else
-long long int strtoll(const char *nptr, char **endptr, int base);
+#define strtoll(nptr, endptr, base) ehnlc_strtoll(nptr, endptr, base)
+long long int ehnlc_strtoll(const char *nptr, char **endptr, int base);
 #endif
 
-unsigned long int strtoul(const char *nptr, char **endptr, int base);
+#define strtoul(nptr, endptr, base) ehnlc_strtoul(nptr, endptr, base)
+unsigned long int ehnlc_strtoul(const char *nptr, char **endptr, int base);
 #if _LONG_SAME_AS_LLONG
-#define strtoull(nptr, endptr, base) strtoul(nptr, endptr, base)
+#define strtoull(nptr, endptr, base) ehnlc_strtoul(nptr, endptr, base)
 #else
-unsigned long long int strtoull(const char *nptr, char **endptr, int base);
+#define strtoull(nptr, endptr, base) ehnlc_strtoull(nptr, endptr, base)
+unsigned long long int ehnlc_strtoull(const char *nptr, char **endptr,
+				      int base);
 #endif
 
-void *malloc(size_t size);
-void *calloc(size_t nmemb, size_t size);
-void free(void *ptr);
-void *realloc(void *ptr, size_t size);
+#define malloc(size) dumb_malloc(size)
+void *dumb_malloc(size_t size);
+
+#define calloc(nmemb, size) ehnlc_calloc(nmemb, size)
+void *ehnlc_calloc(size_t nmemb, size_t size);
+
+#define free(ptr) dumb_free(ptr)
+void dumb_free(void *ptr);
+
+#define realloc(ptr, size) realloc(ptr, size)
+void *dumb_realloc(void *ptr, size_t size);
 
 #endif /* _STDLIB_H */

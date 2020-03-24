@@ -26,32 +26,33 @@ License (COPYING) along with this library; if not, see:
 program code */
 .text
 	/* exports _start, syscall? to other compilation units (files) */
-	.globl syscall0, syscall1, syscall2, syscall3, syscall4, syscall5,
-	.globl syscall6,
+	.globl ehnlc_syscall0, ehnlc_syscall1, ehnlc_syscall2,
+	.globl ehnlc_syscall3, ehnlc_syscall4, ehnlc_syscall5,
+	.globl ehnlc_syscall6,
 
 	/* Registers %rbp, %rbx and %r12 through %r15 "belong" to the calling
 	 * function and the called function is required to preserve their
 	 * values. */
 
-	syscall0:
+	ehnlc_syscall0:
 		mov rax,rdi	/* rax (syscall number) = func param 1 (rdi) */
 		syscall
 		ret
 
-	syscall1:
+	ehnlc_syscall1:
 		mov rax,rdi	/* rax (syscall number) = func param 1 (rdi) */
 		mov rdi,rsi	/* rdi (syscall param 1) = func param 2 (rsi) */
 		syscall
 		ret
 
-	syscall2:
+	ehnlc_syscall2:
 		mov rax,rdi	/* rax (syscall number) = func param 1 (rdi) */
 		mov rdi,rsi	/* rdi (syscall param 1) = func param 2 (rsi) */
 		mov rsi,rdx	/* rsi (syscall param 2) = func param 3 (rdx) */
 		syscall
 		ret
 
-	syscall3:
+	ehnlc_syscall3:
 		mov rax,rdi	/* rax (syscall number) = func param 1 (rdi) */
 		mov rdi,rsi	/* rdi (syscall param 1) = func param 2 (rsi) */
 		mov rsi,rdx	/* rsi (syscall param 2) = func param 3 (rdx) */
@@ -59,7 +60,7 @@ program code */
 		syscall
 		ret
 
-	syscall4:
+	ehnlc_syscall4:
 		mov rax,rdi	/* rax (syscall number) = func param 1 (rdi) */
 		mov rdi,rsi	/* rdi (syscall param 1) = func param 2 (rsi) */
 		mov rsi,rdx	/* rsi (syscall param 2) = func param 3 (rdx) */
@@ -68,7 +69,7 @@ program code */
 		syscall
 		ret
 
-	syscall5:
+	ehnlc_syscall5:
 		mov rax,rdi	/* rax (syscall number) = func param 1 (rdi) */
 		mov rdi,rsi	/* rdi (syscall param 1) = func param 2 (rsi) */
 		mov rsi,rdx	/* rsi (syscall param 2) = func param 3 (rdx) */
@@ -78,7 +79,7 @@ program code */
 		syscall
 		ret
 
-	syscall6:
+	ehnlc_syscall6:
 		mov rax,rdi	/* rax (syscall number) = func param 1 (rdi) */
 		mov rdi,rsi	/* rdi (syscall param 1) = func param 2 (rsi) */
 		mov rsi,rdx	/* rsi (syscall param 2) = func param 3 (rdx) */

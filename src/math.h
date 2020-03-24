@@ -30,12 +30,12 @@ enum {
 	FP_NORMAL		/* none of the above, must be normal */
 };
 
-int _fpclassifyd(double d);
-int _isinfd(double d);
+int ehnlc_fpclassifyd(double d);
+int ehnlc_isinfd(double d);
 
-#define fpclassify(x)	_fpclassifyd((double)(x))
+#define fpclassify(x)	ehnlc_fpclassifyd((double)(x))
 
-#define isinf(x)	_isinfd((double)(x))
+#define isinf(x)	ehnlc_isinfd((double)(x))
 
 #define isnan(x)	(fpclassify(x) == FP_NAN)
 
@@ -44,6 +44,7 @@ int _isinfd(double d);
 #define isfinite(x)	(fpclassify(x) != FP_NAN && \
 			 fpclassify(x) != FP_INFINITE)
 
-double fabs(double x);
+#define fabs(x) ehnlc_fabs(x)
+double ehnlc_fabs(double x);
 
 #endif /* _MATH_H */

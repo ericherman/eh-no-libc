@@ -48,7 +48,12 @@ License (COPYING) along with this library; if not, see:
 #define PROT_GROWSDOWN	0x01000000
 #define PROT_GROWSUP	0x02000000
 
-void *mmap(void *addr, size_t len, int prot, int flags, int fd, off_t offset);
-int munmap(void *addr, size_t len);
+#define mmap(addr, len, prot, flags, fd, offset) \
+  ehnlc_mmap(addr, len, prot, flags, fd, offset)
+void *ehnlc_mmap(void *addr, size_t len, int prot, int flags, int fd,
+		 off_t offset);
+
+#define munmap(addr, len) ehnlc_munmap(addr, len)
+int ehnlc_munmap(void *addr, size_t len);
 
 #endif /* _SYS_MMAN_H */

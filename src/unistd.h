@@ -31,12 +31,23 @@ License (COPYING) along with this library; if not, see:
 
 #if ((defined LINUX_AMD64) || (defined LINUX_I386))
 
-int close(int fd);
-ssize_t read(int fd, void *buf, size_t count);
-int stat(const char *pathname, struct stat *buf);
-long sysconf(int name);
-int unlink(const char *pathname);
-ssize_t write(int fd, void const *data, size_t nbytes);
+#define close(fd) ehnlc_close(fd)
+int ehnlc_close(int fd);
+
+#define read(fd, buf, count) ehnlc_read(fd, buf, count)
+ssize_t ehnlc_read(int fd, void *buf, size_t count);
+
+#define stat(pathname, buf) ehnlc_stat(pathname, buf)
+int ehnlc_stat(const char *pathname, struct stat *buf);
+
+#define sysconf(name) ehnlc_sysconf(name)
+long ehnlc_sysconf(int name);
+
+#define unlink(pathname) ehnlc_unlink(pathname)
+int ehnlc_unlink(const char *pathname);
+
+#define write(fd, data, nbytes) ehnlc_write(fd, data, nbytes)
+ssize_t ehnlc_write(int fd, void const *data, size_t nbytes);
 
 #endif /* ((defined LINUX_AMD64) || (defined LINUX_I386)) */
 

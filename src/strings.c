@@ -21,7 +21,7 @@ License (COPYING) along with this library; if not, see:
 #include <strings.h>
 #include <ctype.h>
 
-int ffs(int d)
+int ehnlc_ffs(int d)
 {
 	size_t i;
 
@@ -37,7 +37,7 @@ int ffs(int d)
 	return -1;
 }
 
-int ffsl(long int ld)
+int ehnlc_ffsl(long int ld)
 {
 	size_t i;
 
@@ -54,7 +54,7 @@ int ffsl(long int ld)
 }
 
 #if (_LONG_SAME_AS_LLONG == 0)
-int ffsll(long long int lld)
+int ehnlc_ffsll(long long int lld)
 {
 	size_t i;
 
@@ -71,7 +71,7 @@ int ffsll(long long int lld)
 }
 #endif
 
-int strcasecmp(const char *s1, const char *s2)
+int ehnlc_strcasecmp(const char *s1, const char *s2)
 {
 	size_t i;
 	char l, r;
@@ -96,7 +96,7 @@ int strcasecmp(const char *s1, const char *s2)
 	return 0;
 }
 
-int strncasecmp(const char *s1, const char *s2, size_t n)
+int ehnlc_strncasecmp(const char *s1, const char *s2, size_t n)
 {
 	size_t i;
 	char l, r;

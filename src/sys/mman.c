@@ -31,8 +31,8 @@ License (COPYING) along with this library; if not, see:
 #define USE_LEGACY_MMAP 0
 #endif
 
-static void *legacy_mmap(void *addr, size_t len, int prot, int flags, int fd,
-			 off_t offset)
+static void *ehnlc_legacy_mmap(void *addr, size_t len, int prot, int flags,
+			       int fd, off_t offset)
 {
 	void *params[7];
 	long page_size;
@@ -53,20 +53,23 @@ static void *legacy_mmap(void *addr, size_t len, int prot, int flags, int fd,
 	params[5] = (void *)((long)offset);
 	params[6] = NULL;
 
-	return syscall1(SYS_mmap, (void *)params);
+	return ehnlc_syscall1(SYS_mmap, (void *)params);
 }
 
-void *mmap(void *addr, size_t len, int prot, int flags, int fd, off_t offset)
+void *ehnlc_mmap(void *addr, size_t len, int prot, int flags, int fd,
+		 off_t offset)
 {
 	void *rv;
 	long s_rv;
 
 	if (USE_LEGACY_MMAP) {
-		rv = legacy_mmap(addr, len, prot, flags, fd, offset);
+		rv = ehnlc_legacy_mmap(addr, len, prot, flags, fd, offset);
 	} else {
-		rv = syscall6(SYS_mmap, addr, (void *)len,
-			      (void *)(ssize_t)prot, (void *)(ssize_t)flags,
-			      (void *)(ssize_t)fd, (void *)(ssize_t)offset);
+		rv = ehnlc_syscall6(SYS_mmap, addr, (void *)len,
+				    (void *)(ssize_t)prot,
+				    (void *)(ssize_t)flags,
+				    (void *)(ssize_t)fd,
+				    (void *)(ssize_t)offset);
 	}
 	s_rv = (long)((ssize_t)rv);
 
@@ -78,11 +81,11 @@ void *mmap(void *addr, size_t len, int prot, int flags, int fd, off_t offset)
 }
 
 /* returns zero on succuess */
-int munmap(void *addr, size_t len)
+int ehnlc_munmap(void *addr, size_t len)
 {
 	void *rv;
 
-	rv = syscall2(SYS_munmap, addr, (void *)len);
+	rv = ehnlc_syscall2(SYS_munmap, addr, (void *)len);
 
 	return rv == NULL ? 0 : -1;
 }

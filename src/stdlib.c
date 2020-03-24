@@ -24,7 +24,7 @@ License (COPYING) along with this library; if not, see:
 #include <errno.h>
 #include "dumb-alloc-global.h"
 
-int abs(int j)
+int ehnlc_abs(int j)
 {
 	if (j < 0 && j > INT_MIN) {
 		return -j;
@@ -32,7 +32,7 @@ int abs(int j)
 	return j;
 }
 
-long int labs(long int j)
+long int ehnlc_labs(long int j)
 {
 	if (j < 0 && j > LONG_MIN) {
 		return -j;
@@ -41,7 +41,7 @@ long int labs(long int j)
 }
 
 #if (_LONG_SAME_AS_LLONG == 0)
-long long int llabs(long long int j)
+long long int ehnlc_llabs(long long int j)
 {
 	if (j < 0 && j > LLONG_MIN) {
 		return -j;
@@ -50,7 +50,7 @@ long long int llabs(long long int j)
 }
 #endif
 
-int atoi(const char *nptr)
+int ehnlc_atoi(const char *nptr)
 {
 	int negate;
 	int val;
@@ -79,19 +79,19 @@ int atoi(const char *nptr)
 	return negate * val;
 }
 
-long atol(const char *nptr)
+long ehnlc_atol(const char *nptr)
 {
 	return strtol(nptr, NULL, 10);
 }
 
 #if (_LONG_SAME_AS_LLONG == 0)
-long long atoll(const char *nptr)
+long long ehnlc_atoll(const char *nptr)
 {
 	return strtoll(nptr, NULL, 10);
 }
 #endif
 
-long int strtol(const char *nptr, char **endptr, int base)
+long int ehnlc_strtol(const char *nptr, char **endptr, int base)
 {
 	long val;
 	int negate, end;
@@ -154,7 +154,7 @@ long int strtol(const char *nptr, char **endptr, int base)
 }
 
 #if (_LONG_SAME_AS_LLONG == 0)
-long long int strtoll(const char *nptr, char **endptr, int base)
+long long int ehnlc_strtoll(const char *nptr, char **endptr, int base)
 {
 	long long int val;
 	int negate, end;
@@ -217,7 +217,7 @@ long long int strtoll(const char *nptr, char **endptr, int base)
 }
 #endif
 
-unsigned long int strtoul(const char *nptr, char **endptr, int base)
+unsigned long int ehnlc_strtoul(const char *nptr, char **endptr, int base)
 {
 	unsigned long int val;
 	int end;
@@ -274,7 +274,7 @@ unsigned long int strtoul(const char *nptr, char **endptr, int base)
 }
 
 #if (_LONG_SAME_AS_LLONG == 0)
-unsigned long long int strtoull(const char *nptr, char **endptr, int base)
+unsigned long long int ehnlc_strtoull(const char *nptr, char **endptr, int base)
 {
 	unsigned long long int val;
 	int end;
@@ -333,27 +333,12 @@ unsigned long long int strtoull(const char *nptr, char **endptr, int base)
 }
 #endif
 
-void exit(int status)
+void ehnlc_exit(int status)
 {
-	syscall1(SYS_exit, (void *)(ssize_t)status);
+	ehnlc_syscall1(SYS_exit, (void *)(ssize_t)status);
 }
 
-void *malloc(size_t size)
-{
-	return dumb_malloc(size);
-}
-
-void free(void *ptr)
-{
-	dumb_free(ptr);
-}
-
-void *realloc(void *ptr, size_t size)
-{
-	return dumb_realloc(ptr, size);
-}
-
-void *calloc(size_t nmemb, size_t size)
+void *ehnlc_calloc(size_t nmemb, size_t size)
 {
 	size_t i, len;
 	unsigned char *chars;

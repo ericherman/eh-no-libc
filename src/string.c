@@ -22,7 +22,7 @@ License (COPYING) along with this library; if not, see:
 #include <errno.h>
 #include <stdlib.h>
 
-void *memccpy(void *dest, const void *src, int c, size_t n)
+void *ehnlc_memccpy(void *dest, const void *src, int c, size_t n)
 {
 	size_t i;
 	unsigned char *cdest, *csrc;
@@ -45,7 +45,7 @@ void *memccpy(void *dest, const void *src, int c, size_t n)
 	return (i > n && n == 0) ? cdest + i : NULL;
 }
 
-void *memchr(const void *a, int c, size_t n)
+void *ehnlc_memchr(const void *a, int c, size_t n)
 {
 	size_t i;
 	unsigned char *ucs;
@@ -62,7 +62,7 @@ void *memchr(const void *a, int c, size_t n)
 	return (i == n) ? NULL : ucs;
 }
 
-void *memrchr(const void *a, int c, size_t n)
+void *ehnlc_memrchr(const void *a, int c, size_t n)
 {
 	size_t i;
 	unsigned char *ucs;
@@ -82,7 +82,7 @@ void *memrchr(const void *a, int c, size_t n)
 	return NULL;
 }
 
-void *rawmemchr(const void *a, int c)
+void *ehnlc_rawmemchr(const void *a, int c)
 {
 	unsigned char *ucs;
 
@@ -94,7 +94,7 @@ void *rawmemchr(const void *a, int c)
 	return ucs;
 }
 
-int memcmp(const void *a1, const void *a2, size_t n)
+int ehnlc_memcmp(const void *a1, const void *a2, size_t n)
 {
 	size_t i;
 	const unsigned char *s1;
@@ -120,7 +120,7 @@ int memcmp(const void *a1, const void *a2, size_t n)
 	return 0;
 }
 
-void *memcpy(void *d, const void *s, size_t n)
+void *ehnlc_memcpy(void *d, const void *s, size_t n)
 {
 	size_t i;
 	unsigned char *dest;
@@ -139,7 +139,7 @@ void *memcpy(void *d, const void *s, size_t n)
 	return d;
 }
 
-void *memmove(void *d, const void *s, size_t n)
+void *ehnlc_memmove(void *d, const void *s, size_t n)
 {
 	const unsigned char *src;
 	unsigned char *copy;
@@ -158,7 +158,7 @@ void *memmove(void *d, const void *s, size_t n)
 	return d;
 }
 
-void *memset(void *s, int c, size_t n)
+void *ehnlc_memset(void *s, int c, size_t n)
 {
 	unsigned char *d;
 
@@ -172,7 +172,7 @@ void *memset(void *s, int c, size_t n)
 	return d;
 }
 
-char *strcat(char *dest, const char *src)
+char *ehnlc_strcat(char *dest, const char *src)
 {
 	char *d;
 
@@ -186,7 +186,7 @@ char *strcat(char *dest, const char *src)
 	return dest;
 }
 
-char *strncat(char *dest, const char *src, size_t n)
+char *ehnlc_strncat(char *dest, const char *src, size_t n)
 {
 	char *d;
 
@@ -200,7 +200,7 @@ char *strncat(char *dest, const char *src, size_t n)
 	return dest;
 }
 
-char *strchr(const char *s, int c)
+char *ehnlc_strchr(const char *s, int c)
 {
 	for (; *s && *s != c; ++s) ;
 	if (*s == '\0' && c != 0) {
@@ -209,7 +209,7 @@ char *strchr(const char *s, int c)
 	return (char *)s;
 }
 
-char *strrchr(const char *s, int c)
+char *ehnlc_strrchr(const char *s, int c)
 {
 	char *r;
 	for (r = NULL; *s; ++s) {
@@ -220,13 +220,13 @@ char *strrchr(const char *s, int c)
 	return r;
 }
 
-char *strchrnul(const char *s, int c)
+char *ehnlc_strchrnul(const char *s, int c)
 {
 	for (; *s && *s != c; ++s) ;
 	return (char *)s;
 }
 
-size_t strlen(char const *str)
+size_t ehnlc_strlen(char const *str)
 {
 	char const *p;
 	if (!str) {
@@ -236,7 +236,7 @@ size_t strlen(char const *str)
 	return p - str;
 }
 
-size_t strnlen(char const *str, size_t max_len)
+size_t ehnlc_strnlen(char const *str, size_t max_len)
 {
 	char const *p;
 	size_t i;
@@ -247,7 +247,7 @@ size_t strnlen(char const *str, size_t max_len)
 	return p - str;
 }
 
-int strcmp(const char *s1, const char *s2)
+int ehnlc_strcmp(const char *s1, const char *s2)
 {
 	size_t i;
 
@@ -262,7 +262,7 @@ int strcmp(const char *s1, const char *s2)
 	return s1[i] - s2[i];
 }
 
-int strncmp(const char *s1, const char *s2, size_t max_len)
+int ehnlc_strncmp(const char *s1, const char *s2, size_t max_len)
 {
 	size_t i;
 	int d;
@@ -284,7 +284,7 @@ int strncmp(const char *s1, const char *s2, size_t max_len)
 	return 0;
 }
 
-char *strcpy(char *dest, const char *src)
+char *ehnlc_strcpy(char *dest, const char *src)
 {
 	size_t i;
 	if (!dest) {
@@ -301,7 +301,7 @@ char *strcpy(char *dest, const char *src)
 	return dest;
 }
 
-char *strncpy(char *dest, const char *src, size_t n)
+char *ehnlc_strncpy(char *dest, const char *src, size_t n)
 {
 	size_t i;
 	if (!dest) {
@@ -320,7 +320,7 @@ char *strncpy(char *dest, const char *src, size_t n)
 	return dest;
 }
 
-char *strdup(const char *s)
+char *ehnlc_strdup(const char *s)
 {
 	size_t len;
 	char *dup;
@@ -337,7 +337,7 @@ char *strdup(const char *s)
 	return dup;
 }
 
-char *strndup(const char *s, size_t n)
+char *ehnlc_strndup(const char *s, size_t n)
 {
 	size_t len;
 	char *dup;
@@ -354,7 +354,7 @@ char *strndup(const char *s, size_t n)
 	return dup;
 }
 
-char *strerror(int errnum)
+char *ehnlc_strerror(int errnum)
 {
 	size_t offset;
 
@@ -365,7 +365,7 @@ char *strerror(int errnum)
 	return errstrs[_eh_unknown_err];
 }
 
-char *strpbrk(const char *s, const char *accept)
+char *ehnlc_strpbrk(const char *s, const char *accept)
 {
 	size_t i, j, len;
 
@@ -391,7 +391,7 @@ char *strpbrk(const char *s, const char *accept)
 	return NULL;
 }
 
-size_t strspn(const char *s, const char *accept)
+size_t ehnlc_strspn(const char *s, const char *accept)
 {
 	size_t i, j, found, len;
 
@@ -421,7 +421,7 @@ size_t strspn(const char *s, const char *accept)
 	return i;
 }
 
-size_t strcspn(const char *s, const char *reject)
+size_t ehnlc_strcspn(const char *s, const char *reject)
 {
 	size_t i, j, found, len;
 
@@ -448,7 +448,7 @@ size_t strcspn(const char *s, const char *reject)
 	return i;
 }
 
-char *strstr(const char *haystack, const char *needle)
+char *ehnlc_strstr(const char *haystack, const char *needle)
 {
 	size_t i, j, found, len;
 
@@ -477,12 +477,12 @@ char *strstr(const char *haystack, const char *needle)
 
 char *_eh_strtok;
 
-char *strtok(char *s, const char *delim)
+char *ehnlc_strtok(char *s, const char *delim)
 {
 	return strtok_r(s, delim, &_eh_strtok);
 }
 
-char *strtok_r(char *s, const char *delim, char **saveptr)
+char *ehnlc_strtok_r(char *s, const char *delim, char **saveptr)
 {
 	char *tok;
 
@@ -519,13 +519,13 @@ char *strtok_r(char *s, const char *delim, char **saveptr)
 }
 
 /* strcoll and strxfrm are not supported */
-size_t strxfrm(char *dest, const char *src, size_t n)
+size_t ehnlc_strxfrm(char *dest, const char *src, size_t n)
 {
 	return strlen(strncpy(dest, src, n));
 }
 
 /* strcoll and strxfrm are not supported */
-int strcoll(const char *s1, const char *s2)
+int ehnlc_strcoll(const char *s1, const char *s2)
 {
 	return strcmp(s1, s2);
 }

@@ -34,14 +34,17 @@ License (COPYING) along with this library; if not, see:
 /* void bzero(void *s, size_t n); */
 #define bzero(s, n) memset((s), 0, (n))
 
-int ffs(int i);
+#define ffs(i) ehnlc_ffs(i)
+int ehnlc_ffs(int i);
 
-int ffsl(long int i);
+#define ffsl(l) ehnlc_ffsl(l)
+int ehnlc_ffsl(long int l);
 
 #if (_LONG_SAME_AS_LLONG)
-#define ffsll(i) ffsl(i)
+#define ffsll(ll) ehnlc_ffsl(ll)
 #else
-int ffsll(long long int i);
+#define ffsll(ll) ehnlc_ffsll(ll)
+int ehnlc_ffsll(long long int ll);
 #endif
 
 /* char *index(const char *s, int c); */
@@ -50,8 +53,10 @@ int ffsll(long long int i);
 /* char *rindex(const char *s, int c); */
 #define rindex(s, c) strrchr((s), (c));
 
-int strcasecmp(const char *s1, const char *s2);
+#define strcasecmp(s1, s2) ehnlc_strcasecmp(s1, s2)
+int ehnlc_strcasecmp(const char *s1, const char *s2);
 
-int strncasecmp(const char *s1, const char *s2, size_t n);
+#define strncasecmp(s1, s2, n) ehnlc_strncasecmp(s1, s2, n)
+int ehnlc_strncasecmp(const char *s1, const char *s2, size_t n);
 
 #endif /* _STRINGS_H */

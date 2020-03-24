@@ -33,13 +33,14 @@ License (COPYING) along with this library; if not, see:
 
 #else
 
-void _assert_fail(const char *func, const char *file, int line,
-		  const char *expression_str);
+void ehnlc_assert_fail(const char *func, const char *file, int line,
+		       const char *expression_str);
 
 #define assert(expression) \
 	( (expression) \
 		? ((void *)(0)) \
-		: _assert_fail(__func__, __FILE__, __LINE__, #expression) \
+		: ehnlc_assert_fail(__func__, __FILE__, __LINE__, \
+			#expression) \
 	)
 
 #endif /* NDEBUG */

@@ -25,75 +25,105 @@ License (COPYING) along with this library; if not, see:
 
 #include <stdint.h>
 
-void *memccpy(void *dest, const void *src, int c, size_t n);
+#define memccpy(dest, src, c, n) ehnlc_memccpy(dest, src, c, n)
+void *ehnlc_memccpy(void *dest, const void *src, int c, size_t n);
 
-void *memchr(const void *s, int c, size_t n);
+#define memchr(s, c, n) ehnlc_memchr(s, c, n)
+void *ehnlc_memchr(const void *s, int c, size_t n);
 
-void *memrchr(const void *s, int c, size_t n);
+#define memrchr(s, c, n) ehnlc_memrchr(s, c, n)
+void *ehnlc_memrchr(const void *s, int c, size_t n);
 
-void *rawmemchr(const void *s, int c);
+#define rawmemchr(s, c) ehnlc_rawmemchr(s, c)
+void *ehnlc_rawmemchr(const void *s, int c);
 
-int memcmp(const void *s1, const void *s2, size_t n);
+#define memcmp(s1, s2, n) ehnlc_memcmp(s1, s2, n)
+int ehnlc_memcmp(const void *s1, const void *s2, size_t n);
 
-void *memcpy(void *dest, const void *src, size_t n);
+#define memcpy(dest, src, n) ehnlc_memcpy(dest, src, n)
+void *ehnlc_memcpy(void *dest, const void *src, size_t n);
 
-void *memmove(void *dest, const void *src, size_t n);
+#define memmove(dest, src, n) ehnlc_memmove(dest, src, n)
+void *ehnlc_memmove(void *dest, const void *src, size_t n);
 
-void *memset(void *s, int c, size_t n);
+#define memset(s, c, n) ehnlc_memset(s, c, n)
+void *ehnlc_memset(void *s, int c, size_t n);
 
-char *strcat(char *dest, const char *src);
+#define strcat(dest, src) ehnlc_strcat(dest, src)
+char *ehnlc_strcat(char *dest, const char *src);
 
-char *strncat(char *dest, const char *src, size_t n);
+#define strncat(dest, src, n) ehnlc_strncat(dest, src, n)
+char *ehnlc_strncat(char *dest, const char *src, size_t n);
 
 /* The strchr() function returns a pointer to the first occurrence of
  * the character c in the string s, or NULL if the character is not
  * found. */
-char *strchr(const char *s, int c);
+#define strchr(s, c) ehnlc_strchr(s, c)
+char *ehnlc_strchr(const char *s, int c);
 
 /* The strrchr() function returns a pointer to the last occurrence of
  * the character c in the string s, or NULL if the character is not
  * found. */
-char *strrchr(const char *s, int c);
+#define strrchr(s, c) ehnlc_strrchr(s, c)
+char *ehnlc_strrchr(const char *s, int c);
 
 /* The  strchrnul() function is like strchr() except that if c is not
  * found in s, then it returns a pointer to the null byte at the end of
  * s, rather than NULL. */
-char *strchrnul(const char *s, int c);
+#define strchrnul(s, c) ehnlc_strchrnul(s, c)
+char *ehnlc_strchrnul(const char *s, int c);
 
-int strcmp(const char *s1, const char *s2);
+#define strcmp(s1, s2) ehnlc_strcmp(s1, s2)
+int ehnlc_strcmp(const char *s1, const char *s2);
 
-int strncmp(const char *s1, const char *s2, size_t n);
+#define strncmp(s1, s2, n) ehnlc_strncmp(s1, s2, n)
+int ehnlc_strncmp(const char *s1, const char *s2, size_t n);
 
-char *strcpy(char *dest, const char *src);
+#define strcpy(dest, src) ehnlc_strcpy(dest, src)
+char *ehnlc_strcpy(char *dest, const char *src);
 
-char *strncpy(char *dest, const char *src, size_t n);
+#define strncpy(dest, src, n) ehnlc_strncpy(dest, src, n)
+char *ehnlc_strncpy(char *dest, const char *src, size_t n);
 
-char *strdup(const char *s);
+#define strdup(s) ehnlc_strdup(s)
+char *ehnlc_strdup(const char *s);
 
-char *strndup(const char *s, size_t n);
+#define strndup(s, n) ehnlc_strndup(s, n)
+char *ehnlc_strndup(const char *s, size_t n);
 
-size_t strlen(char const *str);
+#define strlen(str) ehnlc_strlen(str)
+size_t ehnlc_strlen(char const *str);
 
-size_t strnlen(const char *s, size_t maxlen);
+#define strnlen(s, maxlen) ehnlc_strnlen(s, maxlen)
+size_t ehnlc_strnlen(const char *s, size_t maxlen);
 
-char *strerror(int errnum);
+#define strerror(errnum) ehnlc_strerror(errnum)
+char *ehnlc_strerror(int errnum);
 
-char *strpbrk(const char *s, const char *accept);
+#define strpbrk(s, accept) ehnlc_strpbrk(s, accept)
+char *ehnlc_strpbrk(const char *s, const char *accept);
 
-size_t strspn(const char *s, const char *accept);
+#define strspn(s, accept) ehnlc_strspn(s, accept)
+size_t ehnlc_strspn(const char *s, const char *accept);
 
-size_t strcspn(const char *s, const char *reject);
+#define strcspn(s, reject) ehnlc_strcspn(s, reject)
+size_t ehnlc_strcspn(const char *s, const char *reject);
 
-char *strstr(const char *haystack, const char *needle);
+#define strstr(haystack, needle) ehnlc_strstr(haystack, needle)
+char *ehnlc_strstr(const char *haystack, const char *needle);
 
-char *strtok(char *str, const char *delim);
+#define strtok(str, delim) ehnlc_strtok(str, delim)
+char *ehnlc_strtok(char *str, const char *delim);
 
-char *strtok_r(char *str, const char *delim, char **saveptr);
+#define strtok_r(str, delim, saveptr) ehnlc_strtok_r(str, delim, saveptr)
+char *ehnlc_strtok_r(char *str, const char *delim, char **saveptr);
 
 /* strcoll and strxfrm are not supported */
-size_t strxfrm(char *dest, const char *src, size_t n);
+#define strxfrm(dest, src, n) ehnlc_strxfrm(dest, src, n)
+size_t ehnlc_strxfrm(char *dest, const char *src, size_t n);
 
 /* strcoll and strxfrm are not supported */
-int strcoll(const char *s1, const char *s2);
+#define strcoll(s1, s2) ehnlc_strcoll(s1, s2)
+int ehnlc_strcoll(const char *s1, const char *s2);
 
 #endif /* _STRING_H */

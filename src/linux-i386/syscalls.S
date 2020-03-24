@@ -21,15 +21,16 @@ License (COPYING) along with this library; if not, see:
 
 .intel_syntax noprefix
 .text
-	.globl syscall0, syscall1, syscall2, syscall3, syscall4, syscall5
-	.globl syscall6
+	.globl ehnlc_syscall0, ehnlc_syscall1, ehnlc_syscall2
+	.globl ehnlc_syscall3, ehnlc_syscall4, ehnlc_syscall5
+	.globl ehnlc_syscall6
 
-	syscall0:
+	ehnlc_syscall0:
 		mov eax,[esp+4]
 		int 0x80
 		ret
 
-	syscall1:
+	ehnlc_syscall1:
 		push ebx
 		mov eax,[esp+4+4]
 		mov ebx,[esp+4+8]
@@ -37,7 +38,7 @@ License (COPYING) along with this library; if not, see:
 		pop ebx
 		ret
 
-	syscall2:
+	ehnlc_syscall2:
 		push ebx
 		mov eax,[esp+4+4]
 		mov ebx,[esp+4+8]
@@ -46,7 +47,7 @@ License (COPYING) along with this library; if not, see:
 		pop ebx
 		ret
 
-	syscall3:
+	ehnlc_syscall3:
 		push ebx
 		mov eax,[esp+4+4]
 		mov ebx,[esp+4+8]
@@ -56,7 +57,7 @@ License (COPYING) along with this library; if not, see:
 		pop ebx
 		ret
 
-	syscall4:
+	ehnlc_syscall4:
 		push ebx
 		push esi
 		mov eax,[esp+8+4]
@@ -69,7 +70,7 @@ License (COPYING) along with this library; if not, see:
 		pop ebx
 		ret
 
-	syscall5:
+	ehnlc_syscall5:
 		push ebx
 		push esi
 		push edi
@@ -85,7 +86,7 @@ License (COPYING) along with this library; if not, see:
 		pop ebx
 		ret
 
-	syscall6:
+	ehnlc_syscall6:
 		push ebx
 		push esi
 		push edi

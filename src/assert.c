@@ -23,8 +23,8 @@ License (COPYING) along with this library; if not, see:
 #include <stdio.h>
 #include <stdlib.h>
 
-void _assert_fail(const char *func, const char *file, int line,
-		  const char *expression_str)
+void ehnlc_assert_fail(const char *func, const char *file, int line,
+		       const char *expression_str)
 {
 	fprintf(stderr, "assert(%s) FAILED at %s:%d in %s\n", expression_str,
 		file, line, func);

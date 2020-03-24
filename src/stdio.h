@@ -61,71 +61,78 @@ extern int opterr;
 extern int optind;		/* LEGACY */
 extern int optopt;
 
-void clearerr(FILE *);
-char *ctermid(char *);
-char *cuserid(char *);		/* LEGACY */
-int dprintf(int fildes, const char *format, ...);
-int fclose(FILE *stream);
-FILE *fdopen(int, const char *);
-int feof(FILE *);
-int ferror(FILE *);
-int fflush(FILE *);
-int fgetc(FILE *stream);
-int fgetpos(FILE *, fpos_t *);
-char *fgets(char *, int, FILE *);
-int fileno(FILE *stream);
-void flockfile(FILE *);
-FILE *fopen(const char *path, const char *mode);
-int fprintf(FILE *stream, const char *format, ...);
-int fputc(int c, FILE *stream);
-int fputs(const char *str, FILE *stream);
-size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream);
-FILE *freopen(const char *, const char *, FILE *);
-int fscanf(FILE *, const char *, ...);
-int fseek(FILE *, long int, int);
-int fseeko(FILE *, off_t, int);
-int fsetpos(FILE *, const fpos_t *);
-long int ftell(FILE *);
-off_t ftello(FILE *);
-int ftrylockfile(FILE *);
-void funlockfile(FILE *);
-size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream);
-#define getc(in) fgetc(in)
-int getchar(void);
-int getc_unlocked(FILE *);
-int getchar_unlocked(void);
-int getopt(int, char *const[], const char);	/* (LEGACY) */
-char *gets(char *);
-int getw(FILE *);
-int pclose(FILE *);
-void perror(const char *);
-FILE *popen(const char *, const char *);
-int printf(const char *format, ...);
-int putc(int c, FILE *stream);
+#define dprintf(fildes, format, ...) ehnlc_dprintf(fildes, format, ##__VA_ARGS__)
+int ehnlc_dprintf(int fildes, const char *format, ...);
+
+#define fclose(stream) ehnlc_fclose(stream)
+int ehnlc_fclose(FILE *stream);
+
+#define fdopen(f, s) ehnlc_fdopen(f, s)
+FILE *ehnlc_fdopen(int f, const char *s);
+
+#define fgetc(stream) ehnlc_fgetc(stream)
+int ehnlc_fgetc(FILE *stream);
+
+#define fileno(stream) ehnlc_fileno(stream)
+int ehnlc_fileno(FILE *stream);
+
+#define fopen(path, mode) ehnlc_fopen(path, mode)
+FILE *ehnlc_fopen(const char *path, const char *mode);
+
+#define fprintf(stream, format, ...) ehnlc_fprintf(stream, format, ##__VA_ARGS__)
+int ehnlc_fprintf(FILE *stream, const char *format, ...);
+
+#define fputc(c, stream) ehnlc_fputc(c, stream)
+int ehnlc_fputc(int c, FILE *stream);
+
+#define fputs(str, stream) ehnlc_fputs(str, stream)
+int ehnlc_fputs(const char *str, FILE *stream);
+
+#define fread(ptr, size, nmemb, stream) ehnlc_fread(ptr, size, nmemb, stream)
+size_t ehnlc_fread(void *ptr, size_t size, size_t nmemb, FILE *stream);
+
+#define fwrite(ptr, size, nmemb, stream) ehnlc_fwrite(ptr, size, nmemb, stream)
+size_t ehnlc_fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream);
+
+#define getc(in) ehnlc_fgetc(in)
+
+#define popen(a, b) ehnlc_popen(a, b)
+FILE *ehnlc_popen(const char *a, const char *b);
+
+#define printf(format, ...) ehnlc_printf(format, ##__VA_ARGS__)
+int ehnlc_printf(const char *format, ...);
+
+#define putc(c, stream) ehnlc_putc(c, stream)
+int ehnlc_putc(int c, FILE *stream);
+
 /* writes the character c, cast to an unsigned char to stdout */
-int putchar(int c);
-int putc_unlocked(int, FILE *);
-int putchar_unlocked(int);
+#define putchar(c) ehnlc_putchar(c)
+int ehnlc_putchar(int c);
+
 /* writes the string s and a trailing newline to stdout. */
-int puts(char const *str);
-int putw(int, FILE *);
-int remove(const char *);
-int rename(const char *, const char *);
-void rewind(FILE *);
-int scanf(const char *, ...);
-void setbuf(FILE *, char *);
-int setvbuf(FILE *, char *, int, size_t);
-int snprintf(char *buf, size_t len, const char *format, ...);
-int sprintf(char *, const char *, ...);
-int sscanf(const char *, const char *, ...);
-char *tempnam(const char *, const char *);
-FILE *tmpfile(void);
-char *tmpnam(char *);
-int ungetc(int, FILE *);
-int vfprintf(FILE *stream, const char *format, va_list ap);
-int vprintf(const char *format, va_list ap);
-int vdprintf(int fildes, const char *format, va_list ap);
-int vsnprintf(char *buf, size_t len, const char *format, va_list ap);
-int vsprintf(char *, const char *, va_list);
+#define puts(str) ehnlc_puts(str)
+int ehnlc_puts(char const *str);
+
+#define snprintf(buf, len, format, ...) \
+	ehnlc_snprintf(buf, len, format, ##__VA_ARGS__)
+int ehnlc_snprintf(char *buf, size_t len, const char *format, ...);
+
+#define sprintf(buf, format, ...) ehnlc_sprintf(buf, format, ##__VA_ARGS__)
+int ehnlc_sprintf(char *buf, const char *format, ...);
+
+#define vfprintf(stream, format, ap) ehnlc_vfprintf(stream, format, ap)
+int ehnlc_vfprintf(FILE *stream, const char *format, va_list ap);
+
+#define vprintf(format, ap) ehnlc_vprintf(format, ap)
+int ehnlc_vprintf(const char *format, va_list ap);
+
+#define vdprintf(fildes, format, ap) ehnlc_vdprintf(fildes, format, ap)
+int ehnlc_vdprintf(int fildes, const char *format, va_list ap);
+
+#define vsnprintf(buf, len, format, ap) ehnlc_vsnprintf(buf, len, format, ap)
+int ehnlc_vsnprintf(char *buf, size_t len, const char *format, va_list ap);
+
+#define vsprintf(buf, format, ap) ehnlc_vsprintf(buf, format, ap)
+int ehnlc_vsprintf(char *buf, const char *format, va_list ap);
 
 #endif /* _STDIO_H */

@@ -40,7 +40,7 @@ FILE *stderr = &_eh_stderr;
 
 static void _ensure_initialized(FILE *stream);
 
-int fgetc(FILE *stream)
+int ehnlc_fgetc(FILE *stream)
 {
 	size_t bytes, size, nmemb;
 	char c;
@@ -53,7 +53,7 @@ int fgetc(FILE *stream)
 	return (bytes == 1) ? (int)c : EOF;
 }
 
-int puts(char const *str)
+int ehnlc_puts(char const *str)
 {
 	int written;
 	size_t len;
@@ -69,17 +69,17 @@ int puts(char const *str)
 	return written + 1;
 }
 
-int putchar(int c)
+int ehnlc_putchar(int c)
 {
 	return write(STDOUT_FILENO, (unsigned char *)&c, 1);
 }
 
-int putc(int c, FILE *stream)
+int ehnlc_putc(int c, FILE *stream)
 {
 	return fputc(c, stream);
 }
 
-int fputc(int c, FILE *stream)
+int ehnlc_fputc(int c, FILE *stream)
 {
 	ssize_t rv;
 
@@ -90,7 +90,7 @@ int fputc(int c, FILE *stream)
 	return (rv == 1) ? (int)c : EOF;
 }
 
-int fputs(const char *s, FILE *stream)
+int ehnlc_fputs(const char *s, FILE *stream)
 {
 	if (!stream) {
 		return EOF;
@@ -98,12 +98,12 @@ int fputs(const char *s, FILE *stream)
 	return write(fileno(stream), s, strlen(s));
 }
 
-int vprintf(const char *format, va_list ap)
+int ehnlc_vprintf(const char *format, va_list ap)
 {
 	return eh_vprintf(format, ap);
 }
 
-int printf(const char *format, ...)
+int ehnlc_printf(const char *format, ...)
 {
 	va_list ap;
 	int rv;
@@ -113,12 +113,12 @@ int printf(const char *format, ...)
 	return rv;
 }
 
-int vsnprintf(char *buf, size_t len, const char *format, va_list ap)
+int ehnlc_vsnprintf(char *buf, size_t len, const char *format, va_list ap)
 {
 	return eh_vsnprintf(buf, len, format, ap);
 }
 
-int snprintf(char *buf, size_t len, const char *format, ...)
+int ehnlc_snprintf(char *buf, size_t len, const char *format, ...)
 {
 	va_list ap;
 	int rv;
@@ -142,12 +142,12 @@ static void _ensure_initialized(FILE *stream)
 	}
 }
 
-int vfprintf(FILE *stream, const char *format, va_list ap)
+int ehnlc_vfprintf(FILE *stream, const char *format, va_list ap)
 {
 	return eh_vfprintf(stream, format, ap);
 }
 
-int fprintf(FILE *stream, const char *format, ...)
+int ehnlc_fprintf(FILE *stream, const char *format, ...)
 {
 	va_list ap;
 	int rv;
@@ -157,12 +157,12 @@ int fprintf(FILE *stream, const char *format, ...)
 	return rv;
 }
 
-int vdprintf(int fd, const char *format, va_list ap)
+int ehnlc_vdprintf(int fd, const char *format, va_list ap)
 {
 	return eh_vdprintf(fd, format, ap);
 }
 
-int dprintf(int fd, const char *format, ...)
+int ehnlc_dprintf(int fd, const char *format, ...)
 {
 	va_list ap;
 	int rv;
@@ -172,12 +172,12 @@ int dprintf(int fd, const char *format, ...)
 	return rv;
 }
 
-int fclose(FILE *stream)
+int ehnlc_fclose(FILE *stream)
 {
 	return close(fileno(stream));
 }
 
-int fileno(FILE *stream)
+int ehnlc_fileno(FILE *stream)
 {
 	if (!stream) {
 		return -1;
@@ -188,7 +188,7 @@ int fileno(FILE *stream)
 	return stream->_fileno;
 }
 
-size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream)
+size_t ehnlc_fread(void *ptr, size_t size, size_t nmemb, FILE *stream)
 {
 	int fd;
 	ssize_t bytes;
@@ -201,7 +201,7 @@ size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream)
 	return bytes / size;
 }
 
-size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream)
+size_t ehnlc_fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream)
 {
 	size_t i;
 	const char *cptr;
@@ -218,7 +218,7 @@ size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream)
 	return i;
 }
 
-FILE *fopen(const char *path, const char *mode)
+FILE *ehnlc_fopen(const char *path, const char *mode)
 {
 	int fd;
 	int r, w, a, p, flags;

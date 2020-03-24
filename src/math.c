@@ -23,7 +23,7 @@ License (COPYING) along with this library; if not, see:
 #include <errno.h>
 #include "efloat/efloat.h"
 
-int _isinfd(double x)
+int ehnlc_isinfd(double x)
 {
 	struct efloat_double_fields fields;
 	enum efloat_class classfied;
@@ -37,14 +37,14 @@ int _isinfd(double x)
 	return 0;
 }
 
-int _fpclassifyd(double x)
+int ehnlc_fpclassifyd(double x)
 {
 	return (sizeof(double) == sizeof(efloat32))
 	    ? efloat32_classify(x)
 	    : efloat64_classify(x);
 }
 
-double fabs(double x)
+double ehnlc_fabs(double x)
 {
 	return x >= 0.0 ? x : -x;
 }
@@ -54,7 +54,7 @@ double fabs(double x)
    While,  21! = 51,090,942,171,709,440,000
    Thus we limit to 20
 */
-uint64_t _factorial(uint64_t n)
+uint64_t ehnlc_factorial(uint64_t n)
 {
 	uint64_t limit, result;
 

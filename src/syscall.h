@@ -31,19 +31,20 @@ License (COPYING) along with this library; if not, see:
 #include "linux-i386/syscalls.h"
 #endif
 
-void *syscall0(size_t number);
-void *syscall1(size_t number, void *arg1);
-void *syscall2(size_t number, void *arg1, void *arg2);
-void *syscall3(size_t number, void *arg1, void *arg2, void *arg3);
-void *syscall4(size_t number, void *arg1, void *arg2, void *arg3, void *arg4);
-void *syscall5(size_t number, void *arg1, void *arg2, void *arg3, void *arg4,
-	       void *arg5);
-void *syscall6(size_t number, void *arg1, void *arg2, void *arg3, void *arg4,
-	       void *arg5, void *arg6);
-void *syscall7(size_t number, void *arg1, void *arg2, void *arg3, void *arg4,
-	       void *arg5, void *arg6, void *arg7);
+void *ehnlc_syscall0(size_t number);
+void *ehnlc_syscall1(size_t number, void *arg1);
+void *ehnlc_syscall2(size_t number, void *arg1, void *arg2);
+void *ehnlc_syscall3(size_t number, void *arg1, void *arg2, void *arg3);
+void *ehnlc_syscall4(size_t number, void *arg1, void *arg2, void *arg3,
+		     void *arg4);
+void *ehnlc_syscall5(size_t number, void *arg1, void *arg2, void *arg3,
+		     void *arg4, void *arg5);
+void *ehnlc_syscall6(size_t number, void *arg1, void *arg2, void *arg3,
+		     void *arg4, void *arg5, void *arg6);
+void *ehnlc_syscall7(size_t number, void *arg1, void *arg2, void *arg3,
+		     void *arg4, void *arg5, void *arg6, void *arg7);
 
-void _eh_crash(const char *msg, size_t len);
+void ehnlc_crash(const char *msg, size_t len);
 
 #endif /* if ((defined LINUX_I386) || (defined LINUX_AMD64)) */
 

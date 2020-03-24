@@ -22,20 +22,21 @@ License (COPYING) along with this library; if not, see:
 
 #if ((defined LINUX_I386) || (defined LINUX_AMD64))
 
-static void _eh_segfault(void)
+static void ehnlc_segfault(void)
 {
 	*((int *)(NULL)) = -1;
 }
 
-void _eh_crash(const char *msg, size_t len)
+void ehnlc_crash(const char *msg, size_t len)
 {
 	void *stderr_vpfd = (void *)2;
 
-	syscall3(SYS_write, stderr_vpfd, (void *)"FATAL ERROR '", (void *)13);
-	syscall3(SYS_write, stderr_vpfd, (void *)msg, (void *)len);
-	syscall3(SYS_write, stderr_vpfd, (void *)"', HALT.\n", (void *)9);
+	ehnlc_syscall3(SYS_write, stderr_vpfd, (void *)"FATAL ERROR '",
+		       (void *)13);
+	ehnlc_syscall3(SYS_write, stderr_vpfd, (void *)msg, (void *)len);
+	ehnlc_syscall3(SYS_write, stderr_vpfd, (void *)"', HALT.\n", (void *)9);
 
-	_eh_segfault();
+	ehnlc_segfault();
 }
 
 #endif /* if ((defined LINUX_I386) || (defined LINUX_AMD64)) */

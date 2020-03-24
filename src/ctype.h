@@ -21,21 +21,49 @@ License (COPYING) along with this library; if not, see:
 #ifndef _CTYPE_H
 #define _CTYPE_H	1
 
-int isalnum(int c);
-int isalpha(int c);
-int isascii(int c);
-int isblank(int c);
-int iscntrl(int c);
-int isdigit(int c);
-int isgraph(int c);
-int islower(int c);
-int isprint(int c);
-int ispunct(int c);
-int isspace(int c);
-int isupper(int c);
-int isxdigit(int c);
+#define isalnum(c) ehnlc_isalnum(c)
+int ehnlc_isalnum(int c);
 
-int tolower(int c);
-int toupper(int c);
+#define isalpha(c) ehnlc_isalpha(c)
+int ehnlc_isalpha(int c);
+
+#define isascii(c) ehnlc_isascii(c)
+int ehnlc_isascii(int c);
+
+#define isblank(c) ehnlc_isblank(c)
+int ehnlc_isblank(int c);
+
+#define iscntrl(c) ehnlc_iscntrl(c)
+int ehnlc_iscntrl(int c);
+
+#define isdigit(c) ehnlc_isdigit(c)
+int ehnlc_isdigit(int c);
+
+#define isgraph(c) ehnlc_isgraph(c)
+int ehnlc_isgraph(int c);
+
+#define islower(c) ehnlc_islower(c)
+int ehnlc_islower(int c);
+
+#define isprint(c) ehnlc_isprint(c)
+int ehnlc_isprint(int c);
+
+#define ispunct(c) ehnlc_ispunct(c)
+int ehnlc_ispunct(int c);
+
+#define isspace(c) ehnlc_isspace(c)
+int ehnlc_isspace(int c);
+
+#define isupper(c) ehnlc_isupper(c)
+int ehnlc_isupper(int c);
+
+#define isxdigit(c) ehnlc_isxdigit(c)
+int ehnlc_isxdigit(int c);
+
+#define tolower(c) ehnlc_tolower(c)
+int ehnlc_tolower(int c);
+
+#define toupper(c) ehnlc_toupper(c)
+int ehnlc_toupper(int c);
 
 #endif /* _CTYPE_H */

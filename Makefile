@@ -235,6 +235,34 @@ TEST_STRTOL_EXE=test-strtol
 
 SANITY=$(EXIT_EXE) $(PUTS_EXE) $(STAT_EXE) $(HELLO_EXE) $(CHECKERED_ALLOC_FREE_EXE) $(CTYPES_EXE)
 
+ALL_EXE=$(TEST_FGETC_EXE) \
+	$(TEST_FILE_IO_ROUNDTRIP_EXE) \
+	$(TEST_FFS_EXE) \
+	$(TEST_ISINF_EXE) \
+	$(TEST_MEMCCPY_EXE) \
+	$(TEST_MEMCHR_EXE) \
+	$(TEST_MEMCMP_EXE) \
+	$(TEST_MEMCPY_EXE) \
+	$(TEST_MEMMOVE_EXE) \
+	$(TEST_MEMSET_EXE) \
+	$(TEST_STRCAT_EXE) \
+	$(TEST_STRCASECMP_EXE) \
+	$(TEST_STRCHR_EXE) \
+	$(TEST_STRCPY_EXE) \
+	$(TEST_STRDUP_EXE) \
+	$(TEST_STRSPN_EXE) \
+	$(TEST_STRPBRK_EXE) \
+	$(TEST_STRSTR_EXE) \
+	$(TEST_STRTOK_EXE) \
+	$(TEST_STRTOL_EXE) \
+	$(EXIT_EXE) \
+	$(HELLO_EXE) \
+	$(STAT_EXE) \
+	$(PUTS_EXE) \
+	$(CTYPES_EXE) \
+	$(CHECKERED_ALLOC_FREE_EXE)
+
+
 default: hello
 
 
@@ -414,7 +442,7 @@ sanity: $(SANITY)
 	./$(STAT_EXE) | hexdump
 	./$(CHECKERED_ALLOC_FREE_EXE)
 
-check:	sanity \
+check:	report sanity \
 		check-file-io-roundtrip \
 		check-fgetc \
 		check-ffs \
@@ -438,6 +466,13 @@ check:	sanity \
 	@echo "ok"
 
 demo: sanity
+
+report: $(ALL_EXE)
+	readelf -s \
+		$(ALL_EXE) | \
+		grep FUNC | \
+		awk '{ print ( $$NF )  }' | \
+		sort -u
 
 
 tidy:
