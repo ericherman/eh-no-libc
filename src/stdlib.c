@@ -22,6 +22,7 @@ License (COPYING) along with this library; if not, see:
 #include <syscall.h>
 #include <limits.h>
 #include <errno.h>
+#include <assert.h>
 #include "dumb-alloc-global.h"
 
 int ehnlc_abs(int j)
@@ -351,4 +352,72 @@ void *ehnlc_calloc(size_t nmemb, size_t size)
 		}
 	}
 	return chars;
+}
+
+static void ehnlc_memswap(void *p1, void *p2, size_t len)
+{
+	unsigned char *c1, *c2, tmp;
+
+	for (c1 = p1, c2 = p2; len; ++c1, ++c2, --len) {
+		tmp = *c1;
+		*c1 = *c2;
+		*c2 = tmp;
+	}
+}
+
+typedef int (*ehnlc_compar_func)(const void *left, const void *right);
+
+static size_t ehnlc_qsort_lomuto_partition(unsigned char *base, size_t lb,
+					   size_t ub, size_t size,
+					   ehnlc_compar_func compar)
+{
+	unsigned char *pivot, *x, *y;
+	size_t i, j;
+	int cmp;
+
+	assert(ub > 0);
+
+	pivot = base + (ub * size);
+
+	for (i = lb, j = lb; j < ub; ++j) {
+		x = base + (j * size);
+		cmp = compar(x, pivot);
+		if (cmp < 0) {
+			if (i != j) {
+				y = base + (i * size);
+				ehnlc_memswap(x, y, size);
+			}
+			++i;
+		}
+	}
+	if (i != ub) {
+		y = base + (i * size);
+		ehnlc_memswap(y, pivot, size);
+	}
+	return i;
+}
+
+static void ehnlc_qsort_lomuto(unsigned char *base, size_t lb, size_t ub,
+			       size_t size, ehnlc_compar_func compar)
+{
+	size_t pos;
+	if (lb >= ub) {
+		return;
+	}
+	pos = ehnlc_qsort_lomuto_partition(base, lb, ub, size, compar);
+	if (pos > 0) {
+		ehnlc_qsort_lomuto(base, lb, pos - 1, size, compar);
+	}
+	if (pos < ub) {
+		ehnlc_qsort_lomuto(base, pos + 1, ub, size, compar);
+	}
+}
+
+void ehnlc_qsort(void *base, size_t nmemb, size_t size,
+		 ehnlc_compar_func compar)
+{
+	if (nmemb < 1) {
+		return;
+	}
+	ehnlc_qsort_lomuto(base, 0, nmemb - 1, size, compar);
 }

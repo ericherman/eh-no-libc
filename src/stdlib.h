@@ -84,4 +84,8 @@ void dumb_free(void *ptr);
 #define realloc(ptr, size) realloc(ptr, size)
 void *dumb_realloc(void *ptr, size_t size);
 
+#define qsort(base, nmemb, size, compar) ehnlc_qsort(base, nmemb, size, compar)
+void ehnlc_qsort(void *base, size_t nmemb, size_t size,
+		 int (*compar)(const void *, const void *));
+
 #endif /* _STDLIB_H */

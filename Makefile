@@ -202,6 +202,9 @@ TEST_MEMMOVE_EXE=test-memmove
 TEST_MEMSET_SRC=tests/echeck.c tests/test-memset.c
 TEST_MEMSET_EXE=test-memset
 
+TEST_QSORT_SRC=tests/echeck.c tests/test-qsort.c
+TEST_QSORT_EXE=test-qsort
+
 TEST_STRCAT_SRC=tests/echeck.c tests/test-strcat.c
 TEST_STRCAT_EXE=test-strcat
 
@@ -245,6 +248,7 @@ ALL_EXE=$(TEST_FGETC_EXE) \
 	$(TEST_MEMCPY_EXE) \
 	$(TEST_MEMMOVE_EXE) \
 	$(TEST_MEMSET_EXE) \
+	$(TEST_QSORT_EXE) \
 	$(TEST_STRCAT_EXE) \
 	$(TEST_STRCASECMP_EXE) \
 	$(TEST_STRCHR_EXE) \
@@ -364,6 +368,13 @@ check-memset: $(TEST_MEMSET_EXE)
 	./$(TEST_MEMSET_EXE)
 
 
+$(TEST_QSORT_EXE): $(TEST_QSORT_SRC) $(EHLIBC_SRC) $(TEST_HEADERS)
+	gcc -o $(TEST_QSORT_EXE) $(OUR_CFLAGS) $(TEST_QSORT_SRC)
+
+check-qsort: $(TEST_QSORT_EXE)
+	./$(TEST_QSORT_EXE)
+
+
 $(TEST_STRCAT_EXE): $(TEST_STRCAT_SRC) $(EHLIBC_SRC) $(TEST_HEADERS)
 	gcc -o $(TEST_STRCAT_EXE) $(OUR_CFLAGS) $(TEST_STRCAT_SRC)
 
@@ -453,6 +464,7 @@ check:	report sanity \
 		check-memcpy \
 		check-memmove \
 		check-memset \
+		check-qsort \
 		check-strcasecmp \
 		check-strcat \
 		check-strchr \

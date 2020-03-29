@@ -14,6 +14,7 @@ test-memcmp
 test-memcpy
 test-memmove
 test-memset
+test-qsort
 test-strcasecmp
 test-strcat
 test-strchr
