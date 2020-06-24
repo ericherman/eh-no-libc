@@ -52,6 +52,7 @@ EHLIBC_SRC=\
  src/string.c \
  src/strings.c \
  src/sys/mman.c \
+ src/sys/random.c \
  src/syscall.c \
  src/unistd.c \
  $(EFLOAT_SRC) \
@@ -85,6 +86,7 @@ EHLIBC_HEADERS=\
  src/string.h \
  src/strings.h \
  src/sys/mman.h \
+ src/sys/random.h \
  src/sys/stat.h \
  src/sys/time.h \
  src/sys/types.h \
