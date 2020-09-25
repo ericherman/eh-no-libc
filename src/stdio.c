@@ -38,14 +38,14 @@ FILE *stdin = &_eh_stdin;
 FILE *stdout = &_eh_stdout;
 FILE *stderr = &_eh_stderr;
 
-static void _ensure_initialized(FILE *stream);
+static void _ehnlc_ensure_initialized(FILE *stream);
 
 int ehnlc_fgetc(FILE *stream)
 {
 	size_t bytes, size, nmemb;
 	char c;
 
-	_ensure_initialized(stream);
+	_ehnlc_ensure_initialized(stream);
 	size = sizeof(char);
 	nmemb = 1;
 
@@ -128,7 +128,7 @@ int ehnlc_snprintf(char *buf, size_t len, const char *format, ...)
 	return rv;
 }
 
-static void _ensure_initialized(FILE *stream)
+static void _ehnlc_ensure_initialized(FILE *stream)
 {
 	if ((stream == stdout) && (_eh_stdout_init == 0)) {
 		stdout->_fileno = STDOUT_FILENO;
@@ -183,7 +183,7 @@ int ehnlc_fileno(FILE *stream)
 		return -1;
 	}
 
-	_ensure_initialized(stream);
+	_ehnlc_ensure_initialized(stream);
 
 	return stream->_fileno;
 }
