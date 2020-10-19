@@ -114,6 +114,7 @@ NOISY_CFLAGS=-Wall -Werror -Wextra -Wa,--noexecstack
 
 NOCLIB_CFLAGS=\
  -nostdlib \
+ -ffreestanding \
  $(ARCH_DEFINES) \
  -DHAVE_FLOAT_H=1 \
  -DHAVE_LIMITS_H=1 \
