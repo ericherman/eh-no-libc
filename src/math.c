@@ -56,23 +56,58 @@ double ehnlc_fabs(double x)
 */
 uint64_t ehnlc_factorial(uint64_t n)
 {
-	uint64_t limit, result;
-
-	limit = 20;
-	if (n > limit) {
+	switch (n) {
+	case 0:
+		return 1ULL;
+	case 1:
+		return 1ULL;
+	case 2:
+		return 2ULL;
+	case 3:
+		return 2ULL * 3;
+	case 4:
+		return 2ULL * 3 * 4;
+	case 5:
+		return 2ULL * 3 * 4 * 5;
+	case 6:
+		return 2ULL * 3 * 4 * 5 * 6;
+	case 7:
+		return 2ULL * 3 * 4 * 5 * 6 * 7;
+	case 8:
+		return 2ULL * 3 * 4 * 5 * 6 * 7 * 8;
+	case 9:
+		return 2ULL * 3 * 4 * 5 * 6 * 7 * 8 * 9;
+	case 10:
+		return 2ULL * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10;
+	case 11:
+		return 2ULL * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10 * 11;
+	case 12:
+		return 2ULL * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10 * 11 * 12;
+	case 13:
+		return 2ULL * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10 * 11 * 12 * 13;
+	case 14:
+		return 2ULL * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10 * 11 * 12 * 13 *
+		    14;
+	case 15:
+		return 2ULL * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10 * 11 * 12 * 13 *
+		    14 * 15;
+	case 16:
+		return 2ULL * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10 * 11 * 12 * 13 *
+		    14 * 15 * 16;
+	case 17:
+		return 2ULL * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10 * 11 * 12 * 13 *
+		    14 * 15 * 16 * 17;
+	case 18:
+		return 2ULL * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10 * 11 * 12 * 13 *
+		    14 * 15 * 16 * 17 * 18;
+	case 19:
+		return 2ULL * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10 * 11 * 12 * 13 *
+		    14 * 15 * 16 * 17 * 18 * 19;
+	case 20:
+		return 2ULL * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10 * 11 * 12 * 13 *
+		    14 * 15 * 16 * 17 * 18 * 19 * 20;
+	default:
 		errno = EINVAL;
 		return 0;
 	}
-
-	result = n;
-
-	if (n < 2) {
-		return 1;
-	}
-
-	do {
-		result *= --n;
-	} while (n > 1);
-
-	return result;
 }
