@@ -142,19 +142,21 @@ void *ehnlc_memcpy(void *d, const void *s, size_t n)
 void *ehnlc_memmove(void *d, const void *s, size_t n)
 {
 	const unsigned char *src;
-	unsigned char *copy;
 	unsigned char *dest;
+	size_t i;
 
 	dest = d;
 	src = s;
-	if (((dest < src) && ((dest + n) < src))
-	    || ((dest > src) && (dest > (src + n)))) {
-		return memcpy(dest, src, n);
+
+	if (src < dest && dest < src + n) {
+		for (i = n; i; i--) {
+			dest[i - 1] = src[i - 1];
+		}
+	} else {
+		for (i = 0; i < n; ++i) {
+			dest[i] = src[i];
+		}
 	}
-	copy = malloc(n);
-	memcpy(copy, src, n);
-	d = memcpy(dest, copy, n);
-	free(copy);
 	return d;
 }
 
