@@ -450,6 +450,7 @@ size_t ehnlc_strcspn(const char *s, const char *reject)
 	return i;
 }
 
+/* WHOAH THIS CAN READ PAST THE END OF HAYSTACK */
 char *ehnlc_strstr(const char *haystack, const char *needle)
 {
 	size_t i, j, found, len;
