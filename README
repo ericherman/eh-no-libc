@@ -8,7 +8,7 @@ https://web.archive.org/web/20180423015837/http://weeb.ddns.net/0/programming/c_
 Some of the code began transcribed from the above link, which contains
 no license information, but is clearly designed as a tutorial to build
 upon. My work, which builds upon that is aiming to go in another
-direction, specifically, I'd like to be able to implement more of libc
+direction, specifically, I'd like to be able to implement more of libc,
 the standard library, especially for embedded systems. My additions will
 be LGPLv2+. We'll see where it goes.
 
