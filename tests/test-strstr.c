@@ -34,23 +34,27 @@ int main(void)
 	failures = 0;
 
 	expect = haystack + 11;
-	rv = strpbrk(haystack, needle);
+	rv = strstr(haystack, needle);
 	failures += check_ptr(rv, expect);
 
 	expect = haystack;
-	rv = strpbrk(haystack, haystack);
+	rv = strstr(haystack, haystack);
+	failures += check_ptr(rv, expect);
+
+	expect = haystack;
+	rv = strstr(haystack, "");
 	failures += check_ptr(rv, expect);
 
 	expect = NULL;
-	rv = strpbrk(haystack, none);
+	rv = strstr(haystack, none);
 	failures += check_ptr(rv, expect);
 
 	expect = NULL;
-	rv = strpbrk(NULL, needle);
+	rv = strstr(NULL, needle);
 	failures += check_ptr(rv, expect);
 
 	expect = NULL;
-	rv = strpbrk(haystack, NULL);
+	rv = strstr(haystack, NULL);
 	failures += check_ptr(rv, expect);
 
 	return check_status(failures);
