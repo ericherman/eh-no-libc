@@ -22,7 +22,7 @@ License (COPYING) along with this library; if not, see:
 #include <unistd.h>
 #include <syscall.h>
 
-ssize_t getrandom(void *buf, size_t buflen, unsigned int flags)
+ssize_t ehnlc_getrandom(void *buf, size_t buflen, unsigned int flags)
 {
 	return (ssize_t)ehnlc_syscall3(SYS_getrandom, buf, (void *)buflen,
 				       (void *)(size_t)flags);
